@@ -1,12 +1,16 @@
-import Home from "@pages/home";
+import React from "react";
+import { Provider } from "react-redux";
+import store from "./store";
+import Router from "./router";
+import LayoutBody from "@/layout";
+import Header from "@/layout/header";
+import Menu from "@/layout/siderMenu";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Home />
-      </header>
-    </div>
+    <Provider store={store}>
+      {/* <Router /> */}
+      <LayoutBody header={<Header />} menu={<Menu />} />
+    </Provider>
   );
 }
-
 export default App;
