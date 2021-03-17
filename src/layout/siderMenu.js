@@ -1,40 +1,77 @@
-import React from "react";
-import {
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-} from "@ant-design/icons";
+import React, { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { Layout, Menu } from "antd";
+import menuList from "@/common/menu";
 const { Sider } = Layout;
 const { SubMenu } = Menu;
-export default () => {
+const allMenukey = menuList.reduce((a, c) => {
+  a.push(c.key);
+  if (c.children) {
+    a.push(...c.children.map((i) => i.key));
+  }
+  return a;
+}, []);
+const MenuDom = () => {
+  const [openKeys, setOpenKeys] = useState([]);
+  const [selectedKeys, setSelectedKeys] = useState([]);
+  useEffect(() => {
+    menuList.some((list) => {
+      if (list.children) {
+        setOpenKeys([list.key]);
+        setSelectedKeys([list.children[0].key]);
+        return true;
+      }
+      return false;
+    });
+  }, []);
+  const onOpenChange = (keys) => {
+    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    if (allMenukey.indexOf(latestOpenKey) === -1) {
+      setOpenKeys(keys);
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
+  };
+  const menu = useMemo(() => {
+    return menuList.map((item) => {
+      if (!item.children) {
+        return (
+          <Menu.Item key={item.key}>
+            <Link to={item.path}>{item.title}</Link>
+          </Menu.Item>
+        );
+      }
+      return (
+        <SubMenu key={item.key} title={item.title}>
+          {item.children.map((child) => {
+            return (
+              <Menu.Item key={child.key}>
+                <Link to={child.path}>{child.title}</Link>
+              </Menu.Item>
+            );
+          })}
+        </SubMenu>
+      );
+    });
+  }, []);
+  const menuClick = ({ key }) => {
+    setSelectedKeys([key]);
+  };
   return (
     <Sider width={200} className="site-layout-background">
       <Menu
+        theme="dark"
         mode="inline"
-        defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
+        onClick={menuClick}
+        onOpenChange={onOpenChange}
+        openKeys={openKeys}
+        selectedKeys={selectedKeys}
         style={{ height: "100%", borderRight: 0 }}
       >
-        <SubMenu key="sub1" icon={<UserOutlined />} title="subnav 1">
-          <Menu.Item key="1">option1</Menu.Item>
-          <Menu.Item key="2">option2</Menu.Item>
-          <Menu.Item key="3">option3</Menu.Item>
-          <Menu.Item key="4">option4</Menu.Item>
-        </SubMenu>
-        <SubMenu key="sub2" icon={<LaptopOutlined />} title="subnav 2">
-          <Menu.Item key="5">option5</Menu.Item>
-          <Menu.Item key="6">option6</Menu.Item>
-          <Menu.Item key="7">option7</Menu.Item>
-          <Menu.Item key="8">option8</Menu.Item>
-        </SubMenu>
-        <SubMenu key="sub3" icon={<NotificationOutlined />} title="subnav 3">
-          <Menu.Item key="9">option9</Menu.Item>
-          <Menu.Item key="10">option10</Menu.Item>
-          <Menu.Item key="11">option11</Menu.Item>
-          <Menu.Item key="12">option12</Menu.Item>
-        </SubMenu>
+        {menu}
       </Menu>
     </Sider>
   );
 };
+
+export default MenuDom;

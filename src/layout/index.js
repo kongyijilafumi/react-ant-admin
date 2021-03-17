@@ -1,10 +1,10 @@
 import React from "react";
 import { Layout, Breadcrumb } from "antd";
-
+import "./index.less";
 const { Content } = Layout;
-const LayoutBody = ({ header, menu }) => {
+const LayoutBody = ({ header, menu, content }) => {
   return (
-    <Layout>
+    <Layout className="layout-body">
       {header}
       <Layout>
         {menu}
@@ -22,7 +22,7 @@ const LayoutBody = ({ header, menu }) => {
               minHeight: 280,
             }}
           >
-            Content
+            {content}
           </Content>
         </Layout>
       </Layout>
