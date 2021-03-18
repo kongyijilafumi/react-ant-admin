@@ -8,3 +8,18 @@ export const decrement = (num) => ({
   type: ActionTypes.DECREMENT,
   num,
 });
+
+export const addOpenedMenu = (openKey) => ({
+  type: ActionTypes.ADDOPENTMENU,
+  openKey,
+});
+
+export const setOpenKey = (openKey) => ({
+  type: ActionTypes.SET_OPENKEY,
+  openKey,
+});
+
+export const setSelectKey = (openKey) => ({
+  type: ActionTypes.SET_SELECTKEY,
+  openKey,
+});

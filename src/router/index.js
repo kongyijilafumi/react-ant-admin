@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import { CacheRoute, CacheSwitch } from "react-router-cache-route";
-import routerList from "@/components/route";
+import routerList from "./route";
 
 const router = () => {
   return (

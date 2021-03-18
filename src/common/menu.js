@@ -33,6 +33,12 @@ const menu = [
       },
     ],
   },
+  {
+    title: "栏目3",
+    key: "nav3",
+    path: "/nav3",
+    type: 0,
+  },
 ];
 
 export default menu;
