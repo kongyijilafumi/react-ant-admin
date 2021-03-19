@@ -1,7 +1,8 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Button } from "antd";
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import menuList from "@/common/menu";
 import { addOpenedMenu, setOpenKey, setSelectKey } from "@/store/action";
 
@@ -23,6 +24,31 @@ const MenuDom = ({
   setSelectedKeys,
   setOpenKeys,
 }) => {
+  const [collapsed, setCollapsed] = useState(false);
+  const [isFixed, setFixed] = useState(false);
+  const listenWindow = () => {
+    const height = document.body.clientHeight;
+    const width = document.body.clientWidth;
+    if (height < 600) {
+      setFixed(true);
+    } else {
+      setFixed(false);
+    }
+    if (height < 600 || width < 1100) {
+      setCollapsed(true);
+      return;
+    }
+    if (collapsed) {
+      setCollapsed(false);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("resize", listenWindow);
+    return () => {
+      window.removeEventListener("resize", listenWindow);
+    };
+  });
+  // 菜单组折叠
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (allMenukey.indexOf(latestOpenKey) === -1) {
@@ -31,7 +57,11 @@ const MenuDom = ({
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
   };
-  
+  // 折叠菜单
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
+  // 菜单选项
   const menu = useMemo(() => {
     return menuList.map((item) => {
       if (!item.children) {
@@ -54,7 +84,7 @@ const MenuDom = ({
       );
     });
   }, []);
-
+  // 菜单点击
   const menuClick = (items) => {
     const { key, keyPath } = items;
     if (keyPath.length === 1) {
@@ -83,18 +113,26 @@ const MenuDom = ({
     setSelectedKeys([key]);
   };
   return (
-    <Sider width={200} className="site-layout-background">
+    <Sider width={200} collapsed={collapsed} className="site-layout-background">
       <Menu
         theme="dark"
         mode="inline"
+        className="layout-silder-menu"
         onClick={menuClick}
         onOpenChange={onOpenChange}
         openKeys={openKeys}
         selectedKeys={selectedKeys}
-        style={{ height: "100%", borderRight: 0 }}
       >
         {menu}
       </Menu>
+      <div className={isFixed ? "fold-control" : "fold-control fixed"}>
+        <Button onClick={toggleCollapsed}>
+          {collapsed ? "展开" : "收起"}
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined
+          )}
+        </Button>
+      </div>
     </Sider>
   );
 };

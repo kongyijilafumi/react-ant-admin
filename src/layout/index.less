@@ -1,13 +1,43 @@
 .layout-body {
   min-height: 100vh;
-
+  .ant-layout-sider-children{
+    position: relative;
+  }
   .layout-content-wrap {
     padding   : 0 24px 24px;
     margin    : 0;
     min-height: 200px;
   }
-  .layout-content-body{
+
+  .layout-content-body {
     background: #fff;
-    padding: 20px;
+    padding   : 20px;
+  }
+
+  .layout-silder-menu {
+    height    : 500px;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      display: none
+    }
+  }
+
+  .fold-control {
+    &.fixed{
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+    }
+    .ant-btn {
+      width     : 100%;
+      background: unset;
+      color     : #fff;
+      border    : 0;
+      outline: none;
+      transition: none;
+
+    }
   }
 }
