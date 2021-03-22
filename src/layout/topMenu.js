@@ -1,15 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Breadcrumb } from "antd";
+import Dnd from "@/components/Dnd"
 const mapStateToProps = (state) => ({ openedMenu: state.global.openedMenu });
+const DndItemStyle = {
+  width: 200,
+  height: 50,
+  border: "1px solid #e9e9e9",
+  borderRadius: "5px 5px 0",
+  lineHeight: "50px"
+}
+const DndBodyStyle = {
+  display: "flex"
+
+}
 function TopMenu({ openedMenu }) {
   return (
-    <div>
-      <Breadcrumb style={{ margin: "16px 0" }}>
-        {openedMenu.map((item) => {
-          return <Breadcrumb.Item key={item.key}>{item.title}</Breadcrumb.Item>;
-        })}
-      </Breadcrumb>
+    <div className="top-menu">
+      <Dnd itemStyle={DndItemStyle} rangeVal={openedMenu} bodyStyle={DndBodyStyle} />
     </div>
   );
 }

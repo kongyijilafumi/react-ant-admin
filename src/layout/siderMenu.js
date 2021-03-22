@@ -117,6 +117,7 @@ const MenuDom = ({
       <Menu
         theme="dark"
         mode="inline"
+        triggerSubMenuAction="click"
         className="layout-silder-menu"
         onClick={menuClick}
         onOpenChange={onOpenChange}
