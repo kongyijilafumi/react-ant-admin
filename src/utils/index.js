@@ -41,7 +41,7 @@ function currentMenu() {
       return true;
     }
     if (list.children) {
-      list.children.some((item) => {
+      return list.children.some((item) => {
         const childKey = item.key;
         if (item.path === path) {
           openKeys.push(firstKey);

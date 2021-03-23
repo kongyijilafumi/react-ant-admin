@@ -1,24 +1,55 @@
 import React from "react";
 import { connect } from "react-redux";
-import Dnd from "@/components/Dnd"
-const mapStateToProps = (state) => ({ openedMenu: state.global.openedMenu });
-const DndItemStyle = {
-  width: 200,
-  height: 50,
-  border: "1px solid #e9e9e9",
-  borderRadius: "5px 5px 0",
-  lineHeight: "50px"
-}
-const DndBodyStyle = {
-  display: "flex"
+import MenuDnd from "@/components/menuDnd";
+import { withRouter } from "react-router-dom";
+import { filterOpenKey, setSelectKey, setOpenKey } from "@/store/action";
+const mapStateToProps = (state) => ({
+  openedMenu: state.global.openedMenu,
+  currentKey: state.global.selectMenuKey[0],
+});
 
-}
-function TopMenu({ openedMenu }) {
+const mapDispatchToProps = (dispatch) => ({
+  filterKey: (key) => dispatch(filterOpenKey(key)),
+  setSelectKey: (key) => dispatch(setSelectKey([key])),
+  setOpenKey: (key) => dispatch(setOpenKey([key])),
+});
+
+function TopMenu({
+  openedMenu,
+  currentKey,
+  filterKey,
+  setSelectKey,
+  history,
+  setOpenKey,
+}) {
+  const closeTopMenu = (closeKey, nextItem, isCurrent) => {
+    filterKey(closeKey);
+    if (nextItem && isCurrent) {
+      history.replace(nextItem.path);
+      setSelectKey(nextItem.key);
+      setOpenKey(nextItem.parentKey);
+    }
+  };
+
+  const gotoMenuUrl = (item) => {
+    if (item.key === currentKey) return;
+    history.replace(item.path);
+    setSelectKey(item.key);
+    setOpenKey(item.parentKey);
+  };
   return (
     <div className="top-menu">
-      <Dnd itemStyle={DndItemStyle} rangeVal={openedMenu} bodyStyle={DndBodyStyle} />
+      <MenuDnd
+        currentKey={currentKey}
+        rangeVal={openedMenu}
+        onClose={closeTopMenu}
+        onChoose={gotoMenuUrl}
+      />
     </div>
   );
 }
 
-export default connect(mapStateToProps, null)(TopMenu);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(TopMenu));

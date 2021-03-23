@@ -23,3 +23,8 @@ export const setSelectKey = (openKey) => ({
   type: ActionTypes.SET_SELECTKEY,
   openKey,
 });
+
+export const filterOpenKey = (openKey) => ({
+  type: ActionTypes.FILTER_OPENKEY,
+  openKey,
+});

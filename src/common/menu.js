@@ -38,53 +38,12 @@ const menu = [
     key: "nav3",
     path: "/nav3",
     type: 0,
-  },
-  {
-    title: "栏目4",
-    key: "nav4",
-    path: "/nav4",
-    type: 0,
-  },
-  {
-    title: "栏目5",
-    key: "nav5",
-    path: "/nav5",
-    type: 0,
-    children: [
-      {
-        title: "demo",
-        key: "demo",
-        path: "/demo",
-        type: 0,
-      },
-      {
-        title: "test",
-        key: "test",
-        path: "/test",
-        type: 0,
-      },
-    ],
-  },
-  {
-    title: "栏目6",
-    key: "nav6",
-    path: "/nav6",
-    type: 0,
-    children: [
-      {
-        title: "demo",
-        key: "demo",
-        path: "/demo",
-        type: 0,
-      },
-      {
-        title: "test",
-        key: "test",
-        path: "/test",
-        type: 0,
-      },
-    ],
-  },
+  }
 ];
 
-export default menu;
+export default menu.map((i) => {
+  if (i.children) {
+    i.children = i.children.map((child) => ({ ...child, parentKey: i.key }));
+  }
+  return i;
+});

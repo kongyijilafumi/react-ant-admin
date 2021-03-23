@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Button } from "antd";
+import { throttle } from "lodash";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import menuList from "@/common/menu";
 import { addOpenedMenu, setOpenKey, setSelectKey } from "@/store/action";
@@ -17,6 +18,17 @@ const allMenukey = menuList.reduce((a, c) => {
   return a;
 }, []);
 
+const mapDispatchToProps = (dispatch) => ({
+  addOpenedMenuFn: (val) => dispatch(addOpenedMenu(val)),
+  setSelectedKeys: (val) => dispatch(setSelectKey(val)),
+  setOpenKeys: (val) => dispatch(setOpenKey(val)),
+});
+
+const mapStateToProps = (state) => ({
+  openKeys: state.global.openMenuKey,
+  selectedKeys: state.global.selectMenuKey,
+});
+
 const MenuDom = ({
   addOpenedMenuFn,
   openKeys,
@@ -26,22 +38,21 @@ const MenuDom = ({
 }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [isFixed, setFixed] = useState(false);
-  const listenWindow = () => {
+  // 监听window 宽度变化
+  const listenWindow = throttle(() => {
     const height = document.body.clientHeight;
     const width = document.body.clientWidth;
-    if (height < 600) {
-      setFixed(true);
-    } else {
-      setFixed(false);
-    }
     if (height < 600 || width < 1100) {
       setCollapsed(true);
+      setFixed(true);
       return;
     }
-    if (collapsed) {
+    if (collapsed || isFixed) {
+      setFixed(false);
       setCollapsed(false);
     }
-  };
+  }, 500);
+  // 启动监听
   useEffect(() => {
     window.addEventListener("resize", listenWindow);
     return () => {
@@ -53,9 +64,9 @@ const MenuDom = ({
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (allMenukey.indexOf(latestOpenKey) === -1) {
       setOpenKeys(keys);
-    } else {
-      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+      return;
     }
+    setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
   };
   // 折叠菜单
   const toggleCollapsed = () => {
@@ -91,6 +102,7 @@ const MenuDom = ({
       const openKeyInfo = menuList.find((i) => i.key === key);
       addOpenedMenuFn(openKeyInfo);
       setSelectedKeys([key]);
+      setOpenKeys([]);
       return;
     }
     const findKeyInfo = (list, key) => {
@@ -137,13 +149,5 @@ const MenuDom = ({
     </Sider>
   );
 };
-const mapDispatchToProps = (dispatch) => ({
-  addOpenedMenuFn: (val) => dispatch(addOpenedMenu(val)),
-  setSelectedKeys: (val) => dispatch(setSelectKey(val)),
-  setOpenKeys: (val) => dispatch(setOpenKey(val)),
-});
-const mapStateToProps = (state) => ({
-  openKeys: state.global.openMenuKey,
-  selectedKeys: state.global.selectMenuKey,
-});
+
 export default connect(mapStateToProps, mapDispatchToProps)(MenuDom);
