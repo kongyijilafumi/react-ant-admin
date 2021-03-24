@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { CloseOutlined } from "@ant-design/icons";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./index.less";
@@ -28,25 +28,31 @@ export default function Dnd({ rangeVal, currentKey, onClose, onChoose }) {
   }, [rangeVal]);
 
   //拖拽结束
-  const onDragEnd = (result) => {
-    if (!result.destination) {
-      return;
-    }
-    //获取拖拽后的数据 重新赋值
-    const newData = reorder(
-      data,
-      result.source.index,
-      result.destination.index
-    );
-    setData(newData);
-  };
+  const onDragEnd = useCallback(
+    (result) => {
+      if (!result.destination) {
+        return;
+      }
+      //获取拖拽后的数据 重新赋值
+      const newData = reorder(
+        data,
+        result.source.index,
+        result.destination.index
+      );
+      setData(newData);
+    },
+    [data]
+  );
 
   // 关闭当前顶部菜单
-  const closeCurrent = (key) => {
-    const newData = data.filter((i) => i.key !== key);
-    setData(newData);
-    onClose(key, newData[newData.length - 1], key === currentKey);
-  };
+  const closeCurrent = useCallback(
+    (key) => {
+      const newData = data.filter((i) => i.key !== key);
+      setData(newData);
+      onClose(key, newData[newData.length - 1], key === currentKey);
+    },
+    [data, currentKey, onClose]
+  );
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
