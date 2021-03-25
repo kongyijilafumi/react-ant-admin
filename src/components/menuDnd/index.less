@@ -1,10 +1,16 @@
 .dnd-body {
-  display: flex;
-  height : 35px;
+  height     : 35px;
+  box-sizing : content-box;
+  padding-top: 5px;
+  white-space: nowrap;
+  overflow-x : scroll;
+  overflow-y : hidden;
+  font-size  : 0;
 }
 
 .dnd-items {
   position        : relative;
+  display         : inline-block;
   padding         : 10px 30px 5px 10px;
   width           : 100px;
   font-size       : 12px;
@@ -15,7 +21,7 @@
   box-sizing      : border-box;
   overflow        : hidden;
   text-overflow   : ellipsis;
-  cursor          : pointer;
+  cursor          : pointer !important;
   white-space     : nowrap;
   color           : #000;
 

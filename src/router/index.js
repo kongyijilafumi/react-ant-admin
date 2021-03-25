@@ -7,22 +7,35 @@ const router = () => {
   return (
     <CacheSwitch>
       {routerList.map((item) => {
+        let { components, key, ...itemProps } = item;
         if (item.keepAlive === true) {
           return (
             <CacheRoute
-              key={item.key}
+              key={key}
               exact={true}
               path={item.path}
-              children={item.components}
+              render={(allProps) =>
+                React.createElement(components, {
+                  ...allProps,
+                  ...itemProps,
+                  pageKey: key,
+                })
+              }
             />
           );
         }
         return (
           <Route
             exact={true}
-            key={item.key}
+            key={key}
             path={item.path}
-            children={item.components}
+            render={(allProps) =>
+              React.createElement(components, {
+                ...allProps,
+                ...itemProps,
+                pageKey: key,
+              })
+            }
           />
         );
       })}

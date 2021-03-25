@@ -38,12 +38,22 @@ const menu = [
     key: "nav3",
     path: "/nav3",
     type: 0,
-  }
+  },
 ];
 
-export default menu.map((i) => {
-  if (i.children) {
-    i.children = i.children.map((child) => ({ ...child, parentKey: i.key }));
-  }
-  return i;
-});
+export default menu
+  .map((i) => {
+    if (i.children) {
+      i.children = i.children.map((child) => ({ ...child, parentKey: i.key }));
+    }
+    i.parentKey = "";
+    return i;
+  })
+  .concat(
+    Array.from({ length: 200 }, (v, k) => ({
+      title: "栏目" + (k + 5),
+      key: "nav" + (k + 5),
+      path: "/nav" + (k + 5),
+      type: 0,
+    }))
+  );

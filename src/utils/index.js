@@ -61,4 +61,26 @@ function currentMenu() {
   };
 }
 
-export { saveLocalMenu, getLocalMenu, currentMenu };
+function getDefaultMenu() {
+  let openKeys = [],
+    selectKey = [],
+    openedMenu = [];
+  menuList.some((list) => {
+    const child = list.children;
+    if (child && child.length) {
+      openKeys = [list.key];
+      selectKey = [child[0]["key"]];
+      openedMenu = [child[0]];
+      return true;
+    }
+    return false;
+  });
+
+  return {
+    openKeys,
+    selectKey,
+    openedMenu,
+  };
+}
+
+export { saveLocalMenu, getLocalMenu, currentMenu, getDefaultMenu };

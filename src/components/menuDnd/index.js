@@ -63,7 +63,7 @@ export default function Dnd({ rangeVal, currentKey, onClose, onChoose }) {
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className="dnd-body"
+            className="dnd-body hide-scrollbar"
           >
             {/* 这里放置所需要拖拽的组件,必须要被 Draggable 包裹 */}
             {data.map((item, index) => (
