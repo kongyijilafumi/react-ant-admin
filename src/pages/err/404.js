@@ -1,12 +1,13 @@
 import React from "react";
 import { Result, Button } from "antd";
 import { connect } from "react-redux";
-import menu from "@/common/menu";
+import { getDefaultMenu } from "@/utils";
 import {
   addOpenedMenu,
   setOpenKey,
   setSelectKey,
   filterOpenKey,
+  setOpenMenu,
 } from "@/store/action";
 
 const mapStateToProps = (state) => ({
@@ -18,6 +19,7 @@ const mapDispatchToProps = (dispatch) => ({
   setSelectKeyFn: (key) => dispatch(setSelectKey(key)),
   setOpenKeyFn: (key) => dispatch(setOpenKey(key)),
   addOpenedMenuFn: (key) => dispatch(addOpenedMenu(key)),
+  setOpenMenuFn: (key) => dispatch(setOpenMenu(key)),
 });
 
 function Error404(props) {
@@ -28,25 +30,18 @@ function Error404(props) {
     setSelectKeyFn,
     setOpenKeyFn,
     addOpenedMenuFn,
+    setOpenMenuFn,
   } = props;
   console.log(props);
   const back = () => {
     // 顶部只有一个被打开
     if (openMenus.length === 1) {
-      debugger
-      filterOpenKeyFn(openMenus[0].key)
-      let firstMenu = menu[0];
-      if (firstMenu.children) {
-        setOpenKeyFn([firstMenu.key]);
-        setSelectKeyFn([firstMenu.children[0].key]);
-        addOpenedMenuFn(firstMenu.children[0]);
-        history.push(firstMenu.children[0].path);
-        return;
-      }
-      setOpenKeyFn([firstMenu.key]);
-      setSelectKeyFn([firstMenu.key]);
-      addOpenedMenuFn(firstMenu);
-      history.push(firstMenu.push);
+      const defaultMenu = getDefaultMenu();
+      console.log(defaultMenu);
+      setSelectKeyFn(defaultMenu.selectKey);
+      setOpenKeyFn(defaultMenu.openKeys);
+      setOpenMenuFn(defaultMenu.openedMenu);
+      history.push(defaultMenu.openedMenu[0].path);
       return;
     }
   };

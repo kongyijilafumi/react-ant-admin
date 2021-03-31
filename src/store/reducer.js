@@ -1,7 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import { currentMenu } from "@/utils";
 
-const currentMenuDetails = currentMenu();
+export const currentMenuDetails = currentMenu();
 
 const initGlobalState = {
   num: 0,
@@ -33,9 +33,11 @@ export default function reducer(state = initGlobalState, action) {
       }
       return { ...state, selectMenuKey: openKey };
     case actionTypes.FILTER_OPENKEY:
-      debugger
+      debugger;
       const openedMenu = state.openedMenu.filter((i) => i.key !== openKey);
       return { ...state, openedMenu };
+    case actionTypes.SET_OPENMENU:
+      return { ...state, openedMenu: openKey };
     default:
       return state;
   }

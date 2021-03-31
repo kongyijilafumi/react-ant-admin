@@ -28,3 +28,8 @@ export const filterOpenKey = (openKey) => ({
   type: ActionTypes.FILTER_OPENKEY,
   openKey,
 });
+
+export const setOpenMenu = (openKey) => ({
+  type: ActionTypes.SET_OPENMENU,
+  openKey,
+});
