@@ -14,13 +14,14 @@ const router = () => {
               key={key}
               exact={true}
               path={item.path}
-              render={(allProps) =>
-                React.createElement(components, {
+              render={(allProps) => {
+                document.title = itemProps.title;
+                return React.createElement(components, {
                   ...allProps,
                   ...itemProps,
                   pageKey: key,
-                })
-              }
+                });
+              }}
             />
           );
         }
@@ -29,13 +30,14 @@ const router = () => {
             exact={true}
             key={key}
             path={item.path}
-            render={(allProps) =>
-              React.createElement(components, {
+            render={(allProps) => {
+              document.title = itemProps.title;
+              return React.createElement(components, {
                 ...allProps,
                 ...itemProps,
                 pageKey: key,
-              })
-            }
+              });
+            }}
           />
         );
       })}

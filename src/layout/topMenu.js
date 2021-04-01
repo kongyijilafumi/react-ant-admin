@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import MenuDnd from "@/components/menuDnd";
+import MenuDnd from "@/components/menu-dnd";
 import { withRouter } from "react-router-dom";
 import { filterOpenKey, setSelectKey, setOpenKey } from "@/store/action";
 const mapStateToProps = (state) => ({
@@ -22,6 +22,7 @@ function TopMenu({
   history,
   setOpenKey,
 }) {
+  console.log(history);
   const closeTopMenu = (closeKey, nextItem, isCurrent) => {
     filterKey(closeKey);
     if (nextItem && isCurrent) {

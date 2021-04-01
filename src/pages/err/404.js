@@ -3,7 +3,6 @@ import { Result, Button } from "antd";
 import { connect } from "react-redux";
 import { getDefaultMenu } from "@/utils";
 import {
-  addOpenedMenu,
   setOpenKey,
   setSelectKey,
   filterOpenKey,
@@ -12,13 +11,13 @@ import {
 
 const mapStateToProps = (state) => ({
   openMenus: state.global.openedMenu,
+  selectMenuKey: state.global.selectMenuKey,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   filterOpenKeyFn: (key) => dispatch(filterOpenKey(key)),
   setSelectKeyFn: (key) => dispatch(setSelectKey(key)),
   setOpenKeyFn: (key) => dispatch(setOpenKey(key)),
-  addOpenedMenuFn: (key) => dispatch(addOpenedMenu(key)),
   setOpenMenuFn: (key) => dispatch(setOpenMenu(key)),
 });
 
@@ -29,21 +28,26 @@ function Error404(props) {
     filterOpenKeyFn,
     setSelectKeyFn,
     setOpenKeyFn,
-    addOpenedMenuFn,
+    selectMenuKey,
     setOpenMenuFn,
   } = props;
-  console.log(props);
   const back = () => {
     // 顶部只有一个被打开
     if (openMenus.length === 1) {
       const defaultMenu = getDefaultMenu();
-      console.log(defaultMenu);
       setSelectKeyFn(defaultMenu.selectKey);
       setOpenKeyFn(defaultMenu.openKeys);
       setOpenMenuFn(defaultMenu.openedMenu);
-      history.push(defaultMenu.openedMenu[0].path);
+      history.replace(defaultMenu.openedMenu[0].path);
       return;
     }
+    // 从顶部打开的路径，再去跳转
+    const menuList = openMenus.filter((i) => i.key !== selectMenuKey[0]);
+    filterOpenKeyFn(selectMenuKey[0]);
+    const next = menuList[menuList.length - 1];
+    setOpenKeyFn([next.parentKey]);
+    setSelectKeyFn([next.key]);
+    history.replace(next.path);
   };
   return (
     <Result
@@ -52,7 +56,7 @@ function Error404(props) {
       subTitle="Sorry, the page you visited does not exist."
       extra={
         <Button type="primary" onClick={back}>
-          返回
+          Go Back
         </Button>
       }
     />

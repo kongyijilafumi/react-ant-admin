@@ -23,6 +23,7 @@ export default function Dnd({ rangeVal, currentKey, onClose, onChoose }) {
         old.push(item);
       }
     });
+    old = old.filter((i) => rangeVal.find((item) => item.key === i.key));
     setData(old);
     // eslint-disable-next-line
   }, [rangeVal]);
