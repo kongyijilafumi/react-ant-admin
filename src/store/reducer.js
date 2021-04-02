@@ -1,5 +1,5 @@
 import * as actionTypes from "./actionTypes";
-import { currentMenu } from "@/utils";
+import { currentMenu, getUserLoginStatus } from "@/utils";
 
 export const currentMenuDetails = currentMenu();
 
@@ -8,10 +8,11 @@ const initGlobalState = {
   openedMenu: currentMenuDetails.openedMenu, // 保存已经打开的菜单栏
   openMenuKey: currentMenuDetails.openKeys, // 打开的菜单栏的key
   selectMenuKey: currentMenuDetails.selectKey, // 选中菜单栏的key
+  userInfo: getUserLoginStatus(),
 };
 
 export default function reducer(state = initGlobalState, action) {
-  const { openKey, type } = action;
+  const { openKey, type, info } = action;
   switch (type) {
     case actionTypes.INCREMENT:
       return { ...state, num: state.num - 1 };
@@ -37,6 +38,8 @@ export default function reducer(state = initGlobalState, action) {
       return { ...state, openedMenu };
     case actionTypes.SET_OPENMENU:
       return { ...state, openedMenu: openKey };
+    case actionTypes.SET_USERINFO:
+      return { ...state, userInfo: info };
     default:
       return state;
   }

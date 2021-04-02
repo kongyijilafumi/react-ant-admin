@@ -32,8 +32,8 @@ function Error404(props) {
     setOpenMenuFn,
   } = props;
   const back = () => {
-    // 顶部只有一个被打开
-    if (openMenus.length === 1) {
+    // 顶部一个或以下被打开
+    if (openMenus.length <=1) {
       const defaultMenu = getDefaultMenu();
       setSelectKeyFn(defaultMenu.selectKey);
       setOpenKeyFn(defaultMenu.openKeys);

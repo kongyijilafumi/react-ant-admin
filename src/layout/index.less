@@ -1,8 +1,10 @@
 .layout-body {
   min-height: 100vh;
-  .ant-layout-sider-children{
+
+  .ant-layout-sider-children {
     position: relative;
   }
+
   .layout-content-wrap {
     padding   : 0 24px 24px;
     margin    : 0;
@@ -15,30 +17,56 @@
   }
 
   .layout-silder-menu {
-    height: calc(100vh - 65px - 40px);
+    height    : calc(100vh - 65px - 40px);
     overflow-y: auto;
   }
 
   .fold-control {
-    &.fixed{
+    &.fixed {
       position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 100%;
+      bottom  : 0;
+      right   : 0;
+      width   : 100%;
     }
+
     .ant-btn {
       width     : 100%;
       background: unset;
       color     : #fff;
       border    : 0;
-      outline: none;
+      outline   : none;
       transition: none;
 
     }
   }
-  .top-menu{
-    margin: 10px 0;
+
+  .top-menu {
+    margin    : 10px 0;
     overflow-x: auto;
     background: #fff;
+  }
+
+  .header {
+    color: #fff;
+
+    .logo {
+      float: left;
+
+
+      span {
+        vertical-align: middle;
+        padding       : 0 10px;
+        font-size     : 16px;
+      }
+
+      img {
+        width : 40px;
+        height: 40px;
+      }
+    }
+
+    .right {
+      float: right;
+    }
   }
 }

@@ -83,4 +83,28 @@ function getDefaultMenu() {
   };
 }
 
-export { saveLocalMenu, getLocalMenu, currentMenu, getDefaultMenu };
+/**
+ *
+ * @returns 返回本地保存的登录信息
+ */
+function getUserLoginStatus() {
+  const userInfo = window.sessionStorage.getItem("userInfo");
+  return userInfo ? JSON.parse(userInfo) : false;
+}
+
+/**
+ *
+ * @param {Object} info 保存用户的信息
+ */
+function saveLocalUserInfo(info) {
+  window.sessionStorage.setItem("userInfo", JSON.stringify(info));
+}
+
+export {
+  saveLocalMenu,
+  getLocalMenu,
+  currentMenu,
+  getDefaultMenu,
+  getUserLoginStatus,
+  saveLocalUserInfo,
+};
