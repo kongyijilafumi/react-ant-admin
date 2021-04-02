@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import MenuDnd from "@/components/menu-dnd";
 import { withRouter } from "react-router-dom";
@@ -22,7 +22,22 @@ function TopMenu({
   history,
   setOpenKey,
 }) {
-  console.log(history);
+  const bindUri = () => {
+    const path = window.location.pathname;
+    const find = openedMenu.find((menu) => menu.path === path);
+    if (find) {
+      const openKey = find.parentKey ? find.parentKey : find.key;
+      setSelectKey(find.key);
+      setOpenKey(openKey);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("popstate", bindUri, false);
+    return () => {
+      window.removeEventListener("popstate", bindUri);
+    };
+    // eslint-disable-next-line
+  }, [openedMenu]);
   const closeTopMenu = (closeKey, nextItem, isCurrent) => {
     filterKey(closeKey);
     if (nextItem && isCurrent) {
