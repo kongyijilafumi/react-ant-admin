@@ -15,17 +15,10 @@ const mapStateToProps = (state) => ({
 
 function AppRouter({ userInfo }) {
   const [loading, setLoad] = useState(true);
-  const [isLogin, setLogin] = useState(false);
   useEffect(() => {
-    if (userInfo) {
-      setLoad(false);
-      setLogin(false);
-      return;
-    }
     setTimeout(() => {
       setLoad(false);
-    }, 1000);
-    // eslint-disable-next-line
+    },1000);
   }, []);
   if (loading)
     return (
@@ -33,7 +26,7 @@ function AppRouter({ userInfo }) {
         <div className="loading-page"></div>
       </Spin>
     );
-  if (!isLogin && !userInfo) return <Login />;
+  if (!userInfo) return <Login />;
   return (
     <Router>
       <Layout

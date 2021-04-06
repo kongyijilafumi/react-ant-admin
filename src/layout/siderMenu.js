@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Layout, Menu, Button } from "antd";
 import { throttle } from "lodash";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import MyIcon from "@/components/icon";
 import menuList from "@/common/menu";
 import { addOpenedMenu, setOpenKey, setSelectKey } from "@/store/action";
 
@@ -54,9 +55,9 @@ const MenuDom = ({
   }, 500);
   // 启动监听
   useEffect(() => {
-    window.addEventListener("resize", listenWindow);
+    window.addEventListener("resize", listenWindow, false);
     return () => {
-      window.removeEventListener("resize", listenWindow);
+      window.removeEventListener("resize", listenWindow, false);
     };
   });
   // 菜单组折叠
@@ -83,10 +84,14 @@ const MenuDom = ({
         );
       }
       return (
-        <SubMenu key={item.key} title={item.title}>
+        <SubMenu
+          key={item.key}
+          title={item.title}
+          icon={<MyIcon type={item.icon} />}
+        >
           {item.children.map((child) => {
             return (
-              <Menu.Item key={child.key}>
+              <Menu.Item key={child.key} icon={<MyIcon type={child.icon} />}>
                 <Link to={child.path}>{child.title}</Link>
               </Menu.Item>
             );

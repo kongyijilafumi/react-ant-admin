@@ -1,5 +1,35 @@
+.ant-menu-item {
+  align-items: center;
+  display    : flex;
+
+  .anticon {
+    font-size: 24px;
+  }
+}
+
 .layout-body {
   min-height: 100vh;
+
+  .ant-menu {
+    .ant-menu-submenu .ant-menu-submenu-title .anticon {
+      font-size   : 24px;
+      margin-right: 3px;
+    }
+
+    .ant-menu-item {
+      align-items: center;
+      display    : flex;
+
+      .anticon {
+        font-size: 24px;
+      }
+    }
+  }
+
+  .ant-menu-dark.ant-menu-inline .ant-menu-submenu-title {
+    align-items: center;
+    display    : flex;
+  }
 
   .ant-layout-sider-children {
     position: relative;

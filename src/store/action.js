@@ -38,3 +38,7 @@ export const setUserInfoAction = (info) => ({
   type: ActionTypes.SET_USERINFO,
   info,
 });
+
+export const clearUser = () => ({
+  type: ActionTypes.CLEAR_USERINFO,
+});

@@ -4,11 +4,13 @@ const menu = [
     key: "nav1",
     path: "/nav",
     type: 0,
+    icon: "icon_home",
     children: [
       {
         title: "home",
         key: "home",
         path: "/",
+        icon: "icon_message",
         type: 0,
       },
     ],
@@ -18,8 +20,10 @@ const menu = [
     key: "nav2",
     path: "/nav2",
     type: 0,
+    icon: "icon_info",
     children: [
       {
+        icon: "icon_genieSEC",
         title: "demo",
         key: "demo",
         path: "/demo",
@@ -50,7 +54,7 @@ export default menu
     return i;
   })
   .concat(
-    Array.from({ length: 200 }, (v, k) => ({
+    Array.from({ length: 10 }, (v, k) => ({
       title: "栏目" + (k + 5),
       key: "nav" + (k + 5),
       path: "/nav" + (k + 5),

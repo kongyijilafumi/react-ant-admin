@@ -100,6 +100,12 @@ function saveLocalUserInfo(info) {
   window.sessionStorage.setItem("userInfo", JSON.stringify(info));
 }
 
+function sleep(seconed) {
+  return new Promise((res, rej) => {
+    setTimeout(res, seconed);
+  });
+}
+
 export {
   saveLocalMenu,
   getLocalMenu,
@@ -107,4 +113,5 @@ export {
   getDefaultMenu,
   getUserLoginStatus,
   saveLocalUserInfo,
+  sleep,
 };

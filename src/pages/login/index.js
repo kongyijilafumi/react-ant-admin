@@ -9,18 +9,30 @@ import "./index.less";
 const mapDispatchToProps = (dispatch) => ({
   setUserInfo: (info) => dispatch(setUserInfoAction(info)),
 });
+const IPT_RULE_USERNAME = [
+  {
+    required: true,
+    message: "请输入用户名",
+  },
+];
 
+const IPT_RULE_PASSWORD = [
+  {
+    required: true,
+    message: "请输入密码",
+  },
+];
 function Login({ setUserInfo }) {
   const [btnLoad, setBtnLoad] = useState(false);
   const onFinish = (values) => {
+    console.log("处理处理");
     setBtnLoad(true);
-    setTimeout(() => {
-      setUserInfo(values);
-      setBtnLoad(false);
-      if (values.remember) {
-        saveLocalUserInfo(values);
-      }
-    }, 1000);
+    setBtnLoad(false);
+    if (values.remember) {
+      saveLocalUserInfo(values);
+    }
+    setUserInfo(values);
+    return false;
   };
   return (
     <div className="login-container">
@@ -34,29 +46,13 @@ function Login({ setUserInfo }) {
           }}
           onFinish={onFinish}
         >
-          <Form.Item
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: "请输入用户名",
-              },
-            ]}
-          >
+          <Form.Item name="username" rules={IPT_RULE_USERNAME}>
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
               placeholder="用户名"
             />
           </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "请输入密码",
-              },
-            ]}
-          >
+          <Form.Item name="password" rules={IPT_RULE_PASSWORD}>
             <Input
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"

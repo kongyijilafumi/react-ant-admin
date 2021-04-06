@@ -22,7 +22,7 @@ function TopMenu({
   history,
   setOpenKey,
 }) {
-  const bindUri = () => {
+  const bindUrl = () => {
     const path = window.location.pathname;
     const find = openedMenu.find((menu) => menu.path === path);
     if (find) {
@@ -32,9 +32,9 @@ function TopMenu({
     }
   };
   useEffect(() => {
-    window.addEventListener("popstate", bindUri, false);
+    window.addEventListener("popstate", bindUrl, false);
     return () => {
-      window.removeEventListener("popstate", bindUri);
+      window.removeEventListener("popstate", bindUrl);
     };
     // eslint-disable-next-line
   }, [openedMenu]);

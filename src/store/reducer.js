@@ -40,6 +40,8 @@ export default function reducer(state = initGlobalState, action) {
       return { ...state, openedMenu: openKey };
     case actionTypes.SET_USERINFO:
       return { ...state, userInfo: info };
+    case actionTypes.CLEAR_USERINFO:
+      return { ...initGlobalState, userInfo: null };
     default:
       return state;
   }
