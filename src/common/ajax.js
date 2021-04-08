@@ -1,10 +1,7 @@
 import axios from "axios";
 import { notification } from "antd";
 // 请求地址
-const BASE_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://192.168.1.141:8081/web_server/mediaChannel"
-    : "";
+const BASE_URL = process.env.NODE_ENV === "development" ? "" : "";
 
 // 错误信息
 const codeMessage = {
@@ -56,28 +53,23 @@ instance.interceptors.request.use(
   }
 );
 
-instance.interceptors.response.use(
-  function (response) {
-    // 对响应数据做点什么
-    if (response && response.status) {
-      const { status, url, statusText } = response;
-      if (status !== 200) {
-        const errorText = codeMessage[status] || statusText;
-        notification.error({
-          message: `请求错误 ${status}: ${url}`,
-          description: errorText,
-        });
-      }
-    }
-    return response.data;
-  },
-  function (error) {
+instance.interceptors.response.use(function (response) {
+  const { response } = error;
+  if (response && response.status) {
+    const errorText = codeMessage[response.status] || response.statusText;
+    const { status, config } = response;
     notification.error({
-      description: "请求服务器发生未知错误！请稍后重试。",
-      message: error.message,
+      message: `请求错误 ${status}: ${config.url}`,
+      description: errorText,
     });
-    // 对响应错误做点什么
-    return Promise.reject(error);
+    console.log(response, errorText);
+  } else if (!response) {
+    notification.error({
+      description: "您的网络发生异常，无法连接服务器",
+      message: "网络异常",
+    });
   }
-);
+  // 对响应错误做点什么
+  return Promise.reject(error);
+});
 export default instance;

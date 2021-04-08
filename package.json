@@ -163,10 +163,15 @@
     ]
   },
   "devDependencies": {
+    "echarts": "^5.0.2",
+    "echarts-for-react": "^3.0.1",
     "less": "^4.1.1",
     "less-loader": "^5.0.0",
     "react-beautiful-dnd": "^13.0.0",
     "react-router-cache-route": "^1.11.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "sass": "^1.32.8",
+    "sass-loader": "^10.1.1",
+    "sass-resources-loader": "^2.1.1"
   }
 }

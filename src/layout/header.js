@@ -4,22 +4,28 @@ import { LogoutOutlined } from "@ant-design/icons";
 import logo from "@/asset/images/logo.svg";
 import { connect } from "react-redux";
 import { clearUser } from "@/store/action";
+import { clearSessionUser } from "@/utils";
 const { Header } = Layout;
 const mapStateToProps = (state) => ({
   userInfo: state.global.userInfo,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  userOut: () => dispatch(clearUser()),
+  userOut: () => {
+    clearSessionUser();
+    dispatch(clearUser());
+  },
 });
 
 const RightMenu = ({ logout }) => (
-  <Menu>
+  <Menu className="right-down">
     <Menu.Item key="logout" onClick={logout} icon={<LogoutOutlined />}>
       退出登录
     </Menu.Item>
   </Menu>
 );
+
+const getPopupContainer = (HTMLElement) => HTMLElement;
 
 const HeaderDom = ({ userInfo, userOut }) => {
   return (
@@ -29,7 +35,10 @@ const HeaderDom = ({ userInfo, userOut }) => {
         <span>React-ant-admin</span>
       </div>
       <div className="right" placement="bottomCenter">
-        <Dropdown overlay={<RightMenu logout={userOut} />}>
+        <Dropdown
+          getPopupContainer={getPopupContainer}
+          overlay={<RightMenu logout={userOut} />}
+        >
           <div>管理员：{userInfo.username}</div>
         </Dropdown>
       </div>

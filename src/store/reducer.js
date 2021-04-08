@@ -1,5 +1,5 @@
 import * as actionTypes from "./actionTypes";
-import { currentMenu, getUserLoginStatus } from "@/utils";
+import { currentMenu, getSeesionUser } from "@/utils";
 
 export const currentMenuDetails = currentMenu();
 
@@ -8,7 +8,7 @@ const initGlobalState = {
   openedMenu: currentMenuDetails.openedMenu, // 保存已经打开的菜单栏
   openMenuKey: currentMenuDetails.openKeys, // 打开的菜单栏的key
   selectMenuKey: currentMenuDetails.selectKey, // 选中菜单栏的key
-  userInfo: getUserLoginStatus(),
+  userInfo: getSeesionUser(),
 };
 
 export default function reducer(state = initGlobalState, action) {

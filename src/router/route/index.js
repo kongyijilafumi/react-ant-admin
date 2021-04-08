@@ -1,28 +1,50 @@
 import Home from "@pages/home";
-import Test from "@pages/test";
-import Demo from "@pages/demo";
+import Table from "@pages/table";
+import Shape from "@pages/table/shape";
 import Error404 from "@pages/err/404";
+import Form from "@pages/table/form";
+import Drag from "@pages/drag";
+import { Redirect } from "react-router-dom";
 const routerList = [
   {
     path: "/",
+    key: "index",
+    to: "/home",
+    components: Redirect,
+  },
+  {
+    path: "/home",
     keepAlive: true,
-    title: "Home",
+    title: "主页",
     key: "Home",
     components: Home,
   },
   {
-    path: "/test",
+    path: "/table/table",
     keepAlive: true,
-    title: "Test",
-    key: "Test",
-    components: Test,
+    title: "表格",
+    key: "table",
+    components: Table,
   },
   {
-    path: "/demo",
+    path: "/table/shape",
     keepAlive: true,
-    title: "demo",
-    key: "demo",
-    components: Demo,
+    title: "图表",
+    key: "shape",
+    components: Shape,
+  },
+  {
+    path: "/table/form",
+    keepAlive: true,
+    title: "表单",
+    key: "form",
+    components: Form,
+  },
+  {
+    path: "/drag",
+    title: "拖拽组件",
+    key: "drag",
+    components: Drag,
   },
   {
     path: "*",

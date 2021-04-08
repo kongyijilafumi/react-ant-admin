@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
-import { saveLocalUserInfo } from "@/utils";
+import { saveUser,getLocalUser } from "@/utils";
 import { setUserInfoAction } from "@/store/action";
 import "./index.less";
 
@@ -25,11 +25,10 @@ const IPT_RULE_PASSWORD = [
 function Login({ setUserInfo }) {
   const [btnLoad, setBtnLoad] = useState(false);
   const onFinish = (values) => {
-    console.log("处理处理");
     setBtnLoad(true);
     setBtnLoad(false);
     if (values.remember) {
-      saveLocalUserInfo(values);
+      saveUser(values);
     }
     setUserInfo(values);
     return false;
@@ -43,6 +42,7 @@ function Login({ setUserInfo }) {
           className="login-form"
           initialValues={{
             remember: true,
+            ...getLocalUser()
           }}
           onFinish={onFinish}
         >

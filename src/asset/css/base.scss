@@ -1,3 +1,9 @@
+@mixin text-over {
+  white-space  : nowrap;
+  overflow     : hidden;
+  text-overflow: ellipsis;
+}
+
 .hide-scrollbar {
   scrollbar-width   : none;
   -ms-overflow-style: none;

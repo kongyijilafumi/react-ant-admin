@@ -1,63 +1,60 @@
 const menu = [
   {
-    title: "栏目1",
-    key: "nav1",
-    path: "/nav",
+    title: "主页",
+    key: "home",
+    path: "/home",
     type: 0,
     icon: "icon_home",
-    children: [
-      {
-        title: "home",
-        key: "home",
-        path: "/",
-        icon: "icon_message",
-        type: 0,
-      },
-    ],
   },
   {
-    title: "栏目2",
-    key: "nav2",
-    path: "/nav2",
+    title: "图表",
+    key: "table",
+    path: "/table",
     type: 0,
-    icon: "icon_info",
+    icon: "icon_faimlyalbum",
     children: [
       {
-        icon: "icon_genieSEC",
-        title: "demo",
-        key: "demo",
-        path: "/demo",
+        title: "表格",
+        key: "t_table",
+        path: "/table",
         type: 0,
       },
       {
-        title: "test",
-        key: "test",
-        path: "/test",
+        title: "图表",
+        key: "shape",
+        path: "/shape",
+        type: 0,
+      },
+      {
+        title: "表单",
+        key: "form",
+        path: "/form",
         type: 0,
       },
     ],
   },
   {
-    title: "栏目3",
-    key: "nav3",
-    path: "/nav3",
+    title: "拖拽组件",
+    key: "drag",
+    path: "/drag",
+    type: 0,
+  },
+  {
+    title: "404页面",
+    key: "404",
+    path: "/test404",
     type: 0,
   },
 ];
 
-export default menu
-  .map((i) => {
-    if (i.children) {
-      i.children = i.children.map((child) => ({ ...child, parentKey: i.key }));
-    }
-    i.parentKey = "";
-    return i;
-  })
-  .concat(
-    Array.from({ length: 10 }, (v, k) => ({
-      title: "栏目" + (k + 5),
-      key: "nav" + (k + 5),
-      path: "/nav" + (k + 5),
-      type: 0,
-    }))
-  );
+export default menu.map((i) => {
+  if (i.children) {
+    i.children = i.children.map((child) => ({
+      ...child,
+      parentKey: i.key,
+      path: i.path + child.path,
+    }));
+  }
+  i.parentKey = "";
+  return i;
+});

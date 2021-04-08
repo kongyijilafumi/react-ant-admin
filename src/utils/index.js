@@ -1,27 +1,5 @@
 import menuList from "@/common/menu";
 
-/**
- * 保存菜单状态本地
- * @param {Array} openKeys 打开的菜单
- * @param {Array} selectKeys 选中的菜单
- */
-function saveLocalMenu(openKeys, selectKeys) {
-  localStorage.setItem("openkey", JSON.stringify(openKeys || []));
-  localStorage.setItem("selectKey", JSON.stringify(selectKeys || []));
-}
-
-/**
- * 获取本地菜单状态
- * @returns {Object}  openKeys，selectKey
- */
-function getLocalMenu() {
-  let openKeys = localStorage.getItem("openKey") || "[]";
-  let selectKey = localStorage.getItem("selectKey") || "[]";
-  return {
-    openKeys,
-    selectKey,
-  };
-}
 
 /**
  * 根据当前页面路由选中菜单
@@ -83,21 +61,14 @@ function getDefaultMenu() {
   };
 }
 
-/**
- *
- * @returns 返回本地保存的登录信息
- */
-function getUserLoginStatus() {
+function getSeesionUser() {
   const userInfo = window.sessionStorage.getItem("userInfo");
-  return userInfo ? JSON.parse(userInfo) : false;
+  return userInfo ? JSON.parse(userInfo) : undefined;
 }
 
-/**
- *
- * @param {Object} info 保存用户的信息
- */
-function saveLocalUserInfo(info) {
+function saveUser(info) {
   window.sessionStorage.setItem("userInfo", JSON.stringify(info));
+  window.localStorage.setItem("userInfo", JSON.stringify(info));
 }
 
 function sleep(seconed) {
@@ -106,12 +77,22 @@ function sleep(seconed) {
   });
 }
 
+function clearSessionUser() {
+  window.sessionStorage.removeItem("userInfo");
+}
+
+function getLocalUser() {
+  const userInfo = window.localStorage.getItem("userInfo");
+  return userInfo ? JSON.parse(userInfo) : undefined;
+}
+
+
 export {
-  saveLocalMenu,
-  getLocalMenu,
   currentMenu,
   getDefaultMenu,
-  getUserLoginStatus,
-  saveLocalUserInfo,
+  getSeesionUser,
+  clearSessionUser,
+  saveUser,
   sleep,
+  getLocalUser,
 };

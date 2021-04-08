@@ -12,8 +12,9 @@
 
   .ant-menu {
     .ant-menu-submenu .ant-menu-submenu-title .anticon {
-      font-size   : 24px;
-      margin-right: 3px;
+      font-size     : 24px;
+      vertical-align: middle;
+
     }
 
     .ant-menu-item {
@@ -27,8 +28,7 @@
   }
 
   .ant-menu-dark.ant-menu-inline .ant-menu-submenu-title {
-    align-items: center;
-    display    : flex;
+    @include text-over;
   }
 
   .ant-layout-sider-children {
@@ -97,6 +97,10 @@
 
     .right {
       float: right;
+    }
+
+    .right-down {
+      background-color: #fafafa;
     }
   }
 }
