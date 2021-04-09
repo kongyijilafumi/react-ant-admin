@@ -36,7 +36,7 @@ function Login({ setUserInfo }) {
   return (
     <div className="login-container">
       <div className="wrapper">
-        <div className="title">React-ant-admin</div>
+        <div className="title">react-ant-admin</div>
         <div className="welcome">欢迎使用，请先登录</div>
         <Form
           className="login-form"

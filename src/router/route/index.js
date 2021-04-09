@@ -4,6 +4,7 @@ import Shape from "@pages/table/shape";
 import Error404 from "@pages/err/404";
 import Form from "@pages/table/form";
 import Drag from "@pages/drag";
+import Icons from "@pages/icons";
 import { Redirect } from "react-router-dom";
 const routerList = [
   {
@@ -35,7 +36,6 @@ const routerList = [
   },
   {
     path: "/table/form",
-    keepAlive: true,
     title: "表单",
     key: "form",
     components: Form,
@@ -43,13 +43,22 @@ const routerList = [
   {
     path: "/drag",
     title: "拖拽组件",
+    keepAlive: true,
     key: "drag",
     components: Drag,
+  },
+  {
+    path: "/icons",
+    title: "图标库",
+    keepAlive: true,
+    key: "icons",
+    components: Icons,
   },
   {
     path: "*",
     title: "404",
     key: "404",
+    keepAlive: true,
     components: Error404,
   },
 ];

@@ -1,30 +1,41 @@
 import React from "react";
 import { Row, Col } from "antd";
 import Dnd from "@/components/dnd";
-const getRandom = (num) => Math.ceil(Math.random() * num);
-const bodyStyle = { height: 50, lineHeight: "50px" };
-const verticalItems = Array.from({ length: 4 }, (v, k) => {
-  return {
-    key: getRandom(k + 200) + "",
-    component: Row,
-    style: {
-      marginBottom: 20,
-      background: "#e9e9e9",
-      textAlign: "center",
-    },
+import FreeDnd from "@/components/dnd/free";
+import "./index.scss";
+const getItems = (length) =>
+  Array.from({ length }, (v, k) => ({
+    key: getRandom(k + 200) + "" + getRandom(k + 200),
+    id: getRandom(k + 200) + "",
+    component: "div",
+    className: "dnd-items",
     children: k + 1,
-  };
-});
+  }));
+const getRandom = (num) => Math.ceil(Math.random() * num);
+const verticalItems = getItems(4);
+const horizontalItems = Array.from({ length: 4 }, (v, k) => ({
+  key: getRandom(k + 200) + "" + getRandom(k + 200),
+  component: Col,
+  className: "dnd-items horizontal",
+  span: 4,
+  children: k + 1,
+}));
+const change = (tags) => {
+  console.log(tags);
+};
+const renderItem = ({ tag, index }) => {
+  return <Col className="dnd-items free">{tag.children}</Col>;
+};
 export default function Drag() {
   return (
-    <div>
+    <div className="drag-container">
       <h2>拖拽组件</h2>
-      <Dnd
-        direction="vertical"
-        body={"div"}
-        bodyStyle={bodyStyle}
-        items={verticalItems}
-      />
+      <div className="title">垂直拖拽</div>
+      <Dnd direction="vertical" body={"div"} items={verticalItems} />
+      <div className="title">水平拖拽</div>
+      <Dnd direction="horizontal" body={Row} items={horizontalItems} />
+      <div className="title">自由拖拽</div>
+      <FreeDnd data={getItems(12)} onChange={change} renderItem={renderItem} />
     </div>
   );
 }

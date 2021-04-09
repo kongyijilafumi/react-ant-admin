@@ -13,7 +13,7 @@ function Home() {
         <Link href="#navigation" title="添加导航栏" />
         <Link href="#router" title="页面添加路由" />
       </Anchor>
-      <h2>欢迎使用 React-ant-admin ！</h2>
+      <h2>欢迎使用 react-ant-admin ！</h2>
       <h3>使用指南：</h3>
       <div className="title" id="less_scss">
         你可以在该项目使用less，scss的css预处理语言

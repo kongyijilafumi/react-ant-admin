@@ -168,6 +168,7 @@
     "less": "^4.1.1",
     "less-loader": "^5.0.0",
     "react-beautiful-dnd": "^13.0.0",
+    "react-draggable-tags": "^1.0.2",
     "react-router-cache-route": "^1.11.0",
     "react-router-dom": "^5.2.0",
     "sass": "^1.32.8",

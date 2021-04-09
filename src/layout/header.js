@@ -32,7 +32,7 @@ const HeaderDom = ({ userInfo, userOut }) => {
     <Header className="header">
       <div className="logo">
         <img src={logo} alt="logo"></img>
-        <span>React-ant-admin</span>
+        <span>react-ant-admin</span>
       </div>
       <div className="right" placement="bottomCenter">
         <Dropdown

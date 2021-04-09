@@ -40,6 +40,12 @@ const menu = [
     type: 0,
   },
   {
+    title: "图标库",
+    key: "icons",
+    path: "/icons",
+    type: 0,
+  },
+  {
     title: "404页面",
     key: "404",
     path: "/test404",

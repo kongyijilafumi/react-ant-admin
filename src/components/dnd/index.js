@@ -11,13 +11,14 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-function Dnd({ body: Body, items, direction, bodyStyle }) {
+function Dnd({ body: Body, items, bodyProps, direction = "vertical" }) {
   const [data, setData] = useState([]);
   useEffect(() => {
     if (items && items.length !== 0) {
       //初始化数据
       setData(items);
     }
+    // eslint-disable-next-line
   }, []);
 
   //拖拽结束
@@ -41,23 +42,22 @@ function Dnd({ body: Body, items, direction, bodyStyle }) {
           //这里是拖拽容器 在这里设置容器的宽高等等...
           <Body
             {...provided.droppableProps}
-            style={bodyStyle}
+            {...bodyProps}
             ref={provided.innerRef}
           >
             {/* 这里放置所需要拖拽的组件,必须要被 Draggable 包裹 */}
             {data.map((item, index) => {
               const { component: Components, key, style, ...props } = item;
-              console.log(props);
               return (
                 <Draggable index={index} key={key} draggableId={key}>
                   {(provided, snapshot) => (
                     //在这里写你的拖拽组件的样式 dom 等等...
                     <Components
+                      {...props}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      {...props}
                       {...provided.dragHandleProps}
-                      style={{ ...provided.draggableProps.style, ...style }}
+                      style={{ ...style, ...provided.draggableProps.style }}
                     />
                   )}
                 </Draggable>
