@@ -1,2 +1,2 @@
-export const RouterBasename = "/tjadmin";
+export const RouterBasename = "/react-ant-admin";
 

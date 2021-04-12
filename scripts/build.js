@@ -3,7 +3,7 @@
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 process.env.GENERATE_SOURCEMAP = "false"
-process.env.BUILD_PATH = "./tjadmin";
+process.env.BUILD_PATH = "./react-ant-admin";
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
