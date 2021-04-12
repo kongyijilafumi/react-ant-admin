@@ -5,8 +5,8 @@ import FreeDnd from "@/components/dnd/free";
 import "./index.scss";
 const getItems = (length) =>
   Array.from({ length }, (v, k) => ({
-    key: getRandom(k + 200) + "" + getRandom(k + 200),
-    id: getRandom(k + 200) + "",
+    key: getRandom(k + 50000000) + "" + getRandom(k + 50000000),
+    id: getRandom(k + 50000000) + "",
     component: "div",
     className: "dnd-items",
     children: k + 1,

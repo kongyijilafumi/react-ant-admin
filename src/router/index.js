@@ -2,26 +2,22 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { CacheRoute, CacheSwitch } from "react-router-cache-route";
 import routerList from "./route";
+import Intercept from "./intercept";
 
 const router = () => {
   return (
     <CacheSwitch>
       {routerList.map((item) => {
-        let { components, key, ...itemProps } = item;
+        let { key, path } = item;
         if (item.keepAlive === true) {
           return (
             <CacheRoute
               key={key}
               exact={true}
-              path={item.path}
-              render={(allProps) => {
-                document.title = itemProps.title;
-                return React.createElement(components, {
-                  ...allProps,
-                  ...itemProps,
-                  pageKey: key,
-                });
-              }}
+              path={path}
+              render={(allProps) => (
+                <Intercept {...allProps} {...item} pageKey={key} />
+              )}
             />
           );
         }
@@ -29,15 +25,10 @@ const router = () => {
           <Route
             exact={true}
             key={key}
-            path={item.path}
-            render={(allProps) => {
-              document.title = itemProps.title;
-              return React.createElement(components, {
-                ...allProps,
-                ...itemProps,
-                pageKey: key,
-              });
-            }}
+            path={path}
+            render={(allProps) => (
+              <Intercept {...allProps} {...item} pageKey={key} />
+            )}
           />
         );
       })}

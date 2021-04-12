@@ -1,62 +1,36 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import MenuDnd from "@/components/menu-dnd";
 import { withRouter } from "react-router-dom";
-import { filterOpenKey, setSelectKey, setOpenKey } from "@/store/action";
+import { filterOpenKey } from "@/store/action";
+import { getCurrentUrl } from "@/utils";
 const mapStateToProps = (state) => ({
   openedMenu: state.global.openedMenu,
-  currentKey: state.global.selectMenuKey[0],
 });
 
 const mapDispatchToProps = (dispatch) => ({
   filterKey: (key) => dispatch(filterOpenKey(key)),
-  setSelectKey: (key) => dispatch(setSelectKey([key])),
-  setOpenKey: (key) => dispatch(setOpenKey([key])),
 });
 
-function TopMenu({
-  openedMenu,
-  currentKey,
-  filterKey,
-  setSelectKey,
-  history,
-  setOpenKey,
-}) {
-  const bindUrl = () => {
-    const path = window.location.pathname;
-    const find = openedMenu.find((menu) => menu.path === path);
-    if (find) {
-      const openKey = find.parentKey ? find.parentKey : find.key;
-      setSelectKey(find.key);
-      setOpenKey(openKey);
-    }
-  };
-  useEffect(() => {
-    window.addEventListener("popstate", bindUrl, false);
-    return () => {
-      window.removeEventListener("popstate", bindUrl);
-    };
-    // eslint-disable-next-line
-  }, [openedMenu]);
-  const closeTopMenu = (closeKey, nextItem, isCurrent) => {
-    filterKey(closeKey);
+function TopMenu({ openedMenu, filterKey, history }) {
+
+  const closeTopMenu = (path, nextItem, isCurrent) => {
     if (nextItem && isCurrent) {
+      debugger
+      filterKey(path);
       history.replace(nextItem.path);
-      setSelectKey(nextItem.key);
-      setOpenKey(nextItem.parentKey);
     }
   };
 
   const gotoMenuUrl = (item) => {
-    if (item.key === currentKey) return;
+    if (item.path === getCurrentUrl()) return;
     history.replace(item.path);
-    setSelectKey(item.key);
-    setOpenKey(item.parentKey);
   };
+  
   return (
     <div className="top-menu">
       <MenuDnd
-        currentKey={currentKey}
+        currentKey={getCurrentUrl()}
         rangeVal={openedMenu}
         onClose={closeTopMenu}
         onChoose={gotoMenuUrl}

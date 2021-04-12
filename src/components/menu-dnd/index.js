@@ -19,11 +19,11 @@ export default function Dnd({ rangeVal, currentKey, onClose, onChoose }) {
   useEffect(() => {
     let old = [...data];
     rangeVal.forEach((item) => {
-      if (!data.find((i) => i.key === item.key)) {
+      if (!data.find((i) => i.path === item.path)) {
         old.push(item);
       }
     });
-    old = old.filter((i) => rangeVal.find((item) => item.key === i.key));
+    old = old.filter((i) => rangeVal.find((item) => item.path === i.path));
     setData(old);
     // eslint-disable-next-line
   }, [rangeVal]);
@@ -46,14 +46,11 @@ export default function Dnd({ rangeVal, currentKey, onClose, onChoose }) {
   );
 
   // 关闭当前顶部菜单
-  const closeCurrent = useCallback(
-    (key) => {
-      const newData = data.filter((i) => i.key !== key);
-      setData(newData);
-      onClose(key, newData[newData.length - 1], key === currentKey);
-    },
-    [data, currentKey, onClose]
-  );
+  const closeCurrent = (path) => {
+    const newData = data.filter((i) => i.path !== path);
+    setData(newData);
+    onClose(path, newData[newData.length - 1], path === currentKey);
+  };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -73,7 +70,9 @@ export default function Dnd({ rangeVal, currentKey, onClose, onChoose }) {
                   //在这里写你的拖拽组件的样式 dom 等等...
                   <div
                     className={
-                      currentKey === item.key ? "dnd-items active" : "dnd-items"
+                      currentKey === item.path
+                        ? "dnd-items active"
+                        : "dnd-items"
                     }
                     ref={provided.innerRef}
                     {...provided.draggableProps}
@@ -86,7 +85,7 @@ export default function Dnd({ rangeVal, currentKey, onClose, onChoose }) {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        closeCurrent(item.key);
+                        closeCurrent(item.path);
                       }}
                     />
                   </div>

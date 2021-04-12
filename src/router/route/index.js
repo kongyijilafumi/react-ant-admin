@@ -17,14 +17,14 @@ const routerList = [
     path: "/home",
     keepAlive: true,
     title: "主页",
-    key: "Home",
+    key: "home",
     components: Home,
   },
   {
     path: "/table/table",
     keepAlive: true,
     title: "表格",
-    key: "table",
+    key: "t_table",
     components: Table,
   },
   {

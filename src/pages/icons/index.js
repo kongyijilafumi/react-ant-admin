@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Input, Row, Col } from "antd";
 import MyIcon from "@/components/icon";
 import "./index.scss";
+import { Link } from "react-router-dom";
 const iconData = require("@/asset/json/iconfont");
 const prefix_name = iconData.css_prefix_text;
 const initData = iconData.glyphs.map((item) => ({
@@ -21,6 +22,7 @@ export default function Icons() {
   };
   return (
     <div className="icons-container">
+      <Link to="/sdasdfasdf">去404</Link>
       <h2>Icon自定义</h2>
       <div className="mt10">你可以使用ant-design的语义化的矢量图形。</div>
       <div className="mt10">

@@ -46,7 +46,7 @@ function Login({ setUserInfo }) {
           }}
           onFinish={onFinish}
         >
-          <Form.Item name="account" rules={IPT_RULE_USERNAME}>
+          <Form.Item name="username" rules={IPT_RULE_USERNAME}>
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
               placeholder="用户名"

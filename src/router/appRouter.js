@@ -8,6 +8,7 @@ import TopMenu from "@/layout/topMenu";
 import { connect } from "react-redux";
 import Login from "@pages/login";
 import { Spin } from "antd";
+import { RouterBasename } from "@/common";
 
 const mapStateToProps = (state) => ({
   userInfo: state.global.userInfo,
@@ -18,7 +19,7 @@ function AppRouter({ userInfo }) {
   useEffect(() => {
     setTimeout(() => {
       setLoad(false);
-    },1000);
+    }, 1000);
   }, []);
   if (loading)
     return (
@@ -28,7 +29,7 @@ function AppRouter({ userInfo }) {
     );
   if (!userInfo) return <Login />;
   return (
-    <Router>
+    <Router basename={RouterBasename}>
       <Layout
         header={<Header />}
         menu={<Menu />}

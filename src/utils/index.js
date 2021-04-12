@@ -1,43 +1,5 @@
 import menuList from "@/common/menu";
-
-
-/**
- * 根据当前页面路由选中菜单
- * @returns {Object} openKeys selectKey openedMenu
- */
-function currentMenu() {
-  let openKeys = [];
-  let selectKey = [];
-  let openedMenu = [];
-  const path = window.location.pathname;
-  menuList.some((list) => {
-    const firstKey = list.key;
-    if (list.path === path) {
-      openKeys.push(firstKey);
-      selectKey.push(firstKey);
-      openedMenu.push(list);
-      return true;
-    }
-    if (list.children) {
-      return list.children.some((item) => {
-        const childKey = item.key;
-        if (item.path === path) {
-          openKeys.push(firstKey);
-          selectKey.push(childKey);
-          openedMenu.push(item);
-          return true;
-        }
-        return false;
-      });
-    }
-    return false;
-  });
-  return {
-    openKeys,
-    selectKey,
-    openedMenu,
-  };
-}
+import { RouterBasename } from "@/common";
 
 function getDefaultMenu() {
   let openKeys = [],
@@ -86,13 +48,40 @@ function getLocalUser() {
   return userInfo ? JSON.parse(userInfo) : undefined;
 }
 
+function getCurrentUrl() {
+  let path = window.location.pathname;
+  path = path.replace(RouterBasename, "");
+  return path;
+}
+
+function getMenuParentKey(key) {
+  let parentKey;
+  menuList.some((menu) => {
+    if (menu.key === key) {
+      parentKey = key;
+      return true;
+    }
+    if (Array.isArray(menu.children) && menu.children.length) {
+      return menu.children.some((child) => {
+        if (child.key === key) {
+          parentKey = child.parentKey;
+          return true;
+        }
+        return false;
+      });
+    }
+    return false;
+  });
+  return parentKey;
+}
 
 export {
-  currentMenu,
   getDefaultMenu,
   getSeesionUser,
   clearSessionUser,
   saveUser,
   sleep,
   getLocalUser,
+  getCurrentUrl,
+  getMenuParentKey,
 };

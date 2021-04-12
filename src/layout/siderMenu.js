@@ -30,13 +30,7 @@ const mapStateToProps = (state) => ({
   selectedKeys: state.global.selectMenuKey,
 });
 
-const MenuDom = ({
-  addOpenedMenuFn,
-  openKeys,
-  selectedKeys,
-  setSelectedKeys,
-  setOpenKeys,
-}) => {
+const MenuDom = ({ openKeys, selectedKeys, setOpenKeys }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [isFixed, setFixed] = useState(false);
   // 监听window 宽度变化
@@ -101,34 +95,7 @@ const MenuDom = ({
     });
   }, []);
   // 菜单点击
-  const menuClick = (items) => {
-    const { key, keyPath } = items;
-    if (keyPath.length === 1) {
-      const openKeyInfo = menuList.find((i) => i.key === key);
-      addOpenedMenuFn(openKeyInfo);
-      setSelectedKeys([key]);
-      setOpenKeys([]);
-      return;
-    }
-    const findKeyInfo = (list, key) => {
-      let item;
-      list.some((i) => {
-        if (i.key === key) {
-          item = i;
-          return true;
-        }
-        if (i.children) {
-          item = findKeyInfo(i.children, key);
-          return item;
-        }
-        return false;
-      });
-      return item;
-    };
-    const openKeyInfo = findKeyInfo(menuList, key);
-    addOpenedMenuFn(openKeyInfo);
-    setSelectedKeys([key]);
-  };
+
   return (
     <Sider width={200} collapsed={collapsed} className="site-layout-background">
       <Menu
@@ -136,7 +103,6 @@ const MenuDom = ({
         mode="inline"
         triggerSubMenuAction="click"
         className="layout-silder-menu hide-scrollbar"
-        onClick={menuClick}
         onOpenChange={onOpenChange}
         openKeys={openKeys}
         selectedKeys={selectedKeys}
