@@ -32,6 +32,9 @@ class Intercept extends React.Component {
       setOpenKeys,
       setSelectedKeys,
     } = this.props;
+    if (!title) {
+      return 
+    }
     document.title = title;
     const pagePath = getCurrentUrl();
     const findInfo = openMenus.find((i) => i.path === pagePath);
