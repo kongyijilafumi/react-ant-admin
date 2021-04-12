@@ -2,7 +2,6 @@ import * as actionTypes from "./actionTypes";
 import { getSeesionUser } from "@/utils";
 
 const initGlobalState = {
-  num: 0,
   openedMenu: [], // 保存已经打开的菜单栏 用于侧边栏
   openMenuKey: [], // 打开的菜单栏的key  用于顶部导航
   selectMenuKey: [], // 选中菜单栏的key  用户侧边栏
