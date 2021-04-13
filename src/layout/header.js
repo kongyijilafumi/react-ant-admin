@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout, Menu, Dropdown } from "antd";
-import { LogoutOutlined } from "@ant-design/icons";
 import logo from "@/asset/images/logo.svg";
+import MyIcon from "@/components/icon/";
 import { connect } from "react-redux";
 import { clearUser } from "@/store/action";
 import { clearSessionUser } from "@/utils";
@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const RightMenu = ({ logout }) => (
   <Menu className="right-down">
-    <Menu.Item key="logout" onClick={logout} icon={<LogoutOutlined />}>
+    <Menu.Item key="logout" onClick={logout} icon={<MyIcon  type="icon_disconnectdevice" />}>
       退出登录
     </Menu.Item>
   </Menu>

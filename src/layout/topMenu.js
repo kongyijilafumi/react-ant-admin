@@ -16,7 +16,6 @@ function TopMenu({ openedMenu, filterKey, history }) {
 
   const closeTopMenu = (path, nextItem, isCurrent) => {
     if (nextItem && isCurrent) {
-      debugger
       filterKey(path);
       history.replace(nextItem.path);
     }

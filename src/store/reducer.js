@@ -12,7 +12,7 @@ export default function reducer(state = initGlobalState, action) {
   const { openKey, type, info } = action;
   switch (type) {
     case actionTypes.ADDOPENTMENU: {
-      if (!state.openedMenu.find((i) => i.key === openKey.key)) {
+      if (!state.openedMenu.find((i) => i.path === openKey.path)) {
         const openedMenu = [...state.openedMenu];
         delete openKey.children;
         openedMenu.push(openKey);

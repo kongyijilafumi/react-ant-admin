@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
-import { saveUser,getLocalUser } from "@/utils";
+import MyIcon from "@/components/icon";
+import { saveUser, getLocalUser } from "@/utils";
 import { setUserInfoAction } from "@/store/action";
 import "./index.less";
 
@@ -42,19 +42,19 @@ function Login({ setUserInfo }) {
           className="login-form"
           initialValues={{
             remember: true,
-            ...getLocalUser()
+            ...getLocalUser(),
           }}
           onFinish={onFinish}
         >
           <Form.Item name="username" rules={IPT_RULE_USERNAME}>
             <Input
-              prefix={<UserOutlined className="site-form-item-icon" />}
+              prefix={<MyIcon type="icon_nickname" />}
               placeholder="用户名"
             />
           </Form.Item>
           <Form.Item name="password" rules={IPT_RULE_PASSWORD}>
             <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
+              prefix={<MyIcon type="icon_locking" />}
               type="password"
               placeholder="密码"
             />

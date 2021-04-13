@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { CloseOutlined } from "@ant-design/icons";
+import MyIcon from "@/components/icon";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./index.less";
 // 重新记录数组顺序
@@ -65,7 +65,7 @@ export default function Dnd({ rangeVal, currentKey, onClose, onChoose }) {
           >
             {/* 这里放置所需要拖拽的组件,必须要被 Draggable 包裹 */}
             {data.map((item, index) => (
-              <Draggable index={index} key={item.key} draggableId={item.key}>
+              <Draggable index={index} key={item.path} draggableId={item.path}>
                 {(provided, snapshot) => (
                   //在这里写你的拖拽组件的样式 dom 等等...
                   <div
@@ -81,7 +81,9 @@ export default function Dnd({ rangeVal, currentKey, onClose, onChoose }) {
                     onClick={() => onChoose(item)}
                   >
                     {item.title}
-                    <CloseOutlined
+                    <MyIcon
+                      className="anticon-close"
+                      type="icon_close"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();

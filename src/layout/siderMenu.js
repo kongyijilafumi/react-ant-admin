@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Button } from "antd";
 import { throttle } from "lodash";
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import MyIcon from "@/components/icon";
 import menuList from "@/common/menu";
 import { addOpenedMenu, setOpenKey, setSelectKey } from "@/store/action";
@@ -112,9 +111,7 @@ const MenuDom = ({ openKeys, selectedKeys, setOpenKeys }) => {
       <div className={isFixed ? "fold-control" : "fold-control fixed"}>
         <Button onClick={toggleCollapsed}>
           {collapsed ? "展开" : "收起"}
-          {React.createElement(
-            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined
-          )}
+          <MyIcon type={collapsed ? "icon_next" : "icon_back"} />
         </Button>
       </div>
     </Sider>

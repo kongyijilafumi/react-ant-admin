@@ -1,11 +1,14 @@
-import Home from "@pages/home";
-import Table from "@pages/table";
-import Shape from "@pages/table/shape";
-import Error404 from "@pages/err/404";
-import Form from "@pages/table/form";
-import Drag from "@pages/drag";
-import Icons from "@pages/icons";
+import loadable from "@loadable/component";
 import { Redirect } from "react-router-dom";
+
+const Table = loadable(() => import("@pages/table"));
+const Shape = loadable(() => import("@pages/table/shape"));
+const Error404 = loadable(() => import("@pages/err/404"));
+const Form = loadable(() => import("@pages/table/form"));
+const Drag = loadable(() => import("@pages/drag"));
+const Icons = loadable(() => import("@pages/icons"));
+const Home = loadable(() => import("@pages/home"));
+
 const routerList = [
   {
     path: "/",

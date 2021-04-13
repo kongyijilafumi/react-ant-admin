@@ -22,7 +22,8 @@ class Intercept extends React.Component {
     }
   }
   componentDidMount() {
-    this.setInfo(true);
+    this.setInfo();
+    this.scrollToTop();
   }
   setInfo = () => {
     const {
@@ -33,7 +34,7 @@ class Intercept extends React.Component {
       setSelectedKeys,
     } = this.props;
     if (!title) {
-      return 
+      return;
     }
     document.title = title;
     const pagePath = getCurrentUrl();
@@ -47,6 +48,15 @@ class Intercept extends React.Component {
   //
   componentDidRecover = () => {
     this.setInfo();
+    this.scrollToTop();
+  };
+  
+  scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   };
 
   addMenus = (info, key, path, title) => {
@@ -61,17 +71,17 @@ class Intercept extends React.Component {
 
   render() {
     const {
+      path,
       title,
       pageKey,
       openMenus,
       setOpenKeys,
-      path,
       setSelectedKeys,
       addOpenedMenuFn,
       components: Components,
       ...itemProps
     } = this.props;
-    return <Components pageKey={pageKey} {...itemProps} />;
+    return <Components {...itemProps} />;
   }
 }
 

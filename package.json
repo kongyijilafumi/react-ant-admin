@@ -1,8 +1,8 @@
 {
-  "name": "antd_admin",
+  "name": "react-ant-admin",
   "version": "0.1.0",
   "private": true,
-  "homepage":".",
+  "homepage": "/react-ant-admin",
   "dependencies": {
     "@babel/core": "7.12.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
@@ -164,6 +164,7 @@
     ]
   },
   "devDependencies": {
+    "@loadable/component": "^5.14.1",
     "echarts": "^5.0.2",
     "echarts-for-react": "^3.0.1",
     "less": "^4.1.1",
