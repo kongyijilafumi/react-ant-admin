@@ -1,18 +1,21 @@
 import React from "react";
 import { Layout } from "antd";
+import Header from "./header";
+import Menu from "./siderMenu";
+import TopMenu from "./topMenu";
+import Router from "@/router";
 import "./index.scss";
 const { Content } = Layout;
-
-const LayoutBody = ({ header, menu, content, topMenu }) => {
+const LayoutBody = () => {
   return (
     <Layout className="layout-body">
-      {header}
+      <Header />
       <Layout>
-        {menu}
+        <Menu />
         <Layout className="layout-content-wrap">
-          {topMenu}
+          <TopMenu />
           <Content className="site-layout-background layout-content-body">
-            {content}
+            <Router />
           </Content>
         </Layout>
       </Layout>

@@ -15,8 +15,8 @@ const mapDispatchToProps = (dispatch) => ({
 function TopMenu({ openedMenu, filterKey, history }) {
 
   const closeTopMenu = (path, nextItem, isCurrent) => {
+    filterKey(path);
     if (nextItem && isCurrent) {
-      filterKey(path);
       history.replace(nextItem.path);
     }
   };
@@ -25,11 +25,10 @@ function TopMenu({ openedMenu, filterKey, history }) {
     if (item.path === getCurrentUrl()) return;
     history.replace(item.path);
   };
-  
+
   return (
     <div className="top-menu">
       <MenuDnd
-        currentKey={getCurrentUrl()}
         rangeVal={openedMenu}
         onClose={closeTopMenu}
         onChoose={gotoMenuUrl}

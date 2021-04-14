@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import MyIcon from "@/components/icon";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { getCurrentUrl } from "@/utils";
 import "./index.less";
 // 重新记录数组顺序
 const reorder = (list, startIndex, endIndex) => {
@@ -12,9 +13,10 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-export default function Dnd({ rangeVal, currentKey, onClose, onChoose }) {
+export default function Dnd({ rangeVal, onClose, onChoose }) {
   const [data, setData] = useState([]);
-
+  const [currentKey, setCurrentKey] = useState("");
+  console.log(currentKey);
   // 根据 选中的菜单 往里添加拖拽选项
   useEffect(() => {
     let old = [...data];
@@ -25,6 +27,7 @@ export default function Dnd({ rangeVal, currentKey, onClose, onChoose }) {
     });
     old = old.filter((i) => rangeVal.find((item) => item.path === i.path));
     setData(old);
+    setCurrentKey(getCurrentUrl());
     // eslint-disable-next-line
   }, [rangeVal]);
 
@@ -48,8 +51,11 @@ export default function Dnd({ rangeVal, currentKey, onClose, onChoose }) {
   // 关闭当前顶部菜单
   const closeCurrent = (path) => {
     const newData = data.filter((i) => i.path !== path);
-    setData(newData);
-    onClose(path, newData[newData.length - 1], path === currentKey);
+    const next = newData[newData.length - 1];
+    if (next) {
+      setData(newData);
+    }
+    onClose(path, next, path === currentKey);
   };
 
   return (

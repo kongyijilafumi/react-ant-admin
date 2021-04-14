@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import Routes from "./index";
-import Layout from "@/layout";
-import Header from "@/layout/header";
-import Menu from "@/layout/siderMenu";
-import TopMenu from "@/layout/topMenu";
-import { connect } from "react-redux";
-import Login from "@pages/login";
 import { Spin } from "antd";
+import Layout from "@/layout";
+import Login from "@pages/login";
+import { connect } from "react-redux";
 import { RouterBasename } from "@/common";
 
 const mapStateToProps = (state) => ({
@@ -30,12 +26,7 @@ function AppRouter({ userInfo }) {
   if (!userInfo) return <Login />;
   return (
     <Router basename={RouterBasename}>
-      <Layout
-        header={<Header />}
-        menu={<Menu />}
-        content={<Routes />}
-        topMenu={<TopMenu />}
-      />
+      <Layout />
     </Router>
   );
 }

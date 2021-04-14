@@ -31,7 +31,7 @@ export default function reducer(state = initGlobalState, action) {
     }
     case actionTypes.FILTER_OPENKEY: {
       const openedMenu = state.openedMenu.filter((i) => i.path !== openKey);
-      if (state.openMenuKey.length === openedMenu.length) {
+      if (state.openedMenu.length === openedMenu.length) {
         return state;
       }
       return { ...state, openedMenu };
