@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, message } from "antd";
 import { connect } from "react-redux";
 import MyIcon from "@/components/icon";
 import { saveUser, getLocalUser } from "@/utils";
@@ -26,12 +26,19 @@ function Login({ setUserInfo }) {
   const [btnLoad, setBtnLoad] = useState(false);
   const onFinish = (values) => {
     setBtnLoad(true);
-    setBtnLoad(false);
-    if (values.remember) {
-      saveUser(values);
-    }
-    setUserInfo(values);
-    return false;
+    setTimeout(() => {
+      setBtnLoad(false);
+      if (values.username.includes("admin")) {
+        values.type = 0;
+      } else {
+        values.type = 1;
+      }
+      if (values.remember) {
+        saveUser(values);
+      }
+      message.success("登录成功！");
+      setUserInfo(values);
+    }, 1000);
   };
   return (
     <div className="login-container">
@@ -49,14 +56,14 @@ function Login({ setUserInfo }) {
           <Form.Item name="username" rules={IPT_RULE_USERNAME}>
             <Input
               prefix={<MyIcon type="icon_nickname" />}
-              placeholder="用户名"
+              placeholder="用户名:admin/user"
             />
           </Form.Item>
           <Form.Item name="password" rules={IPT_RULE_PASSWORD}>
             <Input
               prefix={<MyIcon type="icon_locking" />}
               type="password"
-              placeholder="密码"
+              placeholder="密码:123"
             />
           </Form.Item>
           <Form.Item>

@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { CacheRoute, CacheSwitch } from "react-router-cache-route";
 import routerList from "./route";
 import Intercept from "./intercept";
+import { getMenus } from "@/common";
+import { reduceMenuList } from "@/utils";
 
-const router = () => {
+const Router = () => {
+  const [list, setList] = useState([]);
+  useEffect(() => {
+    getMenus().then((res) => {
+      let list = reduceMenuList(res);
+      let routers = routerList.map((router) => {
+        let find = list.find((i) => i.path === router.path);
+        if (find) {
+          router.type = find.type;
+        }
+        return router;
+      });
+      setList(routers);
+    });
+  }, []);
   return (
     <CacheSwitch>
-      {routerList.map((item) => {
+      {list.map((item) => {
         let { key, path } = item;
         if (item.keepAlive === true) {
           return (
@@ -36,4 +52,4 @@ const router = () => {
   );
 };
 
-export default router;
+export default Router;

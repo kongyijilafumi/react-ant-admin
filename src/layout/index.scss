@@ -33,6 +33,7 @@
 
   .ant-layout-sider-children {
     position: relative;
+    height: auto;
   }
 
   .layout-content-wrap {
@@ -47,10 +48,12 @@
   }
 
   .layout-silder-menu {
-    height    : calc(100vh - 65px - 40px);
+    height    : calc(100vh - 64px );
     overflow-y: auto;
   }
-
+  .ant-affix .layout-silder-menu{
+    height    : 100vh;
+  }
   .fold-control {
     &.fixed {
       position: absolute;

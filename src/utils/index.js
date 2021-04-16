@@ -1,10 +1,12 @@
-import menuList from "@/common/menu";
+import { getMenus } from "@/common";
 import { RouterBasename } from "@/common";
 
-function getDefaultMenu() {
+// 获取默认页面
+async function getDefaultMenu() {
   let openKeys = [],
     selectKey = [],
     openedMenu = [];
+  const menuList = await getMenus();
   menuList.some((list) => {
     const child = list.children;
     if (child && child.length) {
@@ -48,14 +50,16 @@ function getLocalUser() {
   return userInfo ? JSON.parse(userInfo) : undefined;
 }
 
+// 获取当前url
 function getCurrentUrl() {
   let path = window.location.pathname;
   path = path.replace(RouterBasename, "");
   return path;
 }
 
-function getMenuParentKey(key) {
+async function getMenuParentKey(key) {
   let parentKey;
+  const menuList = await getMenus();
   menuList.some((menu) => {
     if (menu.key === key) {
       parentKey = key;
@@ -75,6 +79,28 @@ function getMenuParentKey(key) {
   return parentKey;
 }
 
+function filterMenuList(list, type) {
+  return list.filter((item) => {
+    if (item.children && Array.isArray(item.children) && item.children.length) {
+      item.children = filterMenuList(item.children, type);
+    }
+    if (item.type.includes(type)) {
+      return true;
+    }
+    return false;
+  });
+}
+
+function reduceMenuList(list) {
+  return list.reduce((a, c) => {
+    a.push(c);
+    if (c.children) {
+      a.push(...c.children);
+    }
+    return a;
+  }, []);
+}
+
 export {
   getDefaultMenu,
   getSeesionUser,
@@ -84,4 +110,6 @@ export {
   getLocalUser,
   getCurrentUrl,
   getMenuParentKey,
+  filterMenuList,
+  reduceMenuList,
 };

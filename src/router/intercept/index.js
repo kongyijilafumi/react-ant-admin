@@ -2,9 +2,10 @@ import React from "react";
 import { addOpenedMenu, setOpenKey, setSelectKey } from "@/store/action";
 import { connect } from "react-redux";
 import { getCurrentUrl, getMenuParentKey } from "@/utils";
-
+import Error from "@pages/err";
 const mapStateToProps = (state) => ({
   openMenus: state.global.openedMenu,
+  userInfo: state.global.userInfo,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -25,7 +26,7 @@ class Intercept extends React.Component {
     this.setInfo();
     this.scrollToTop();
   }
-  setInfo = () => {
+  setInfo = async () => {
     const {
       title,
       pageKey,
@@ -40,7 +41,7 @@ class Intercept extends React.Component {
     const pagePath = getCurrentUrl();
     const findInfo = openMenus.find((i) => i.path === pagePath);
     setSelectedKeys([pageKey]);
-    let openkey = getMenuParentKey(pageKey);
+    let openkey = await getMenuParentKey(pageKey);
     openkey = openkey ? [openkey] : [];
     setOpenKeys(openkey);
     this.addMenus(findInfo, pageKey, pagePath, title);
@@ -50,7 +51,7 @@ class Intercept extends React.Component {
     this.setInfo();
     this.scrollToTop();
   };
-  
+
   scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -78,9 +79,21 @@ class Intercept extends React.Component {
       setOpenKeys,
       setSelectedKeys,
       addOpenedMenuFn,
+      type,
       components: Components,
+      userInfo,
       ...itemProps
     } = this.props;
+    if (userInfo.type && type && !type.includes(userInfo.type)) {
+      return (
+        <Error
+          {...itemProps}
+          status="403"
+          title="权限不够"
+          subTitle="Sorry, you are not authorized to access this page."
+        />
+      );
+    }
     return <Components {...itemProps} />;
   }
 }

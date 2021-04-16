@@ -12,16 +12,24 @@ const mapDispatchToProps = (dispatch) => ({
   filterOpenKeyFn: (key) => dispatch(filterOpenKey(key)),
 });
 
-function Error404(props) {
-  const { openMenus, history, filterOpenKeyFn } = props;
-  const back = () => {
+function ErrorTemplate(props) {
+  const {
+    openMenus,
+    history,
+    filterOpenKeyFn,
+    status = "404",
+    title = "404",
+    subTitle = "Sorry, the page you visited does not exist.",
+  } = props;
+  const back = async () => {
+    const path = getCurrentUrl();
     // 顶部一个或以下被打开
     if (openMenus.length <= 1) {
-      const defaultMenu = getDefaultMenu();
+      filterOpenKeyFn(path);
+      const defaultMenu = await getDefaultMenu();
       history.replace(defaultMenu.openedMenu[0].path);
       return;
     }
-    const path = getCurrentUrl();
     // 从顶部打开的路径，再去跳转
     const menuList = openMenus.filter((i) => i.path !== path);
     filterOpenKeyFn(path);
@@ -30,9 +38,9 @@ function Error404(props) {
   };
   return (
     <Result
-      status="404"
-      title="404"
-      subTitle="Sorry, the page you visited does not exist."
+      status={status}
+      title={title}
+      subTitle={subTitle}
       extra={
         <Button type="primary" onClick={back}>
           Go Back
@@ -41,4 +49,5 @@ function Error404(props) {
     />
   );
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Error404);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorTemplate);

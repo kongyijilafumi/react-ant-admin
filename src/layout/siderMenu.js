@@ -1,48 +1,56 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Layout, Menu, Button } from "antd";
+import { Layout, Menu, Button, Affix } from "antd";
 import { throttle } from "lodash";
 import MyIcon from "@/components/icon";
-import menuList from "@/common/menu";
-import { addOpenedMenu, setOpenKey, setSelectKey } from "@/store/action";
+import { getMenus } from "@/common";
+import { setOpenKey } from "@/store/action";
+import { filterMenuList } from "@/utils";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-const allMenukey = menuList.reduce((a, c) => {
-  a.push(c.key);
-  if (c.children) {
-    a.push(...c.children.map((i) => i.key));
-  }
-  return a;
-}, []);
+function getAllMenuKey(list) {
+  return list.reduce((a, c) => {
+    a.push(c.key);
+    if (c.children) {
+      a.push(...c.children.map((i) => i.key));
+    }
+    return a;
+  }, []);
+}
 
 const mapDispatchToProps = (dispatch) => ({
-  addOpenedMenuFn: (val) => dispatch(addOpenedMenu(val)),
-  setSelectedKeys: (val) => dispatch(setSelectKey(val)),
   setOpenKeys: (val) => dispatch(setOpenKey(val)),
 });
 
 const mapStateToProps = (state) => ({
   openKeys: state.global.openMenuKey,
   selectedKeys: state.global.selectMenuKey,
+  userInfo: state.global.userInfo,
 });
 
-const MenuDom = ({ openKeys, selectedKeys, setOpenKeys }) => {
+const MenuDom = ({ openKeys, selectedKeys, setOpenKeys, userInfo }) => {
   const [collapsed, setCollapsed] = useState(false);
-  const [isFixed, setFixed] = useState(false);
+  const [menuList, setMenu] = useState([]);
+  // 设置菜单
+  useEffect(() => {
+    getMenus().then((res) => {
+      let list = filterMenuList(res, userInfo.type);
+      setMenu(list);
+    });
+    // eslint-disable-next-line
+  }, []);
   // 监听window 宽度变化
   const listenWindow = throttle(() => {
     const height = document.body.clientHeight;
     const width = document.body.clientWidth;
     if (height < 600 || width < 1100) {
       setCollapsed(true);
-      setFixed(true);
       return;
     }
-    if (collapsed || isFixed) {
-      setFixed(false);
+    if (collapsed) {
       setCollapsed(false);
     }
   }, 500);
@@ -53,10 +61,11 @@ const MenuDom = ({ openKeys, selectedKeys, setOpenKeys }) => {
       window.removeEventListener("resize", listenWindow, false);
     };
   });
+
   // 菜单组折叠
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
-    if (allMenukey.indexOf(latestOpenKey) === -1) {
+    if (getAllMenuKey(menuList).indexOf(latestOpenKey) === -1) {
       setOpenKeys(keys);
       return;
     }
@@ -92,29 +101,35 @@ const MenuDom = ({ openKeys, selectedKeys, setOpenKeys }) => {
         </SubMenu>
       );
     });
-  }, []);
+  }, [menuList]);
   // 菜单点击
 
   return (
-    <Sider width={200} collapsed={collapsed} className="site-layout-background">
-      <Menu
-        theme="dark"
-        mode="inline"
-        triggerSubMenuAction="click"
-        className="layout-silder-menu hide-scrollbar"
-        onOpenChange={onOpenChange}
-        openKeys={openKeys}
-        selectedKeys={selectedKeys}
+    <Affix>
+      <Sider
+        width={200}
+        collapsed={collapsed}
+        className="site-layout-background"
       >
-        {menu}
-      </Menu>
-      <div className={isFixed ? "fold-control" : "fold-control fixed"}>
-        <Button onClick={toggleCollapsed}>
-          {collapsed ? "展开" : "收起"}
-          <MyIcon type={collapsed ? "icon_next" : "icon_back"} />
-        </Button>
-      </div>
-    </Sider>
+        <Menu
+          theme="dark"
+          mode="inline"
+          triggerSubMenuAction="click"
+          className="layout-silder-menu hide-scrollbar"
+          onOpenChange={onOpenChange}
+          openKeys={openKeys}
+          selectedKeys={selectedKeys}
+        >
+          {menu}
+        </Menu>
+        <div className="fold-control fixed">
+          <Button onClick={toggleCollapsed}>
+            {collapsed ? "展开" : "收起"}
+            <MyIcon type={collapsed ? "icon_next" : "icon_back"} />
+          </Button>
+        </div>
+      </Sider>
+    </Affix>
   );
 };
 
