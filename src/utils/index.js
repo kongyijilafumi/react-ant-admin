@@ -1,5 +1,4 @@
-import { getMenus } from "@/common";
-import { RouterBasename } from "@/common";
+import { getMenus, RouterBasename } from "@/common";
 
 // 获取默认页面
 async function getDefaultMenu() {
@@ -101,6 +100,17 @@ function reduceMenuList(list) {
   }, []);
 }
 
+function getLocalMenu() {
+  let menu = localStorage.getItem("menu") || "null";
+  menu = JSON.parse(menu);
+  return menu;
+}
+
+function saveLocalMenu(list) {
+  let str = JSON.stringify(list || null);
+  localStorage.setItem("menu", str);
+}
+
 export {
   getDefaultMenu,
   getSeesionUser,
@@ -112,4 +122,6 @@ export {
   getMenuParentKey,
   filterMenuList,
   reduceMenuList,
+  getLocalMenu,
+  saveLocalMenu,
 };

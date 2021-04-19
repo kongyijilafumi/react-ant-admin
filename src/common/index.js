@@ -1,3 +1,5 @@
+import { getLocalMenu, saveLocalMenu } from "../utils";
+
 const RouterBasename = "/react-ant-admin";
 
 // 假设这是ajax返回的数据
@@ -79,6 +81,10 @@ const menu = [
 
 function getMenus() {
   return new Promise((res, rej) => {
+    let localMenu = getLocalMenu();
+    if (localMenu) {
+      return res(localMenu);
+    }
     let list = menu.map((item) => ({ ...item }));
     let data = list.map((i) => {
       if (i.children) {
@@ -94,6 +100,7 @@ function getMenus() {
       i.parentKey = "";
       return i;
     });
+    saveLocalMenu(data);
     res(data);
   });
 }
