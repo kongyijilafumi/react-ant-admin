@@ -1,0 +1,49 @@
+.dnd-body {
+  height     : 35px;
+  box-sizing : content-box;
+  padding-top: 5px;
+  white-space: nowrap;
+  overflow-x : scroll;
+  overflow-y : hidden;
+  font-size  : 0;
+
+  .dnd-items {
+    position        : relative;
+    display         : inline-block;
+    padding         : 10px 40px 5px 10px;
+    font-size       : 12px;
+    border          : 1px solid #e9e9e9;
+    border-radius   : 15px 15px 0 0;
+    margin-right    : 2px;
+    background-color: #f7f7f7;
+    box-sizing      : border-box;
+    overflow        : hidden;
+    text-overflow   : ellipsis;
+    cursor          : pointer !important;
+    white-space     : nowrap;
+    color           : #000;
+
+    &.active {
+      background-color: #fff;
+    }
+
+    &:focus {
+      outline: unset;
+    }
+
+
+    .anticon-close {
+      position: absolute;
+      top     : 5px;
+      right   : 5px;
+      width   : 15px;
+      height  : 15px;
+
+      svg {
+        width : inherit;
+        height: inherit;
+        color : #e4e3e3;
+      }
+    }
+  }
+}

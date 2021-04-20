@@ -1,0 +1,114 @@
+.ant-menu-item {
+  align-items: center;
+  display    : flex;
+
+  .anticon {
+    font-size: 24px;
+  }
+}
+
+.layout-body {
+  min-height: 100vh;
+
+  .ant-menu {
+    .ant-menu-submenu .ant-menu-submenu-title .anticon {
+      font-size     : 24px;
+      vertical-align: middle;
+
+    }
+
+    .ant-menu-item {
+      align-items: center;
+      display    : flex;
+
+      .anticon {
+        font-size: 24px;
+      }
+    }
+  }
+
+  .ant-menu-dark.ant-menu-inline .ant-menu-submenu-title {
+    @include text-over;
+  }
+
+  .ant-layout-sider-children {
+    position: relative;
+    height  : auto;
+  }
+
+  .layout-content-wrap {
+    padding   : 0 24px 24px;
+    margin    : 0;
+    min-height: 200px;
+  }
+
+  .layout-content-body {
+
+    &>div {
+      background: #fff;
+      min-height: 100%;
+    }
+  }
+
+  .layout-silder-menu {
+    height    : calc(100vh - 64px);
+    overflow-y: auto;
+  }
+
+  .ant-affix .layout-silder-menu {
+    height: 100vh;
+  }
+
+  .fold-control {
+    &.fixed {
+      position: absolute;
+      bottom  : 0;
+      right   : 0;
+      width   : 100%;
+    }
+
+    .ant-btn {
+      width     : 100%;
+      background: unset;
+      color     : #fff;
+      border    : 0;
+      outline   : none;
+      transition: none;
+
+    }
+  }
+
+  .top-menu {
+    margin    : 10px 0;
+    overflow-x: auto;
+    background: #fff;
+  }
+
+  .header {
+    color: #fff;
+
+    .logo {
+      float: left;
+
+
+      span {
+        vertical-align: middle;
+        padding       : 0 10px;
+        font-size     : 16px;
+      }
+
+      img {
+        width : 40px;
+        height: 40px;
+      }
+    }
+
+    .right {
+      float: right;
+    }
+
+    .right-down {
+      background-color: #fafafa;
+    }
+  }
+}
