@@ -22,18 +22,24 @@ const menu = [
       {
         title: "表格",
         key: "t_table",
+        parentPath: "/table",
+        parentKey: "table",
         path: "/table",
         type: [0, 1],
       },
       {
         title: "图表",
         key: "shape",
+        parentPath: "/table",
+        parentKey: "table",
         path: "/shape",
         type: [0, 1],
       },
       {
         title: "表单",
         key: "form",
+        parentPath: "/table",
+        parentKey: "table",
         path: "/form",
         type: [0, 1],
       },
@@ -67,11 +73,15 @@ const menu = [
         title: "权限页：低级",
         key: "power1",
         path: "/1",
+        parentPath: "/power",
+        parentKey: "power",
         type: [0, 1],
       },
       {
         title: "权限页：高级",
         key: "power0",
+        parentPath: "/power",
+        parentKey: "power",
         path: "/0",
         type: [0],
       },
@@ -92,7 +102,6 @@ function getMenus() {
           return {
             ...child,
             parentKey: i.key,
-            path: i.path + child.path,
           };
         });
         i.children = temp;

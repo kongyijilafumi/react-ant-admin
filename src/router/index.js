@@ -12,9 +12,11 @@ const Router = () => {
     getMenus().then((res) => {
       let list = reduceMenuList(res);
       let routers = routerList.map((router) => {
-        let find = list.find((i) => i.path === router.path);
+        let find = list.find(
+          (i) => (i.parentPath || "") + i.path === router.path
+        );
         if (find) {
-          router.type = find.type;
+          router = { ...find, ...router };
         }
         return router;
       });

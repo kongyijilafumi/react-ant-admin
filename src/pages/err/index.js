@@ -18,28 +18,30 @@ function ErrorTemplate(props) {
     history,
     filterOpenKeyFn,
     status = "404",
-    title = "404",
+    errTitle = "404",
     subTitle = "Sorry, the page you visited does not exist.",
   } = props;
   const back = async () => {
-    const path = getCurrentUrl();
+    const url = getCurrentUrl();
     // 顶部一个或以下被打开
     if (openMenus.length <= 1) {
-      filterOpenKeyFn(path);
+      filterOpenKeyFn(url);
       const defaultMenu = await getDefaultMenu();
-      history.replace(defaultMenu.openedMenu[0].path);
+      if (defaultMenu.openedMenu.length === 0) return history.replace("/");
+      let { parentPath, path } = defaultMenu.openedMenu[0];
+      history.replace(parentPath + path);
       return;
     }
     // 从顶部打开的路径，再去跳转
-    const menuList = openMenus.filter((i) => i.path !== path);
-    filterOpenKeyFn(path);
+    const menuList = openMenus.filter((i) => i.path !== url);
+    filterOpenKeyFn(url);
     const next = menuList[menuList.length - 1];
     history.replace(next.path);
   };
   return (
     <Result
       status={status}
-      title={title}
+      title={errTitle}
       subTitle={subTitle}
       extra={
         <Button type="primary" onClick={back}>

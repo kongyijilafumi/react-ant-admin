@@ -53,23 +53,28 @@ instance.interceptors.request.use(
   }
 );
 
-instance.interceptors.response.use(function (response) {
-  const { response } = error;
-  if (response && response.status) {
-    const errorText = codeMessage[response.status] || response.statusText;
-    const { status, config } = response;
-    notification.error({
-      message: `请求错误 ${status}: ${config.url}`,
-      description: errorText,
-    });
-    console.log(response, errorText);
-  } else if (!response) {
-    notification.error({
-      description: "您的网络发生异常，无法连接服务器",
-      message: "网络异常",
-    });
+instance.interceptors.response.use(
+  function (response) {
+    return response && response.data;
+  },
+  function (error) {
+    const { response } = error;
+    if (response && response.status) {
+      const errorText = codeMessage[response.status] || response.statusText;
+      const { status, config } = response;
+      notification.error({
+        message: `请求错误 ${status}: ${config.url}`,
+        description: errorText,
+      });
+      console.log(response, errorText);
+    } else if (!response) {
+      notification.error({
+        description: "您的网络发生异常，无法连接服务器",
+        message: "网络异常",
+      });
+    }
+    // 对响应错误做点什么
+    return Promise.reject(error);
   }
-  // 对响应错误做点什么
-  return Promise.reject(error);
-});
+);
 export default instance;

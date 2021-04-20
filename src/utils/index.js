@@ -101,14 +101,14 @@ function reduceMenuList(list) {
 }
 
 function getLocalMenu() {
-  let menu = localStorage.getItem("menu") || "null";
+  let menu = sessionStorage.getItem("menu") || "null";
   menu = JSON.parse(menu);
   return menu;
 }
 
 function saveLocalMenu(list) {
   let str = JSON.stringify(list || null);
-  localStorage.setItem("menu", str);
+  sessionStorage.setItem("menu", str);
 }
 
 export {

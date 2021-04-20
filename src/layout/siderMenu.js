@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Button, Affix } from "antd";
-import { throttle } from "lodash";
 import MyIcon from "@/components/icon";
 import { getMenus } from "@/common";
 import { setOpenKey } from "@/store/action";
@@ -42,25 +41,6 @@ const MenuDom = ({ openKeys, selectedKeys, setOpenKeys, userInfo }) => {
     });
     // eslint-disable-next-line
   }, []);
-  // 监听window 宽度变化
-  const listenWindow = throttle(() => {
-    const height = document.body.clientHeight;
-    const width = document.body.clientWidth;
-    if (height < 600 || width < 1100) {
-      setCollapsed(true);
-      return;
-    }
-    if (collapsed) {
-      setCollapsed(false);
-    }
-  }, 500);
-  // 启动监听
-  useEffect(() => {
-    window.addEventListener("resize", listenWindow, false);
-    return () => {
-      window.removeEventListener("resize", listenWindow, false);
-    };
-  });
 
   // 菜单组折叠
   const onOpenChange = (keys) => {
@@ -94,7 +74,7 @@ const MenuDom = ({ openKeys, selectedKeys, setOpenKeys, userInfo }) => {
           {item.children.map((child) => {
             return (
               <Menu.Item key={child.key} icon={<MyIcon type={child.icon} />}>
-                <Link to={child.path}>{child.title}</Link>
+                <Link to={child.parentPath + child.path}>{child.title}</Link>
               </Menu.Item>
             );
           })}

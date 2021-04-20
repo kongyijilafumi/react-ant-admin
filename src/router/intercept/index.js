@@ -89,7 +89,7 @@ class Intercept extends React.Component {
         <Error
           {...itemProps}
           status="403"
-          title="权限不够"
+          errTitle="权限不够"
           subTitle="Sorry, you are not authorized to access this page."
         />
       );
