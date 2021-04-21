@@ -7,12 +7,13 @@ const IndexForm = loadable(() => import("@pages/form"));
 const Add = loadable(() => import("@pages/add"));
 const Person = loadable(() => import("@pages/details/person"));
 const Error = loadable(() => import("@pages/err"));
+const PowerMenu = loadable(() => import("@pages/power/menu"));
 
 const routerList = [
   {
     path: "/",
     key: "index",
-    to: "/list/card",
+    to: "/details/person",
     components: Redirect,
   },
   {
@@ -54,6 +55,10 @@ const routerList = [
   {
     path: "/details/person",
     components: Person,
+  },
+  {
+    path: "/power/menu",
+    components: PowerMenu,
   },
   {
     path: "*",

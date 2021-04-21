@@ -1,11 +1,11 @@
 import axios from "axios";
-import { notification } from "antd";
+import { message, notification } from "antd";
 import { getLocalUser } from "@/utils";
 // 请求地址
 const BASE_URL =
   process.env.NODE_ENV === "development"
-    ? "http://127.0.0.1:8081"
-    : "http://azhengpersonalblog.top/";
+    ? "http://127.0.0.1:8081/api/react-ant-admin"
+    : "http://azhengpersonalblog.top/api/react-ant-admin";
 
 // 错误信息
 const codeMessage = {
@@ -67,6 +67,12 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
+    if (response.data) {
+      let { msg, status } = response.data;
+      if (status === 1) {
+        message.error(msg);
+      }
+    }
     return response && response.data;
   },
   function (error) {

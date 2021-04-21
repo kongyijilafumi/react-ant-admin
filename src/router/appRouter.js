@@ -24,10 +24,9 @@ function AppRouter({ userInfo, setUser }) {
     if (!info) return setLoad(false);
     login(info)
       .then((res) => {
-        const { data, status, msg } = res;
+        const { data, status } = res;
         let token = info.token || res.token;
         if (status === 0) {
-          message.success(msg);
           data.token = token;
           setLoad(false);
           setUser(data);

@@ -86,7 +86,6 @@ export default function Person() {
   const [tags, setTag] = useState(tagInitVal);
   const [isInput, setInput] = useState(false);
   const [value, setVal] = useState("");
-  console.log(tags);
   const addTags = () => {
     if (!value) {
       return setInput(false);

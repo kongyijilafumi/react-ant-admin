@@ -37,7 +37,7 @@ function Login({ setUserInfo }) {
         data.token = token;
         message.success(msg);
         if (values.remember) {
-          saveUser(values);
+          saveUser(data);
         }
         setUserInfo(data);
       })

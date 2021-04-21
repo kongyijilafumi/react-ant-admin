@@ -6,8 +6,50 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "938264",
+      "name": "set",
+      "font_class": "set",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "7141681",
+      "name": "list",
+      "font_class": "list",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "18727226",
+      "name": "form",
+      "font_class": "form",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "19457235",
+      "name": "result",
+      "font_class": "jieguozhanshiye",
+      "unicode": "e74b",
+      "unicode_decimal": 59211
+    },
+    {
+      "icon_id": "1327516",
+      "name": "zan",
+      "font_class": "zan",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "128976",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e7ab",
+      "unicode_decimal": 59307
+    },
+    {
       "icon_id": "7832285",
-      "name": "shangpin",
+      "name": "商品",
       "font_class": "shangpin",
       "unicode": "e74a",
       "unicode_decimal": 59210
