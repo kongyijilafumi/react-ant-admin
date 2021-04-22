@@ -43,15 +43,14 @@ export default function AddMenu({
   }, []);
 
   useEffect(() => {
-    if (modalType === "edit") {
+    if (modalType === "edit" && isShow) {
       getMenuInfo({ key: info.key }).then((res) => {
         if (res.status === 0 && res.data) {
           res.data.type = res.data.type.split(",");
           form.setFieldsValue(res.data);
         }
       });
-    } else if (modalType === "addChild") {
-      console.log("1111111");
+    } else if (modalType === "addChild" && isShow) {
       form.setFieldsValue({
         parentKey: info.key,
       });
@@ -112,7 +111,7 @@ export default function AddMenu({
         <Form.Item name="key" rules={keyRules} label="菜单key">
           <Input placeholder="菜单key值必须唯一，否则创建失败" />
         </Form.Item>
-        {info && !info.isParent && modalType !== "add" && (
+        {info && modalType !== "add" && (
           <Form.Item name="parentKey" label="父级菜单">
             <Select placeholder="父级菜单" disabled={modalType === "addChild"}>
               {parentKeys.map((parent) => (

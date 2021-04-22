@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Tree, Row, Col, Button, message, Popconfirm } from "antd";
 import MyIcon from "@/components/icon";
 import { getMenu, delMenu } from "@/api";
-import AddModal from "@/components/modal/add-menu";
+import MenuModal from "@/components/modal/menu";
 import "./index.scss";
 
 const { TreeNode } = Tree;
@@ -10,7 +10,7 @@ const { TreeNode } = Tree;
 export default function Menu() {
   const [menus, setMenu] = useState([]);
   const [selectInfo, setSelectInfo] = useState(null);
-  const [showAdd, setShowAdd] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   useEffect(() => {
     getMenuList();
@@ -38,7 +38,7 @@ export default function Menu() {
 
   const openModal = (type) => {
     setModalType(type);
-    setShowAdd(true);
+    setShowModal(true);
   };
 
   const setMenuInfo = () => {
@@ -111,11 +111,11 @@ export default function Menu() {
           )}
         </Col>
       </Row>
-      <AddModal
-        isShow={showAdd}
+      <MenuModal
+        isShow={showModal}
         info={selectInfo}
         modalType={modalType}
-        setShow={setShowAdd}
+        setShow={setShowModal}
         updateMenu={getMenuList}
       />
     </div>
