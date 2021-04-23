@@ -55,8 +55,4 @@ function AppRouter({ userInfo, setUser }) {
   );
 }
 
-<<<<<<< HEAD
 export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);
-=======
-export default connect(mapStateToProps, null)(AppRouter);
->>>>>>> 5c0db185c8e55013943334a5cbbd958485ca897f

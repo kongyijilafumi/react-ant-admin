@@ -1,7 +1,8 @@
 # react-ant-admin
 
-此框架使用与二次开发，前端框架使用react，UI框架使用ant-design，全局数据状态管理使用redux，ajax使用库为axios。用于快速搭建中后台页面。
+此框架使用与二次开发，前端框架使用react，UI框架使用ant-design，全局数据状态管理使用redux，ajax使用库为axios。用于快速搭建中后台页面。欢迎各位提[issue](https://github.com/kongyijilafumi/react-ant-admin/issues)
 * [react](https://react.docschina.org/)
+* [react-router-cache-route](https://www.npmjs.com/package/react-router-cache-route)
 * [ant-design](https://ant.design/index-cn)
 * [redux](https://redux.js.org/)
 * [axios](http://www.axios-js.com/)
@@ -10,38 +11,31 @@
 
 [react-ant-admin](http://azhengpersonalblog.top/react-ant-admin/)
 
-## 示例图
+## 特性
+- 菜单配置:扁平化数据组织,方便编写,存库,页面菜单,标题,侧边栏,顶部导航栏同步
+- 页面懒加载:使用[@loadable/component](https://loadable-components.com/docs/getting-started/)来解决首次打开页面过慢的问题.
+- Ajax请求：restful规范，自动错误提示，提示可配置；自动打断未完成的请求；
+- 权限控制: 根据不用角色的功能类型显示菜单,路由页面拦截.
 
-* 登录
+系统提供了一些基础的页面
+- 登录页
+- 详情页
+- 表单页
+- 列表页
+- 权限管理
+- 结果页
 
-![登录](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-doc01.png)
+## 快速使用
 
-* 首页
-
-![首页](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-doc02.png)
-
-* 表格
-
-![表格](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-doc03.png)
-
-* icon库
-
-![icon库](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-doc04.png)
-
-* 拖拽组件
-
-![拖拽组件](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-doc05.png)
-
-## 使用
-
-* 当然是检查是否有node环境！
+1. 下载本项目到本地
 
 ```
-C:>node -v
-v12.*.*
+D:> git clone https://github.com/kongyijilafumi/react-ant-admin.git //github地址 慢
+D:> git clone https://gitee.com/kong_yiji_and_lavmi/react-ant-admin.git //码云地址 快
+
 ```
 
-* 安装依赖
+2. 安装依赖
 
 ```js
 // npm 慢
@@ -50,78 +44,142 @@ npm i
 cnpm i
 ```
 
-* 启动
+3. 启动
 
 ```
-npm run start
+npm run "start mock" // 启动本地mock数据 (暂时没有后台接口,请用此模式预览项目)
+npm run start // 启动本地API接口来获取数据
 
 浏览器打开  http://localhost:3000   即可
 ```
+## 创建一个新的页面
 
-
-## 使用指南
-
- * 你可以在该项目使用less，scss的css预处理语言
-
- >若你想要全局引用样式文件，需要在根目录下的/config/webpack.config.js文件，找到rules里的css匹配规则自行添加全局引用的文件路径。举例：
-
- ```js
-{
-  test: cssRegex,
-  exclude: cssModuleRegex,
-  use: getStyleLoaders({
-    importLoaders: 1,
-    sourceMap: isEnvProduction
-      ? shouldUseSourceMap
-      : isEnvDevelopment,
-  }).concat({
-    loader: "sass-resources-loader",
-    options: {
-      resources: [
-        // resolve方法第二个参数为scss配置文件地址，如果有多个，就进行依次添加即可
-        path.resolve(paths.appSrc, "asset/css/global.css"), // 路径指向 root/src/asset/css/global.css
-      ],
-    },
-  }),
-  sideEffects: true,
-},
- ```
-* 导航栏同步，可拖拽的顶部导航栏
-
->左侧导航栏与顶部导航栏会同步显示高亮，顶部导航栏使用react-beautiful-dnd组件进行拖拽排序，方便快速浏览
-
-* 别名使用
-
-`@`:指向当前项目的src文件路径
-
-`@pages`:指向当前项目的`src/pages`文件路径
-
-若自行想添加别名，可以在`/config/webpack.config.js`文件，找到alias字样自行添加相应路径即可。 举例：
-
+1. 在src/pages文件夹下创建一个test.js文件,代码如下
 ```js
-alias:{
-  .....
-  "@asset":path.join(paths.appSrc,"asset"),
+// 函数组件
+import React from "react";
+
+export default function Test() {
+  return <div>test页面</div>;
 }
+// 类组件
+import React from "react";
+
+export default class Test extends React.Component {
+  render() {
+    return <div>test页面</div>;
+  }
+}
+
 ```
 
-* 使用keep-alive对页面数据持久化
-
->在当前项目`src/pages/`下完成页面编写后， 在`src/router/route/index.js`配置加上编写的组件，渲染的方式，对应的路由等等...
-举例：
+2. 在``src/router/route/index.js`文件里追加路由信息.代码如下
 
 ```js
-import Home from "@pages/home"; 
-const routerList = [{
-    ......
-  },{
-  path: "/home",
-  keepAlive: true, // 页面数据持久化
-  title: "主页",
-  key: "Home",
-  components: Home,// 导入的组件
-}] 
+import loadable from "@loadable/component";
+import { Redirect } from "react-router-dom";
+// .....
+const Test = loadable(() => import("@pages/test")); // 支持路由懒加载
+// 路由列表
+const routerList = [
+  {
+    path: "/",
+    key: "index",
+    to: "/details/person",
+    components: Redirect,
+  },
+  // ....
+  {
+    path: "/test", // 对应的路由
+    key: "test",// 必要
+    title: "test页面",// 标题
+    components: Test,
+  },
+];
+
 export default routerList;
+
 ```
 
-* 更多内容还在努力完善
+3. 浏览器访问 http://localhost:3000/react-ant-admin/test 即可
+
+## 创建一个菜单
+
+该添加方式适用于 npm run "start mock" 启动的项目
+
+1. 在``src/mock/index.js`` 找到``menu``变量,往里添加一条菜单信息.代码如下所示
+
+```js
+import dayjs from "dayjs";
+let menu = [
+   {
+    title: "详情页",
+    path: "/details",
+    key: "details",
+    parentKey: "",
+    icon: "icon_edit",
+    type: "1,0",
+  },
+  {
+    title: "个人中心",
+    path: "/person",
+    key: "detailsPerson",
+    parentKey: "details",
+    icon: "icon_infopersonal",
+    type: "0,1",
+  },
+  // .... 开始添加菜单信息 ....
+  {
+    title: "test",
+    path: "/test",
+    key: "test",
+    parentKey: "",// 空表示 为主菜单而非子菜单
+    icon: "icon_infopersonal",// 菜单图标
+    type: "0,1", // 访问权限,自定义,当前项目 0为管理员,1为普通用户.原始数据为字符串形式,会中途进行转化为数组形式["0","1"]
+  }
+  // .....
+]
+
+```
+
+2. 由于菜单会走本地会话存储``window.sessionStorage``,所以报错代码后需要关闭当前窗口,重新打开地址  http://localhost:3000/react-ant-admin  
+
+>打开之后,会发现菜单会多出一个``test``栏目,点击会打开之前我们创建的test页面.这样就完成了菜单和页面的编写.
+
+
+## 文档地址
+
+还在努力创建中....
+
+更多建议欢迎骚扰~
+
+
+## 项目截图
+
+* 登录
+
+![登录](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-doc01.png)
+
+* 详情页
+
+![详情页](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-detail.png)
+
+* 列表
+
+![表格](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-list.png)
+
+* 权限管理
+
+![权限管理](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-power.png)
+
+* 结果页
+
+![结果页](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-result.png)
+
+
+
+企鹅号:``1369501150``
+
+邮箱:``1369501150@qq.com``
+
+欢迎各位提出建议与问题!
