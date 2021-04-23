@@ -142,7 +142,7 @@ let menu = [
 
 ```
 
-2. 由于菜单会走本地会话存储``window.sessionStorage``,所以报错代码后需要关闭当前窗口,重新打开地址  http://localhost:3000/react-ant-admin  
+2. 由于菜单会走本地会话存储``window.sessionStorage``,所以保存代码后需要关闭当前窗口,重新打开地址  http://localhost:3000/react-ant-admin  
 
 >打开之后,会发现菜单会多出一个``test``栏目,点击会打开之前我们创建的test页面.这样就完成了菜单和页面的编写.
 
