@@ -1,4 +1,5 @@
 import axios from "axios";
+<<<<<<< HEAD
 import { message, notification } from "antd";
 import { getLocalUser } from "@/utils";
 // 请求地址
@@ -6,6 +7,11 @@ const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://127.0.0.1:8081/api/react-ant-admin"
     : "http://azhengpersonalblog.top/api/react-ant-admin";
+=======
+import { notification } from "antd";
+// 请求地址
+const BASE_URL = process.env.NODE_ENV === "development" ? "" : "";
+>>>>>>> 5c0db185c8e55013943334a5cbbd958485ca897f
 
 // 错误信息
 const codeMessage = {
