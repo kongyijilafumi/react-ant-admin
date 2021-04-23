@@ -76,6 +76,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
+    "start mock": "env-cmd -f .env.mock node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },
@@ -165,8 +166,10 @@
   },
   "devDependencies": {
     "@loadable/component": "^5.14.1",
+    "dayjs": "^1.10.4",
     "echarts": "^5.0.2",
     "echarts-for-react": "^3.0.1",
+    "env-cmd": "^10.1.0",
     "less": "^4.1.1",
     "less-loader": "^5.0.0",
     "react-beautiful-dnd": "^13.0.0",

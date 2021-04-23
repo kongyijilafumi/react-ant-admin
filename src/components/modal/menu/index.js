@@ -113,7 +113,13 @@ export default function AddMenu({
         </Form.Item>
         {info && modalType !== "add" && (
           <Form.Item name="parentKey" label="父级菜单">
-            <Select placeholder="父级菜单" disabled={modalType === "addChild"}>
+            <Select
+              placeholder="父级菜单"
+              disabled={
+                modalType === "addChild" ||
+                (modalType === "edit" && info.isParent)
+              }
+            >
               {parentKeys.map((parent) => (
                 <Option value={parent.key} key={parent.key}>
                   {parent.title}
