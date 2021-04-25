@@ -87,7 +87,9 @@ instance.interceptors.response.use(
       if (response.status === 401 || response.status === 403) {
         sessionStorage.clear();
         localStorage.clear();
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }
     } else if (!response) {
       notification.error({

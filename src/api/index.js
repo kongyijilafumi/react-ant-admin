@@ -10,6 +10,8 @@ const getPower = () => request.get("/getpower");
 const delMenu = (data) => request.post("/delmenu", data);
 const getMenuInfo = (data) => request.post("/getmenuinfo", data);
 const editMenu = (data) => request.post("/editmenuinfo", data);
+const getVistor = (data) => request.post("/getiplist", data);
+
 export {
   getMenu,
   login,
@@ -20,4 +22,5 @@ export {
   delMenu,
   getMenuInfo,
   editMenu,
+  getVistor
 };

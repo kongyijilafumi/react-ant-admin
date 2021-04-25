@@ -4,10 +4,10 @@ import { Redirect } from "react-router-dom";
 const Card = loadable(() => import("@pages/list/card"));
 const Search = loadable(() => import("@pages/list/search"));
 const IndexForm = loadable(() => import("@pages/form"));
-const Add = loadable(() => import("@pages/add"));
 const Person = loadable(() => import("@pages/details/person"));
 const Error = loadable(() => import("@pages/err"));
 const PowerMenu = loadable(() => import("@pages/power/menu"));
+const Vistor = loadable(() => import("@pages/statistics/vistor"));
 
 const routerList = [
   {
@@ -48,17 +48,16 @@ const routerList = [
     components: Error,
   },
   {
-    path: "/add",
-    key: "add",
-    components: Add,
-  },
-  {
     path: "/details/person",
     components: Person,
   },
   {
     path: "/power/menu",
     components: PowerMenu,
+  },
+  {
+    path: "/statistics/vistor",
+    components: Vistor,
   },
   {
     path: "*",
