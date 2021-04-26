@@ -1,6 +1,6 @@
 import axios from "axios";
 import { message, notification } from "antd";
-import { getLocalUser } from "@/utils";
+import { getToken } from "@/utils";
 // 请求地址
 const BASE_URL =
   process.env.NODE_ENV === "development"
@@ -49,11 +49,7 @@ const instance = axios.create(config);
 instance.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
-    let userInfo = getLocalUser();
-    let token;
-    if (userInfo) {
-      token = userInfo.token;
-    }
+    let token = getToken();
     if (token) {
       config.headers["authorization"] = token;
     }

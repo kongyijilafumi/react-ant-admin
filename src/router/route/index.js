@@ -56,7 +56,7 @@ const routerList = [
     components: PowerMenu,
   },
   {
-    path: "/statistics/vistor",
+    path: "/statistics/visitor",
     components: Vistor,
   },
   {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MyIcon from "@/components/icon";
-import { Modal, Form, Input, Select, message } from "antd";
+import { Modal, Form, Input, Select, message, Radio } from "antd";
 import { getPower, addMenu, getMenu, getMenuInfo, editMenu } from "@/api";
 import "./index.scss";
 
@@ -11,6 +11,7 @@ const titleRules = [{ required: true, message: "请填写菜单标题" }];
 const pathRules = [{ required: true, message: "请填写菜单路径" }];
 const keyRules = [{ required: true, message: "请填写菜单key值" }];
 const powerRules = [{ required: true, message: "请填写菜单权限可见" }];
+const keepRules = [{ required: true, message: "请选择菜单缓存模式" }];
 const { Option } = Select;
 const titleType = {
   add: "新增菜单",
@@ -154,6 +155,12 @@ export default function AddMenu({
               </Option>
             ))}
           </Select>
+        </Form.Item>
+        <Form.Item rules={keepRules} name="keepAlive" label="页面是否缓存">
+          <Radio.Group>
+            <Radio value="true">是</Radio>
+            <Radio value="false">否</Radio>
+          </Radio.Group>
         </Form.Item>
       </Form>
     </Modal>

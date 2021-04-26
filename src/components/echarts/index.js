@@ -1,9 +1,6 @@
-import React from "react";
-import ReactEcharts from 'echarts-for-react';
-const Echart = ({ option, theme = "light", style }) => {
-    return (
-        <ReactEcharts option={option} theme={theme} style={style} />
-    )
-}
+import loadable from "@loadable/component";
+const Line = loadable(() => import("./line"));
+const Bar = loadable(() => import("./bar"));
+const Pie = loadable(() => import("./pie"));
 
-export default Echart
+export { Line, Bar, Pie };

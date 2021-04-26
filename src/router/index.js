@@ -27,7 +27,7 @@ const Router = () => {
     <CacheSwitch>
       {list.map((item) => {
         let { key, path } = item;
-        if (item.keepAlive === true) {
+        if (item.keepAlive === "true") {
           return (
             <CacheRoute
               key={key}

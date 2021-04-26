@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Button, Checkbox, message } from "antd";
 import { connect } from "react-redux";
 import MyIcon from "@/components/icon";
-import { saveUser, getLocalUser } from "@/utils";
+import { saveUser, getLocalUser, saveToken } from "@/utils";
 import { setUserInfoAction } from "@/store/action";
 import { login } from "@/api";
 import "./index.less";
@@ -34,7 +34,8 @@ function Login({ setUserInfo }) {
         if (status === 1) {
           return message.error(msg);
         }
-        data.token = token;
+        saveToken(token);
+        data.pswd = values.pswd;
         message.success(msg);
         if (values.remember) {
           saveUser(data);

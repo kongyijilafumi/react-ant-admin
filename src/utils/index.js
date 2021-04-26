@@ -111,6 +111,15 @@ function saveLocalMenu(list) {
   sessionStorage.setItem("menu", str);
 }
 
+function saveToken(token) {
+  let str = token || "";
+  localStorage.setItem("token", str);
+}
+
+function getToken() {
+  return localStorage.getItem("token");
+}
+
 export {
   getDefaultMenu,
   getSeesionUser,
@@ -124,4 +133,6 @@ export {
   reduceMenuList,
   getLocalMenu,
   saveLocalMenu,
+  saveToken,
+  getToken,
 };

@@ -7,16 +7,20 @@
 
   .cards {
     line-height: 1;
+
     .title {
       color    : rgba(0, 0, 0, .45);
       font-size: 14px;
     }
-    p{
+
+    p {
       margin-bottom: 10px;
     }
+
     .num {
-      color    : rgba(0, 0, 0, .85);
-      font-size: 30px;
+      color        : rgba(0, 0, 0, .85);
+      font-size    : 30px;
+      margin-bottom: 15px;
     }
   }
 }

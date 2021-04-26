@@ -21,7 +21,7 @@ function AppRouter({ userInfo, setUser }) {
   useEffect(() => {
     if (!userInfo) {
       let info = getLocalUser();
-      if (!info) {
+      if (info) {
         setUser(info);
       }
       return setLoad(false);
