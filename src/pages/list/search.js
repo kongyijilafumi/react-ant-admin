@@ -63,9 +63,7 @@ export default function SearchPage() {
           message.success(res.msg);
           setShow(false);
           search();
-          return;
         }
-        message.error(res.msg);
       });
     });
   };

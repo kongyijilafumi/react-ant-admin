@@ -1,7 +1,6 @@
 {
   "name": "react-ant-admin",
   "version": "0.1.0",
-  "private": true,
   "homepage": "/react-ant-admin",
   "dependencies": {
     "@babel/core": "7.12.3",

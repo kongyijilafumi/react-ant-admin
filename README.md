@@ -11,6 +11,12 @@
 
 [react-ant-admin](http://azhengpersonalblog.top/react-ant-admin/)
 
+## 文档地址
+
+[react-ant-admin文档地址](https://azhengpersonalblog.top/doc-react-ant-admin/)
+
+更多建议欢迎骚扰~
+
 ## 特性
 - 菜单配置:扁平化数据组织,方便编写,存库,页面菜单,标题,侧边栏,顶部导航栏同步
 - 页面懒加载:使用[@loadable/component](https://loadable-components.com/docs/getting-started/)来解决首次打开页面过慢的问题.
@@ -147,11 +153,6 @@ let menu = [
 >打开之后,会发现菜单会多出一个``test``栏目,点击会打开之前我们创建的test页面.这样就完成了菜单和页面的编写.
 
 
-## 文档地址
-
-还在努力创建中....
-
-更多建议欢迎骚扰~
 
 
 ## 项目截图

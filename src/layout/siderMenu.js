@@ -36,7 +36,7 @@ const MenuDom = ({ openKeys, selectedKeys, setOpenKeys, userInfo }) => {
   // 设置菜单
   useEffect(() => {
     getMenus().then((res) => {
-      let list = filterMenuList(res, userInfo.power);
+      let list = filterMenuList(res, userInfo.type);
       setMenu(list);
     });
     // eslint-disable-next-line

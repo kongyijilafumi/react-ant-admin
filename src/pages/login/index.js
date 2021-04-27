@@ -31,9 +31,7 @@ function Login({ setUserInfo }) {
       .then((res) => {
         const { data, msg, status, token } = res;
         setBtnLoad(false);
-        if (status === 1) {
-          return message.error(msg);
-        }
+        if (status === 1) return;
         saveToken(token);
         data.pswd = values.pswd;
         message.success(msg);

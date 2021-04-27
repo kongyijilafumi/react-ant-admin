@@ -5,7 +5,7 @@ import { getToken } from "@/utils";
 const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://127.0.0.1:8081/api/react-ant-admin"
-    : "http://azhengpersonalblog.top/api/react-ant-admin";
+    : "https://azhengpersonalblog.top/api/react-ant-admin";
 
 // 错误信息
 const codeMessage = {
