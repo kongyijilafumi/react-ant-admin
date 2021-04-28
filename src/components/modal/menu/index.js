@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MyIcon from "@/components/icon";
 import { Modal, Form, Input, Select, message, Radio } from "antd";
-import { getPower, addMenu, getMenu, getMenuInfo, editMenu } from "@/api";
+import { getPower, addMenu, getMenuInfo, editMenu } from "@/api";
 import "./index.scss";
 
 const ICON_JSON = require("@/asset/json/iconfont.json");
@@ -25,15 +25,11 @@ export default function AddMenu({
   isShow,
   setShow,
   updateMenu,
+  menus = [],
 }) {
   const [form] = Form.useForm();
-  const [parentKeys, setParentKey] = useState([]);
   const [powers, setPowers] = useState([]);
   const [activeFn] = useState({ add, edit, addChild: add });
-
-  useEffect(() => {
-    getMenu().then(setParentKey);
-  }, []);
 
   useEffect(() => {
     getPower().then((res) => {
@@ -121,9 +117,12 @@ export default function AddMenu({
                 (modalType === "edit" && info.isParent)
               }
             >
-              {parentKeys.map((parent) => (
-                <Option value={parent.key} key={parent.key}>
-                  {parent.title}
+              {menus.map((menu) => (
+                <Option value={menu.key} key={menu.key}>
+                  <div className="icons">
+                    <MyIcon type={menu.icon} />
+                    <span className="title"> {menu.title}</span>
+                  </div>
                 </Option>
               ))}
             </Select>

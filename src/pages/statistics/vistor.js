@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Table, Pagination, Card } from "antd";
+import { Row, Col, Table, Card, Progress } from "antd";
 import { getVisitorList, getVisitorData } from "@/api";
 import { Line as LineEchart } from "@/components/echarts";
+import MyPagination from "@/components/pagination";
 import "./index.scss";
 
-const pageSizeOptions = [10, 20, 50, 100];
 const getOpt = () => ({
   xAxis: {
     type: "category",
@@ -17,9 +17,8 @@ const getOpt = () => ({
   tooltip: {},
   grid: {
     height: "100%",
-    width: "90%",
-    left: "5%",
-    right: "5%",
+    left: "1%",
+    right: "1%",
     bottom: "0%",
     top: "0%",
   },
@@ -33,6 +32,7 @@ const getOpt = () => ({
       lineStyle: {
         type: "solid",
       },
+      data: [],
       smooth: true,
       symbol: "none", //取消折点圆圈
       areaStyle: {
@@ -41,14 +41,21 @@ const getOpt = () => ({
     },
   ],
 });
+const strokeColor = {
+  "0%": "#108ee9",
+  "100%": "#87d068",
+};
+function getPercentage(up, down) {
+  if (!down) return 0;
+  return Number(((up / down) * 100).toFixed(2));
+}
+
 const echartStyle = {
-  height: 80,
+  height: 50,
 };
 export default function Vistor() {
   const [tableCol, setCol] = useState([]);
   const [tableData, setData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [pagesize, setPagesize] = useState(10);
   const [total, setTotal] = useState(0);
   const [visitorOpt, setVisitor] = useState(getOpt());
   const [dealOpt, setDeal] = useState(getOpt());
@@ -56,7 +63,6 @@ export default function Vistor() {
   const [sumDeal, setSumD] = useState(0);
 
   useEffect(() => {
-    getList({ page, pagesize });
     getVisitorData().then((res) => {
       const { status, data } = res;
       if (status === 0 && data) {
@@ -80,10 +86,6 @@ export default function Vistor() {
       const { status, data } = res;
       if (status === 0 && data) {
         let list = data.list || [];
-        list = data.list.map((i, index) => ({
-          ...i,
-          key: i.time + i.url + index,
-        }));
         setData(list);
         setCol(data.mapKey);
         setTotal(data.total);
@@ -99,12 +101,6 @@ export default function Vistor() {
     );
   };
 
-  // 页码改版
-  const pageChange = (page, pagesize) => {
-    setPage(page);
-    setPagesize(pagesize);
-    getList({ page, pagesize });
-  };
   return (
     <div className="vistor-container">
       <Row gutter={[20, 20]}>
@@ -112,9 +108,7 @@ export default function Vistor() {
           <Card className="cards">
             <p className="title">访问量</p>
             <p className="num">
-              {(visitorOpt.series[0].data &&
-                visitorOpt.series[0].data.reduce((a, c) => a + c, 0)) ||
-                0}
+              {visitorOpt.series[0].data.reduce((a, c) => a + c, 0)}
             </p>
             <div className="echart">
               <LineEchart option={visitorOpt} style={echartStyle} />
@@ -125,9 +119,7 @@ export default function Vistor() {
           <Card className="cards">
             <p className="title">处理次数</p>
             <p className="num">
-              {(dealOpt.series[0].data &&
-                dealOpt.series[0].data.reduce((a, c) => a + c, 0)) ||
-                0}
+              {dealOpt.series[0].data.reduce((a, c) => a + c, 0)}
             </p>
             <div className="echart">
               <LineEchart option={dealOpt} style={echartStyle} />
@@ -138,31 +130,43 @@ export default function Vistor() {
           <Card className="cards">
             <p className="title">今日访问</p>
             <p className="num">{sumVisitor}</p>
+            <div>
+              <p>占全部：</p>
+              <Progress
+                strokeColor={strokeColor}
+                percent={getPercentage(
+                  sumVisitor,
+                  visitorOpt.series[0].data.reduce((a, c) => a + c, 0)
+                )}
+              />
+            </div>
           </Card>
         </Col>
         <Col span={6}>
           <Card className="cards">
             <p className="title">今日处理</p>
             <p className="num">{sumDeal}</p>
+            <div>
+              <p>占全部：</p>
+              <Progress
+                strokeColor={strokeColor}
+                percent={getPercentage(
+                  sumDeal,
+                  dealOpt.series[0].data.reduce((a, c) => a + c, 0)
+                )}
+              />
+            </div>
           </Card>
         </Col>
       </Row>
       <Table
-        className="table"
         title={getTableTitle}
         dataSource={tableData}
         columns={tableCol}
+        rowKey="s_id"
         pagination={false}
       />
-      <Row justify="end" className="pagination-wapper">
-        <Pagination
-          showSizeChanger
-          onChange={pageChange}
-          current={page}
-          total={total}
-          pageSizeOptions={pageSizeOptions}
-        />
-      </Row>
+      <MyPagination change={getList} immediately={getList} total={total} />
     </div>
   );
 }

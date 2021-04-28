@@ -8,7 +8,7 @@ const Person = loadable(() => import("@pages/details/person"));
 const Error = loadable(() => import("@pages/err"));
 const PowerMenu = loadable(() => import("@pages/power/menu"));
 const Vistor = loadable(() => import("@pages/statistics/vistor"));
-
+const PowerUser = loadable(() => import("@pages/power/user"));
 const routerList = [
   {
     path: "/",
@@ -58,6 +58,10 @@ const routerList = [
   {
     path: "/statistics/visitor",
     components: Vistor,
+  },
+  {
+    path: "/power/user",
+    components: PowerUser,
   },
   {
     path: "*",

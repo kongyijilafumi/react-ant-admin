@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Form,
   Table,
@@ -9,29 +9,21 @@ import {
   Col,
   Spin,
   message,
-  Pagination,
 } from "antd";
+import MyPagination from "@/components/pagination";
 import { getMsg, addMsg } from "@/api";
-import "./index.scss";
 
-const pageSizeOptions = [10, 20, 50, 100];
+import "./index.scss";
 
 export default function SearchPage() {
   const [form] = Form.useForm();
   const [searchForm] = Form.useForm();
-  const [page, setPage] = useState(1);
-  const [pagesize, setPagesize] = useState(10);
+  const [pageData, setPageData] = useState(undefined);
   const [tableData, setData] = useState([]);
   const [tableCol, setCol] = useState([]);
   const [load, setLoad] = useState(true);
   const [total, setTotal] = useState(0);
   const [showModal, setShow] = useState(false);
-
-  // 初次加载
-  useEffect(() => {
-    getDataList({ pagesize, page });
-    // eslint-disable-next-line
-  }, []);
 
   // 获取列表
   const getDataList = (data) => {
@@ -71,15 +63,14 @@ export default function SearchPage() {
   // 顶部搜索
   const search = () => {
     let data = searchForm.getFieldsValue();
-    getDataList({ page, pagesize, ...data });
+    getDataList({ ...pageData, ...data });
   };
 
   // 页码改版
-  const pageChange = (page, pagesize) => {
-    setPage(page);
-    setPagesize(pagesize);
+  const pageChange = (pageData) => {
     let data = searchForm.getFieldsValue();
-    getDataList({ page, pagesize, ...data });
+    getDataList({ ...pageData, ...data });
+    setPageData(pageData);
   };
 
   const tableTop = (
@@ -122,15 +113,11 @@ export default function SearchPage() {
           columns={tableCol}
           pagination={false}
         />
-        <Row justify="end" className="pagination-wapper">
-          <Pagination
-            showSizeChanger
-            onChange={pageChange}
-            current={page}
-            total={total}
-            pageSizeOptions={pageSizeOptions}
-          />
-        </Row>
+        <MyPagination
+          immediately={getDataList}
+          change={pageChange}
+          total={total}
+        />
       </Spin>
       <Modal
         title="添加一条记录"

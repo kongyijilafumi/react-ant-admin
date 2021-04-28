@@ -112,6 +112,7 @@ export default function Menu() {
         </Col>
       </Row>
       <MenuModal
+        menus={menus}
         isShow={showModal}
         info={selectInfo}
         modalType={modalType}
