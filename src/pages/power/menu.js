@@ -88,7 +88,7 @@ export default function Menu() {
       </div>
       <Row className="tree-data">
         <Col span={8}>
-          {menus.length && (
+          {(menus.length && (
             <Tree blockNode showIcon onSelect={onSelect}>
               {menus.map((item) => (
                 <TreeNode
@@ -108,7 +108,8 @@ export default function Menu() {
                 />
               ))}
             </Tree>
-          )}
+          )) ||
+            null}
         </Col>
       </Row>
       <MenuModal

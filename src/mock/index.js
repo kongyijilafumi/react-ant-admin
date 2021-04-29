@@ -115,7 +115,7 @@ const power = {
 const userInfo = {
   msg: "登录成功",
   status: 0,
-  data: { user_id: 1, username: "超级管理员", account: "admin", power: "0" },
+  data: { user_id: 1, username: "超级管理员", account: "admin", type: "0" },
 };
 
 const addMenu = {
@@ -203,7 +203,7 @@ function post(url, data) {
         case "/login":
           MockData[url].data.account = data.account;
           if (data.account.indexOf("admin") === -1) {
-            MockData[url].data.power = "1";
+            MockData[url].data.type = "1";
             MockData[url].data.username = "普通用户";
           }
           return res(MockData[url]);

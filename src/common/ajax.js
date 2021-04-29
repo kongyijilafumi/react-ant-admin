@@ -40,8 +40,9 @@ const config = {
   // `maxRedirects` 定义在 node.js 中 follow 的最大重定向数目
   // 如果设置为0，将不会 follow 任何重定向
   maxRedirects: 3,
-
-  "Content-Type": " application/json;charset=UTF-8",
+  headers: {
+    "Content-Type": " application/json;charset=UTF-8",
+  },
 };
 
 // 创建ajax实例

@@ -32,8 +32,9 @@
   }
 
   .ant-layout-sider-children {
-    position: relative;
-    height  : auto;
+    position  : relative;
+    height    : auto;
+    background: inherit;
   }
 
   .layout-content-wrap {
@@ -61,10 +62,11 @@
 
   .fold-control {
     &.fixed {
-      position: absolute;
-      bottom  : 0;
-      right   : 0;
-      width   : 100%;
+      position  : absolute;
+      bottom    : 0;
+      right     : 0;
+      width     : 100%;
+      background: inherit;
     }
 
     .ant-btn {
@@ -111,9 +113,11 @@
       background-color: #fafafa;
     }
   }
-  .footer{
+
+  .footer {
     text-align: center;
-    p{
+
+    p {
       margin-bottom: 5px;
     }
   }

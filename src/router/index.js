@@ -20,9 +20,12 @@ const Router = () => {
         }
         return router;
       });
-      setList(routers);
+      if (list && list.length) {
+        setList(routers);
+      }
     });
   }, []);
+  if (list.length === 0) return null;
   return (
     <CacheSwitch>
       {list.map((item) => {
