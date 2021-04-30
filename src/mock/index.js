@@ -93,7 +93,7 @@ let menu = [
     path: "/menu",
     key: "powerMenu",
     parentKey: "power",
-    icon: "",
+    icon: "icon_menu",
     type: "0",
   },
   {
@@ -103,6 +103,33 @@ let menu = [
     parentKey: "",
     icon: "icon_voiceprint",
     type: "1,0",
+  },
+  {
+    icon: "icon_MTR",
+    keepAlive: "true",
+    key: "statistics",
+    parentKey: "",
+    path: "/statistics",
+    title: "统计",
+    type: "0",
+  },
+  {
+    icon: "icon_addresslist",
+    keepAlive: "true",
+    key: "visitor",
+    parentKey: "statistics",
+    path: "/visitor",
+    title: "访客统计",
+    type: "0",
+  },
+  {
+    title: "用户管理",
+    path: "/user",
+    key: "powerUser",
+    parentKey: "power",
+    icon: "icon_infopersonal",
+    type: "0",
+    keepAlive: "true",
   },
 ];
 const power = {
@@ -183,6 +210,7 @@ const MockData = {
   "/delmenu": delMenu,
   "/getmenuinfo": { status: 0 },
   "/editmenuinfo": { status: 0, msg: "修改成功！" },
+  "/getvisitordata": { status: 1, msg: "暂无" },
 };
 
 function get(url) {
@@ -246,7 +274,7 @@ function post(url, data) {
           msg.data.total = list.length;
           return res(MockData[url]);
         default:
-          res();
+          res({ status: 1, msg: "暂无" });
           break;
       }
     }, 100);
