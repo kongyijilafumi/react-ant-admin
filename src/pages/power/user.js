@@ -5,6 +5,8 @@ import UserModal from "@/components/modal/user";
 import { getUserList } from "@/api";
 import "./index.scss";
 
+
+
 export default function User() {
   const [tableData, setData] = useState([]);
   const [tableCol, setCol] = useState([]);
@@ -45,7 +47,7 @@ export default function User() {
         <Col style={{ lineHeight: "32px" }}>用户信息列表</Col>
         <Col>
           <Button type="primary" onClick={() => showInfoModal(null,true)}>
-            添加消息
+            添加用户
           </Button>
         </Col>
       </Row>
