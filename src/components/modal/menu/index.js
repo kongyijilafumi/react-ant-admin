@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MyIcon from "@/components/icon";
-import { Modal, Form, Input, Select, message, Radio } from "antd";
+import { Modal, Form, Input, Select, message, Radio, InputNumber } from "antd";
 import { getPower, addMenu, getMenuInfo, editMenu } from "@/api";
 import "./index.scss";
 
@@ -12,6 +12,9 @@ const pathRules = [{ required: true, message: "请填写菜单路径" }];
 const keyRules = [{ required: true, message: "请填写菜单key值" }];
 const powerRules = [{ required: true, message: "请填写菜单权限可见" }];
 const keepRules = [{ required: true, message: "请选择菜单缓存模式" }];
+const orderRules = [
+  { type: "number", min: 0, max: 10000, message: "请正确填写菜单排序大小" },
+];
 const { Option } = Select;
 const titleType = {
   add: "新增菜单",
@@ -160,6 +163,9 @@ export default function AddMenu({
             <Radio value="true">是</Radio>
             <Radio value="false">否</Radio>
           </Radio.Group>
+        </Form.Item>
+        <Form.Item rules={orderRules} name="order" label="菜单排序">
+          <InputNumber placeholder="数值越小越靠前" />
         </Form.Item>
       </Form>
     </Modal>
