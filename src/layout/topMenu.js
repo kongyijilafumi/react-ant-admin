@@ -4,6 +4,7 @@ import MenuDnd from "@/components/menu-dnd";
 import { withRouter } from "react-router-dom";
 import { filterOpenKey } from "@/store/action";
 import { getCurrentUrl } from "@/utils";
+import { message } from "antd";
 const mapStateToProps = (state) => ({
   openedMenu: state.global.openedMenu,
 });
@@ -14,7 +15,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 function TopMenu({ openedMenu, filterKey, history }) {
   const closeTopMenu = (path, nextItem, isCurrent) => {
-    filterKey(path);
+    if (nextItem) {
+      filterKey(path);
+    } else {
+      message.error("最后一个选项菜单不可关闭");
+    }
     if (nextItem && isCurrent) {
       let parentPath = nextItem.parentPath || "";
       history.replace(parentPath + nextItem.path);

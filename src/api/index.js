@@ -13,6 +13,9 @@ const editMenu = (data) => request.post("/editmenuinfo", data);
 const getVisitorList = (data) => request.post("/getiplist", data);
 const getVisitorData = () => request.get("/getvisitordata");
 const getUserList = (data) => request.post("/getuserlist", data);
+const addUser = (data) => request.post("/adduserinfo", data);
+const getUser = (data) => request.post("/getuserinfo", data);
+const editUser = (data) => request.post("/edituserinfo",data)
 export {
   getMenu,
   login,
@@ -26,4 +29,7 @@ export {
   getVisitorList,
   getVisitorData,
   getUserList,
+  addUser,
+  getUser,
+  editUser
 };

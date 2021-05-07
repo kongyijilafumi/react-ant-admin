@@ -175,7 +175,7 @@ let menu = [
 
 * 结果页
 
-![结果页](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-result.png)
+![结果页](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-result1.png)
 
 
 

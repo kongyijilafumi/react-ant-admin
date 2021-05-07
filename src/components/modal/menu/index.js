@@ -14,6 +14,7 @@ const powerRules = [{ required: true, message: "请填写菜单权限可见" }];
 const keepRules = [{ required: true, message: "请选择菜单缓存模式" }];
 const orderRules = [
   { type: "number", min: 0, max: 10000, message: "请正确填写菜单排序大小" },
+  { required: true, message: "请填写菜单排序大小" },
 ];
 const { Option } = Select;
 const titleType = {
@@ -164,7 +165,7 @@ export default function AddMenu({
             <Radio value="false">否</Radio>
           </Radio.Group>
         </Form.Item>
-        <Form.Item rules={orderRules} name="order" label="菜单排序">
+        <Form.Item className="ipt-number" rules={orderRules} name="order" label="菜单排序">
           <InputNumber placeholder="数值越小越靠前" />
         </Form.Item>
       </Form>
