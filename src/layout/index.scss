@@ -86,6 +86,37 @@
     background: #fff;
   }
 
+  .top-breadcrumb {
+    background-color: #fff;
+    margin-top      : 10px;
+    padding         : 10px;
+    font-size       : 16px;
+    display         : flex;
+    align-items     : center;
+
+    svg {
+      width : 20px;
+      height: 20px;
+    }
+
+    &>span {
+
+      .anticon,
+      .title {
+        vertical-align: middle;
+        margin        : 0;
+      }
+
+      & .ant-breadcrumb-separator {
+        vertical-align: bottom;
+      }
+
+      &>span {
+        display: inline-block;
+      }
+    }
+  }
+
   .header {
     color: #fff;
 
