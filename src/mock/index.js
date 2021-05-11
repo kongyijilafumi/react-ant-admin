@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { message } from "antd";
 let menu = [
   {
     title: "详情页",
@@ -7,6 +8,7 @@ let menu = [
     parentKey: "",
     icon: "icon_edit",
     type: "1,0",
+    order: 3,
   },
   {
     title: "个人中心",
@@ -15,6 +17,7 @@ let menu = [
     parentKey: "details",
     icon: "icon_infopersonal",
     type: "0,1",
+    order: 2,
   },
   {
     title: "403",
@@ -23,6 +26,7 @@ let menu = [
     parentKey: "result",
     icon: "",
     type: "1,0",
+    order: 1,
   },
   {
     title: "404",
@@ -31,6 +35,7 @@ let menu = [
     parentKey: "result",
     icon: "",
     type: "1,0",
+    order: 2,
   },
   {
     title: "500",
@@ -39,6 +44,7 @@ let menu = [
     parentKey: "result",
     icon: "",
     type: "1,0",
+    order: 3,
   },
   {
     title: "基础表单",
@@ -47,6 +53,7 @@ let menu = [
     parentKey: "from",
     icon: "",
     type: "1,0",
+    order: 2,
   },
   {
     title: "表单页",
@@ -55,6 +62,7 @@ let menu = [
     parentKey: "",
     icon: "icon_form",
     type: "0,1",
+    order: 2,
   },
   {
     title: "列表页",
@@ -63,6 +71,7 @@ let menu = [
     parentKey: "",
     icon: "icon_list",
     type: "0,1",
+    order: 1,
   },
   {
     title: "卡片列表",
@@ -71,6 +80,7 @@ let menu = [
     parentKey: "list",
     icon: "",
     type: "0,1",
+    order: 2,
   },
   {
     title: "查询列表",
@@ -79,6 +89,7 @@ let menu = [
     parentKey: "list",
     icon: "",
     type: "0,1",
+    order: 1,
   },
   {
     title: "权限管理",
@@ -87,6 +98,7 @@ let menu = [
     parentKey: "",
     icon: "icon_set",
     type: "0",
+    order: 888,
   },
   {
     title: "菜单管理",
@@ -95,6 +107,7 @@ let menu = [
     parentKey: "power",
     icon: "icon_menu",
     type: "0",
+    order: 1,
   },
   {
     title: "结果页",
@@ -103,6 +116,7 @@ let menu = [
     parentKey: "",
     icon: "icon_voiceprint",
     type: "1,0",
+    order: 4,
   },
   {
     icon: "icon_MTR",
@@ -112,6 +126,7 @@ let menu = [
     path: "/statistics",
     title: "统计",
     type: "0",
+    order: 6,
   },
   {
     icon: "icon_addresslist",
@@ -121,6 +136,7 @@ let menu = [
     path: "/visitor",
     title: "访客统计",
     type: "0",
+    order: 2,
   },
   {
     title: "用户管理",
@@ -130,6 +146,17 @@ let menu = [
     icon: "icon_infopersonal",
     type: "0",
     keepAlive: "true",
+    order: 2,
+  },
+  {
+    icon: "icon_safety",
+    keepAlive: "true",
+    key: "powerType",
+    order: 8888,
+    parentKey: "power",
+    path: "/type",
+    title: "权限管理",
+    type: "0",
   },
 ];
 const power = {
@@ -137,6 +164,10 @@ const power = {
   data: [
     { type: "0", name: "超级管理员" },
     { type: "1", name: "普通用户" },
+  ],
+  mapKey: [
+    { title: "权限代号", dataIndex: "type", key: "type" },
+    { title: "权限简称", dataIndex: "name", key: "name" },
   ],
 };
 const userInfo = {
@@ -221,7 +252,7 @@ function get(url) {
       }
       res(MockData[url]);
     }, 500);
-  });
+  }).then((res) => (res ? res : message.error("接口暂未配置")));
 }
 
 function post(url, data) {
@@ -278,10 +309,11 @@ function post(url, data) {
           break;
       }
     }, 100);
-  });
+  }).then((res) => (res.status === 0 ? res : message.error("接口暂未配置")));
 }
 
 function formatMenu(list) {
+  list.sort((a, b) => a.order - b.order);
   let data = list.map((i) => ({ ...i }));
   if (Array.isArray(list)) {
     let praentList = [],
