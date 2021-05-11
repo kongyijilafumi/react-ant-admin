@@ -28,13 +28,34 @@
   }
 
   .ant-menu-dark.ant-menu-inline .ant-menu-submenu-title {
-    @include text-over;
+    .mixin-text-over();
   }
 
   .ant-layout-sider-children {
     position  : relative;
     height    : auto;
-    background: inherit;
+    background: @layout-sider-background;
+
+    &>.ant-menu {
+      background: @layout-sider-background;
+      color     : @layout-text-color;
+
+      .ant-menu-sub.ant-menu-inline {
+        background: @heading-color;
+      }
+
+      .ant-menu-item-selected {
+        background-color: @primary-color ;
+      }
+
+      a {
+        color: @layout-text-color;
+      }
+
+      svg {
+        color: @layout-text-color ;
+      }
+    }
   }
 
   .layout-content-wrap {
@@ -118,7 +139,8 @@
   }
 
   .header {
-    color: #fff;
+    color           : #fff;
+    background-color: @layout-header-background;
 
     .logo {
       float: left;

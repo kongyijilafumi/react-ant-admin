@@ -10,12 +10,17 @@ const PowerMenu = loadable(() => import("@pages/power/menu"));
 const Vistor = loadable(() => import("@pages/statistics/vistor"));
 const PowerUser = loadable(() => import("@pages/power/user"));
 const PowerType = loadable(() => import("@pages/power/type"));
+const Icons = loadable(() => import("@pages/icons"));
 const routerList = [
   {
     path: "/",
     key: "index",
     to: "/details/person",
     components: Redirect,
+  },
+  {
+    path: "/icons",
+    components: Icons,
   },
   {
     path: "/list/card",

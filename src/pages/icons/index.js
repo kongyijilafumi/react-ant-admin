@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Input, Row, Col } from "antd";
 import MyIcon from "@/components/icon";
-import "./index.scss";
+import "./index.less";
 import { Link } from "react-router-dom";
 const iconData = require("@/asset/json/iconfont");
 const prefix_name = iconData.css_prefix_text;

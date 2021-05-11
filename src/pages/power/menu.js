@@ -3,7 +3,7 @@ import { Tree, Row, Col, Button, message, Popconfirm } from "antd";
 import MyIcon from "@/components/icon";
 import { getMenu, delMenu } from "@/api";
 import MenuModal from "@/components/modal/menu";
-import "./index.scss";
+import "./index.less";
 
 const { TreeNode } = Tree;
 

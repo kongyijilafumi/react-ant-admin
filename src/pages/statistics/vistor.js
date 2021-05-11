@@ -3,7 +3,7 @@ import { Row, Col, Table, Card, Progress } from "antd";
 import { getVisitorList, getVisitorData } from "@/api";
 import { Line as LineEchart } from "@/components/echarts";
 import MyPagination from "@/components/pagination";
-import "./index.scss";
+import "./index.less";
 
 const getOpt = () => ({
   xAxis: {

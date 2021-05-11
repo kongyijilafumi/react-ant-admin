@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card, Tag, Input, Tabs, Row, Col, List, Space, Avatar } from "antd";
 import MyIcon from "@/components/icon";
-import "./index.scss";
+import "./index.less";
 
 const { TabPane } = Tabs;
 const { Meta } = Card;

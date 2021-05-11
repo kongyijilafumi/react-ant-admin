@@ -92,7 +92,6 @@ const MenuDom = ({ openKeys, selectedKeys, setOpenKeys, userInfo }) => {
         className="site-layout-background"
       >
         <Menu
-          theme="dark"
           mode="inline"
           triggerSubMenuAction="click"
           className="layout-silder-menu hide-scrollbar"

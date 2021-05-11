@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Table, Row, Col } from "antd";
 import TypeModal from "@/components/modal/type";
 import { getPower } from "@/api";
-import "./index.scss";
+import "./index.less";
 export default function Types() {
   const [showModal, setShow] = useState(false);
   const [tableData, setData] = useState([]);

@@ -26,6 +26,7 @@ const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 const ForkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
 const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const AntDesignThemePlugin = require("antd-theme-webpack-plugin");
 
 const postcssNormalize = require("postcss-normalize");
 
@@ -99,7 +100,7 @@ module.exports = function (webpackEnv) {
   const shouldUseReactRefresh = env.raw.FAST_REFRESH;
 
   // common function to get style loaders
-  const getStyleLoaders = (cssOptions, preProcessor) => {
+  const getStyleLoaders = (cssOptions, preProcessor, options) => {
     const loaders = [
       isEnvDevelopment && require.resolve("style-loader"),
       isEnvProduction && {
@@ -153,6 +154,8 @@ module.exports = function (webpackEnv) {
           loader: require.resolve(preProcessor),
           options: {
             sourceMap: true,
+
+            ...options,
           },
         }
       );
@@ -368,12 +371,7 @@ module.exports = function (webpackEnv) {
         // Disable require.ensure as it's not a standard language feature.
         { parser: { requireEnsure: false } },
         {
-          // "oneOf" will traverse all following loaders until one will
-          // match the requirements. When no loader matches it will fall
-          // back to the "file" loader at the end of the loader list.
           oneOf: [
-            // TODO: Merge this config once `image/avif` is in the mime-db
-            // https://github.com/jshttp/mime-db
             {
               test: [/\.avif$/],
               loader: require.resolve("url-loader"),
@@ -383,9 +381,6 @@ module.exports = function (webpackEnv) {
                 name: "static/media/[name].[hash:8].[ext]",
               },
             },
-            // "url" loader works like "file" loader except that it embeds assets
-            // smaller than specified limit in bytes as data URLs to avoid requests.
-            // A missing `test` is equivalent to a match.
             {
               test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
               loader: require.resolve("url-loader"),
@@ -394,8 +389,6 @@ module.exports = function (webpackEnv) {
                 name: "static/media/[name].[hash:8].[ext]",
               },
             },
-            // Process application JS with Babel.
-            // The preset includes JSX, Flow, TypeScript, and some ESnext features.
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
               include: paths.appSrc,
@@ -429,17 +422,11 @@ module.exports = function (webpackEnv) {
                     shouldUseReactRefresh &&
                     require.resolve("react-refresh/babel"),
                 ].filter(Boolean),
-                // This is a feature of `babel-loader` for webpack (not Babel itself).
-                // It enables caching results in ./node_modules/.cache/babel-loader/
-                // directory for faster rebuilds.
                 cacheDirectory: true,
-                // See #6846 for context on why cacheCompression is disabled
                 cacheCompression: false,
                 compact: isEnvProduction,
               },
             },
-            // Process any JS outside of the app with Babel.
-            // Unlike the application JS, we only compile the standard ES features.
             {
               test: /\.(js|mjs)$/,
               exclude: /@babel(?:\/|\\{1,2})runtime/,
@@ -455,23 +442,11 @@ module.exports = function (webpackEnv) {
                   ],
                 ],
                 cacheDirectory: true,
-                // See #6846 for context on why cacheCompression is disabled
                 cacheCompression: false,
-
-                // Babel sourcemaps are needed for debugging into node_modules
-                // code.  Without the options below, debuggers like VSCode
-                // show incorrect code and set breakpoints on the wrong lines.
                 sourceMaps: shouldUseSourceMap,
                 inputSourceMap: shouldUseSourceMap,
               },
             },
-            // "postcss" loader applies autoprefixer to our CSS.
-            // "css" loader resolves paths in CSS and adds assets as dependencies.
-            // "style" loader turns CSS into JS modules that inject <style> tags.
-            // In production, we use MiniCSSExtractPlugin to extract that CSS
-            // to a file, but in development "style" loader enables hot editing
-            // of CSS.
-            // By default we support CSS Modules with the extension .module.css
             {
               test: cssRegex,
               exclude: cssModuleRegex,
@@ -481,14 +456,8 @@ module.exports = function (webpackEnv) {
                   ? shouldUseSourceMap
                   : isEnvDevelopment,
               }),
-              // Don't consider CSS imports dead code even if the
-              // containing package claims to have no side effects.
-              // Remove this when webpack adds a warning or an error for this.
-              // See https://github.com/webpack/webpack/issues/6571
               sideEffects: true,
             },
-            // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
-            // using the extension .module.css
             {
               test: cssModuleRegex,
               use: getStyleLoaders({
@@ -501,64 +470,57 @@ module.exports = function (webpackEnv) {
                 },
               }),
             },
-            // Opt-in support for SASS (using .scss or .sass extensions).
-            // By default we support SASS Modules with the
-            // extensions .module.scss or .module.sass
             {
               test: lessRegex,
               exclude: lessModuleRegex,
               use: getStyleLoaders(
                 {
-                  importLoaders: 3,
-                  sourceMap: isEnvProduction
-                    ? shouldUseSourceMap
-                    : isEnvDevelopment,
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction && shouldUseSourceMap,
                 },
-                "less-loader"
-              ),
-
+                "less-loader",
+                {
+                  javascriptEnabled: true,
+                }
+              ).concat({
+                loader: "style-resources-loader",
+                options: {
+                  patterns: path.resolve(paths.appSrc, "theme/base.less"), //全局引入公共的less 文件
+                },
+              }),
               sideEffects: true,
             },
             {
               test: lessModuleRegex,
               use: getStyleLoaders(
                 {
-                  importLoaders: 3,
-                  sourceMap: isEnvProduction
-                    ? shouldUseSourceMap
-                    : isEnvDevelopment,
-                  modules: {
-                    getLocalIdent: getCSSModuleLocalIdent,
-                  },
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction && shouldUseSourceMap,
+                  modules: true,
+                  getLocalIdent: getCSSModuleLocalIdent,
                 },
-                "less-loader"
+                "less-loader",
+                {
+                  javascriptEnabled: true,
+                }
               ),
             },
+            // sass
             {
               test: sassRegex,
               exclude: sassModuleRegex,
               use: getStyleLoaders(
                 {
-                  importLoaders: 3,
+                  importLoaders: 2,
                   sourceMap: isEnvProduction
                     ? shouldUseSourceMap
                     : isEnvDevelopment,
                 },
                 "sass-loader"
-              ).concat({
-                loader: "sass-resources-loader",
-                options: {
-                  resources: [
-                    // resolve方法第二个参数为scss配置文件地址，如果有多个，就进行依次添加即可
-
-                    path.resolve(paths.appSrc, "asset/css/base.scss"),
-                  ],
-                },
-              }),
+              ),
 
               sideEffects: true,
             },
-
             {
               test: sassModuleRegex,
               use: getStyleLoaders(
@@ -574,29 +536,40 @@ module.exports = function (webpackEnv) {
                 "sass-loader"
               ),
             },
-            // "file" loader makes sure those assets get served by WebpackDevServer.
-            // When you `import` an asset, you get its (virtual) filename.
-            // In production, they would get copied to the `build` folder.
-            // This loader doesn't use a "test" so it will catch all modules
-            // that fall through the other loaders.
             {
               loader: require.resolve("file-loader"),
-              // Exclude `js` files to keep "css" loader working as it injects
-              // its runtime that would otherwise be processed through "file" loader.
-              // Also exclude `html` and `json` extensions so they get processed
-              // by webpacks internal loaders.
               exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
               options: {
                 name: "static/media/[name].[hash:8].[ext]",
               },
             },
-            // ** STOP ** Are you adding a new loader?
-            // Make sure to add the new loader(s) before the "file" loader.
           ],
         },
       ],
     },
     plugins: [
+      new AntDesignThemePlugin({
+        antDir: path.join(paths.appPath, "./node_modules/antd"), //antd包位置
+        stylesDir: path.join(paths.appPath, "./src/theme"), //指定皮肤文件夹
+        varFile: path.join(paths.appPath, "./src/theme/index.less"), //自己设置默认的主题色
+        indexFileName: "./public/index.html",
+        mainLessFile: path.join(paths.appPath, "./src/theme/base.less"),
+        outputFilePath: path.join(paths.appPath, "./public/color.less"), //输出到什么地方
+        themeVariables: [
+          //这里写要改变的主题变量
+          "@primary-color",
+          "@link-color",
+          "@success-color",
+          "@warning-color",
+          "@error-color",
+          "@heading-color",
+          "@text-color",
+          "@text-color-secondary",
+          "@disabled-color",
+          "@border-color-base",
+        ],
+        generateOnce: false,
+      }),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(

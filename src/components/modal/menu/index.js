@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MyIcon from "@/components/icon";
 import { Modal, Form, Input, Select, message, Radio, InputNumber } from "antd";
 import { getPower, addMenu, getMenuInfo, editMenu } from "@/api";
-import "./index.scss";
+import "./index.less";
 
 const ICON_JSON = require("@/asset/json/iconfont.json");
 const ICON_PREFIX = ICON_JSON.css_prefix_text;

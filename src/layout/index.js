@@ -5,7 +5,7 @@ import Menu from "./siderMenu";
 import TopMenu from "./topMenu";
 import Footer from "./footer";
 import Router from "@/router";
-import "./index.scss";
+import "./index.less";
 const { Content } = Layout;
 const LayoutBody = () => {
   return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Row, Pagination } from "antd";
-import "./index.scss";
+import "./index.less";
 const pageSizeOptions = [10, 20, 50, 100];
 
 export default function MyPagination({ total, change, immediately }) {

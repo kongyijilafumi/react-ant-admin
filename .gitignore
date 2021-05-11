@@ -9,9 +9,10 @@ package-lock.json
 # testing
 /coverage
 
+
 # production
 /react-ant-admin
-
+/public/color.less
 # misc
 .DS_Store
 .env.local

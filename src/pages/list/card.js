@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card, Avatar, Row, Col, Typography, Modal, Form, Input } from "antd";
 import MyIcon from "@/components/icon";
-import "./index.scss";
+import "./index.less";
 
 const list = [
   {
@@ -23,8 +23,7 @@ const list = [
       "在中台产品的研发过程中，会出现不同的设计规范和实现方式，但其中往往存在很多类似的页面和组件，这些类似的组件会被抽离成一套标准规范。",
   },
   {
-    img:
-      "https://webpack.docschina.org/icon-square-small.85ba630cf0c5f29ae3e3.svg",
+    img: "https://webpack.docschina.org/icon-square-small.85ba630cf0c5f29ae3e3.svg",
     title: "Webpack",
     description:
       "在中台产品的研发过程中，会出现不同的设计规范和实现方式，但其中往往存在很多类似的页面和组件，这些类似的组件会被抽离成一套标准规范。",
@@ -114,10 +113,11 @@ export default function CardPage() {
               {
                 required: true,
                 message: "Please input your description!",
-              },{
+              },
+              {
                 min: 50,
-                message:"The description must be more than 50 words!"
-              }
+                message: "The description must be more than 50 words!",
+              },
             ]}
           >
             <Input />

@@ -17,11 +17,9 @@
     margin-right    : 2px;
     background-color: #f7f7f7;
     box-sizing      : border-box;
-    overflow        : hidden;
-    text-overflow   : ellipsis;
     cursor          : pointer !important;
-    white-space     : nowrap;
-    color           : #000;
+    .mixin-text-over();
+    color: #000;
 
     &.active {
       background-color: #fff;

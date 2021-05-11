@@ -3,7 +3,7 @@ import { Button, Table, Row, Col } from "antd";
 import MyPagination from "@/components/pagination";
 import UserModal from "@/components/modal/user";
 import { getUserList } from "@/api";
-import "./index.scss";
+import "./index.less";
 
 export default function User() {
   const [tableData, setData] = useState([]);
