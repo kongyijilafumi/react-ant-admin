@@ -158,6 +158,16 @@ let menu = [
     title: "权限管理",
     type: "0",
   },
+  {
+    icon: "icon_safety",
+    keepAlive: "true",
+    key: "icons",
+    order: 8887,
+    parentKey: "",
+    path: "/icons",
+    title: "图标库",
+    type: "0,1",
+  },
 ];
 const power = {
   status: 0,

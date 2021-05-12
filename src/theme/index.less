@@ -1,16 +1,23 @@
-@import '~antd/lib/style/themes/default.less'; //引入antd的变量文件，实现变量的覆盖
+@import "./variables.less";
 
-@primary-color           : #1890ff; // 全局主色
-@link-color              : #1890ff; // 链接色
-@success-color           : #52c41a; // 成功色
-@warning-color           : #faad14; // 警告色
-@error-color             : #f5222d; // 错误色
-@layout-text-color       : #fff;
-@asd                     : red;
-@layout-header-background: rgba(0, 0, 0, 0.85);
-@layout-sider-background : rgba(0, 0, 0, 0.85);
-@heading-color           : rgba(0, 0, 0, 0.85); // 标题色
-@text-color              : rgba(0, 0, 0, 0.65); // 主文本色
-@text-color-secondary    : rgba(0, 0, 0, 0.45); // 次文本色
-@disabled-color          : rgba(0, 0, 0, 0.25); // 失效色
-@border-color-base       : #d9d9d9; // 边框色
+.mixin-text-over() {
+  white-space  : nowrap;
+  overflow     : hidden;
+  text-overflow: ellipsis;
+}
+
+// :root {
+//   --primary-color       : @primary-color;
+//   --link-color          : @link-color;
+//   --success-color       : @success-color;
+//   --warning-color       : @warning-color;
+//   --error-color         : @error-color;
+//   --layout-text         : @layout-text;
+//   --layout-background   : @layout-background;
+//   --heading-color       : @heading-color;
+//   --text-color          : @text-color;
+//   --text-color-secondary: @text-color-secondary;
+//   --disabled-color      : @disabled-color;
+//   --border-color-bas    : @border-color-bas;
+// }
+

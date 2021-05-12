@@ -1,3 +1,5 @@
+@opacity-text: fade(@layout-text , 60%);
+
 .ant-menu-item {
   align-items: center;
   display    : flex;
@@ -28,33 +30,87 @@
   }
 
   .ant-menu-dark.ant-menu-inline .ant-menu-submenu-title {
-    .mixin-text-over();
+    // .mixin-text-over();
   }
 
   .ant-layout-sider-children {
     position  : relative;
     height    : auto;
-    background: @layout-sider-background;
+    background: @layout-background;
+
+    .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+      background: @primary-color;
+
+      a,
+      svg {
+        color: @layout-text ;
+      }
+    }
 
     &>.ant-menu {
-      background: @layout-sider-background;
-      color     : @layout-text-color;
+      background: @layout-background;
+      color     : @layout-text ;
 
+      // 父级菜单 和子菜单未选中的字体颜色
+      .ant-menu-submenu-title,
+      a,
+      svg,
+      .ant-menu-submenu-arrow::before,
+      .ant-menu-submenu-arrow::after {
+        color: @opacity-text;
+      }
+
+      // 父级菜单 和子菜单选中的字体颜色
+      .ant-menu-submenu-active,
+      .ant-menu-submenu-selected,
+      .ant-menu-submenu-open {
+
+        .ant-menu-submenu-title,
+        a,
+        svg,
+        .ant-menu-submenu-arrow::before,
+        .ant-menu-submenu-arrow::after {
+          color: @layout-text ;
+        }
+      }
+
+      .ant-menu-item:active,
+      .ant-menu-submenu-title:active {
+        background-color: @layout-background;
+      }
+
+
+      // 背景色
       .ant-menu-sub.ant-menu-inline {
         background: @heading-color;
       }
 
-      .ant-menu-item-selected {
+
+      .ant-menu-submenu .ant-menu-item-selected {
         background-color: @primary-color ;
       }
 
-      a {
-        color: @layout-text-color;
+      // 子菜单 颜色
+      .ant-menu-submenu {
+
+        .ant-menu-item.ant-menu-item-active,
+        .ant-menu-item.ant-menu-item-selected {
+
+          a,
+          svg {
+            color: @layout-text ;
+          }
+        }
+
+        .ant-menu-item {
+
+          a,
+          svg {
+            color: @opacity-text;
+          }
+        }
       }
 
-      svg {
-        color: @layout-text-color ;
-      }
     }
   }
 
@@ -68,6 +124,7 @@
 
     &>div {
       background: #fff;
+      padding   : 20px;
       min-height: 100%;
     }
   }
@@ -83,17 +140,18 @@
 
   .fold-control {
     &.fixed {
-      position  : absolute;
-      bottom    : 0;
-      right     : 0;
-      width     : 100%;
-      background: inherit;
+      position    : absolute;
+      bottom      : 0;
+      right       : 0;
+      width       : 100%;
+      background  : inherit;
+      border-right: 1px solid #f0f0f0;
     }
 
     .ant-btn {
       width     : 100%;
       background: unset;
-      color     : #fff;
+      color     : @layout-text ;
       border    : 0;
       outline   : none;
       transition: none;
@@ -139,7 +197,7 @@
   }
 
   .header {
-    color           : #fff;
+    color           : @layout-text ;
     background-color: @layout-header-background;
 
     .logo {

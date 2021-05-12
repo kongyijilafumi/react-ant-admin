@@ -42,8 +42,6 @@ const reactRefreshOverlayEntry = require.resolve(
   "react-dev-utils/refreshOverlayInterop"
 );
 
-// Some apps do not need the benefits of saving a web request, so not inlining the chunk
-// makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== "false";
 
 const emitErrorsAsWarnings = process.env.ESLINT_NO_DEV_ERRORS === "true";
@@ -53,10 +51,8 @@ const imageInlineSizeLimit = parseInt(
   process.env.IMAGE_INLINE_SIZE_LIMIT || "10000"
 );
 
-// Check if TypeScript is setup
 const useTypeScript = fs.existsSync(paths.appTsConfig);
 
-// Get the path to the uncompiled service worker (if it exists).
 const swSrc = paths.swSrc;
 
 // style files regexes
@@ -80,33 +76,22 @@ const hasJsxRuntime = (() => {
   }
 })();
 
-// This is the production and development configuration.
-// It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function (webpackEnv) {
   const isEnvDevelopment = webpackEnv === "development";
   const isEnvProduction = webpackEnv === "production";
 
-  // Variable used for enabling profiling in Production
-  // passed into alias object. Uses a flag if passed into the build command
   const isEnvProductionProfile =
     isEnvProduction && process.argv.includes("--profile");
 
-  // We will provide `paths.publicUrlOrPath` to our app
-  // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
-  // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
-  // Get environment variables to inject into our app.
   const env = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
 
   const shouldUseReactRefresh = env.raw.FAST_REFRESH;
 
-  // common function to get style loaders
   const getStyleLoaders = (cssOptions, preProcessor, options) => {
     const loaders = [
       isEnvDevelopment && require.resolve("style-loader"),
       isEnvProduction && {
         loader: MiniCssExtractPlugin.loader,
-        // css is located in `static/css`, use '../../' to locate index.html folder
-        // in production `paths.publicUrlOrPath` can be a relative path
         options: paths.publicUrlOrPath.startsWith(".")
           ? { publicPath: "../../" }
           : {},
@@ -116,13 +101,8 @@ module.exports = function (webpackEnv) {
         options: cssOptions,
       },
       {
-        // Options for PostCSS as we reference these options twice
-        // Adds vendor prefixing based on your specified browser support in
-        // package.json
         loader: require.resolve("postcss-loader"),
         options: {
-          // Necessary for external CSS imports to work
-          // https://github.com/facebook/create-react-app/issues/2677
           ident: "postcss",
           plugins: () => [
             require("postcss-flexbugs-fixes"),
@@ -132,9 +112,6 @@ module.exports = function (webpackEnv) {
               },
               stage: 3,
             }),
-            // Adds PostCSS Normalize as the reset css with default options,
-            // so that it honors browserslist config in package.json
-            // which in turn let's users customize the target behavior as per their needs.
             postcssNormalize(),
           ],
           sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,
@@ -165,61 +142,27 @@ module.exports = function (webpackEnv) {
 
   return {
     mode: isEnvProduction ? "production" : isEnvDevelopment && "development",
-    // Stop compilation early in production
     bail: isEnvProduction,
     devtool: isEnvProduction
       ? shouldUseSourceMap
         ? "source-map"
         : false
       : isEnvDevelopment && "cheap-module-source-map",
-    // These are the "entry points" to our application.
-    // This means they will be the "root" imports that are included in JS bundle.
     entry:
       isEnvDevelopment && !shouldUseReactRefresh
-        ? [
-            // Include an alternative client for WebpackDevServer. A client's job is to
-            // connect to WebpackDevServer by a socket and get notified about changes.
-            // When you save a file, the client will either apply hot updates (in case
-            // of CSS changes), or refresh the page (in case of JS changes). When you
-            // make a syntax error, this client will display a syntax error overlay.
-            // Note: instead of the default WebpackDevServer client, we use a custom one
-            // to bring better experience for Create React App users. You can replace
-            // the line below with these two lines if you prefer the stock client:
-            //
-            // require.resolve('webpack-dev-server/client') + '?/',
-            // require.resolve('webpack/hot/dev-server'),
-            //
-            // When using the experimental react-refresh integration,
-            // the webpack plugin takes care of injecting the dev client for us.
-            webpackDevClientEntry,
-            // Finally, this is your app's code:
-            paths.appIndexJs,
-            // We include the app code last so that if there is a runtime error during
-            // initialization, it doesn't blow up the WebpackDevServer client, and
-            // changing JS code would still trigger a refresh.
-          ]
+        ? [webpackDevClientEntry, paths.appIndexJs]
         : paths.appIndexJs,
     output: {
-      // The build folder.
       path: isEnvProduction ? paths.appBuild : undefined,
-      // Add /* filename */ comments to generated require()s in the output.
       pathinfo: isEnvDevelopment,
-      // There will be one main bundle, and one file per asynchronous chunk.
-      // In development, it does not produce real files.
       filename: isEnvProduction
         ? "static/js/[name].[contenthash:8].js"
         : isEnvDevelopment && "static/js/bundle.js",
-      // TODO: remove this when upgrading to webpack 5
       futureEmitAssets: true,
-      // There are also additional JS chunk files if you use code splitting.
       chunkFilename: isEnvProduction
         ? "static/js/[name].[contenthash:8].chunk.js"
         : isEnvDevelopment && "static/js/[name].chunk.js",
-      // webpack uses `publicPath` to determine where the app is being served from.
-      // It requires a trailing slash, or the file assets will get an incorrect path.
-      // We inferred the "public path" (such as / or /my-project) from homepage.
       publicPath: paths.publicUrlOrPath,
-      // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction
         ? (info) =>
             path
@@ -228,68 +171,42 @@ module.exports = function (webpackEnv) {
         : isEnvDevelopment &&
           ((info) =>
             path.resolve(info.absoluteResourcePath).replace(/\\/g, "/")),
-      // Prevents conflicts when multiple webpack runtimes (from different apps)
-      // are used on the same page.
       jsonpFunction: `webpackJsonp${appPackageJson.name}`,
-      // this defaults to 'window', but by setting it to 'this' then
-      // module chunks which are built will work in web workers as well.
       globalObject: "this",
     },
     optimization: {
       minimize: isEnvProduction,
       minimizer: [
-        // This is only used in production mode
         new TerserPlugin({
           terserOptions: {
             parse: {
-              // We want terser to parse ecma 8 code. However, we don't want it
-              // to apply any minification steps that turns valid ecma 5 code
-              // into invalid ecma 5 code. This is why the 'compress' and 'output'
-              // sections only apply transformations that are ecma 5 safe
-              // https://github.com/facebook/create-react-app/pull/4234
               ecma: 8,
             },
             compress: {
               ecma: 5,
               warnings: false,
-              // Disabled because of an issue with Uglify breaking seemingly valid code:
-              // https://github.com/facebook/create-react-app/issues/2376
-              // Pending further investigation:
-              // https://github.com/mishoo/UglifyJS2/issues/2011
               comparisons: false,
-              // Disabled because of an issue with Terser breaking valid code:
-              // https://github.com/facebook/create-react-app/issues/5250
-              // Pending further investigation:
-              // https://github.com/terser-js/terser/issues/120
               inline: 2,
             },
             mangle: {
               safari10: true,
             },
-            // Added for profiling in devtools
             keep_classnames: isEnvProductionProfile,
             keep_fnames: isEnvProductionProfile,
             output: {
               ecma: 5,
               comments: false,
-              // Turned on because emoji and regex is not minified properly using default
-              // https://github.com/facebook/create-react-app/issues/2488
               ascii_only: true,
             },
           },
           sourceMap: shouldUseSourceMap,
         }),
-        // This is only used in production mode
         new OptimizeCSSAssetsPlugin({
           cssProcessorOptions: {
             parser: safePostCssParser,
             map: shouldUseSourceMap
               ? {
-                  // `inline: false` forces the sourcemap to be output into a
-                  // separate file
                   inline: false,
-                  // `annotation: true` appends the sourceMappingURL to the end of
-                  // the css file, helping the browser find the sourcemap
                   annotation: true,
                 }
               : false,
@@ -299,44 +216,25 @@ module.exports = function (webpackEnv) {
           },
         }),
       ],
-      // Automatically split vendor and commons
-      // https://twitter.com/wSokra/status/969633336732905474
-      // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
       splitChunks: {
         chunks: "all",
         name: isEnvDevelopment,
       },
-      // Keep the runtime chunk separated to enable long term caching
-      // https://twitter.com/wSokra/status/969679223278505985
-      // https://github.com/facebook/create-react-app/issues/5358
       runtimeChunk: {
         name: (entrypoint) => `runtime-${entrypoint.name}`,
       },
     },
     resolve: {
-      // This allows you to set a fallback for where webpack should look for modules.
-      // We placed these paths second because we want `node_modules` to "win"
-      // if there are any conflicts. This matches Node resolution mechanism.
-      // https://github.com/facebook/create-react-app/issues/253
       modules: ["node_modules", paths.appNodeModules].concat(
         modules.additionalModulePaths || []
       ),
-      // These are the reasonable defaults supported by the Node ecosystem.
-      // We also include JSX as a common component filename extension to support
-      // some tools, although we do not recommend using it, see:
-      // https://github.com/facebook/create-react-app/issues/290
-      // `web` extension prefixes have been added for better support
-      // for React Native Web.
       extensions: paths.moduleFileExtensions
         .map((ext) => `.${ext}`)
         .filter((ext) => useTypeScript || !ext.includes("ts")),
       alias: {
-        // Support React Native Web
-        // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         "react-native": "react-native-web",
         "@": paths.appSrc,
         "@pages": paths.appPages,
-        // Allows for better profiling with ReactDevTools
         ...(isEnvProductionProfile && {
           "react-dom$": "react-dom/profiling",
           "scheduler/tracing": "scheduler/tracing-profiling",
@@ -344,14 +242,7 @@ module.exports = function (webpackEnv) {
         ...(modules.webpackAliases || {}),
       },
       plugins: [
-        // Adds support for installing with Plug'n'Play, leading to faster installs and adding
-        // guards against forgotten dependencies and such.
         PnpWebpackPlugin,
-        // Prevents users from importing files from outside of src/ (or node_modules/).
-        // This often causes confusion because we only process files within src/ with babel.
-        // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
-        // please link the files into your node_modules/ and let module-resolution kick in.
-        // Make sure your source files are compiled, as they will not be processed in any way.
         new ModuleScopePlugin(paths.appSrc, [
           paths.appPackageJson,
           reactRefreshOverlayEntry,
@@ -359,16 +250,11 @@ module.exports = function (webpackEnv) {
       ],
     },
     resolveLoader: {
-      plugins: [
-        // Also related to Plug'n'Play, but this time it tells webpack to load its loaders
-        // from the current package.
-        PnpWebpackPlugin.moduleLoader(module),
-      ],
+      plugins: [PnpWebpackPlugin.moduleLoader(module)],
     },
     module: {
       strictExportPresence: true,
       rules: [
-        // Disable require.ensure as it's not a standard language feature.
         { parser: { requireEnsure: false } },
         {
           oneOf: [
@@ -476,7 +362,9 @@ module.exports = function (webpackEnv) {
               use: getStyleLoaders(
                 {
                   importLoaders: 2,
-                  sourceMap: isEnvProduction && shouldUseSourceMap,
+                  sourceMap: isEnvProduction
+                    ? shouldUseSourceMap
+                    : isEnvDevelopment,
                 },
                 "less-loader",
                 {
@@ -485,7 +373,7 @@ module.exports = function (webpackEnv) {
               ).concat({
                 loader: "style-resources-loader",
                 options: {
-                  patterns: path.resolve(paths.appSrc, "theme/base.less"), //全局引入公共的less 文件
+                  patterns: [path.resolve(paths.appSrc, "theme/index.less")], //全局引入公共的less 文件
                 },
               }),
               sideEffects: true,
@@ -495,9 +383,12 @@ module.exports = function (webpackEnv) {
               use: getStyleLoaders(
                 {
                   importLoaders: 2,
-                  sourceMap: isEnvProduction && shouldUseSourceMap,
-                  modules: true,
-                  getLocalIdent: getCSSModuleLocalIdent,
+                  sourceMap: isEnvProduction
+                    ? shouldUseSourceMap
+                    : isEnvDevelopment,
+                  modules: {
+                    getLocalIdent: getCSSModuleLocalIdent,
+                  },
                 },
                 "less-loader",
                 {
@@ -505,13 +396,12 @@ module.exports = function (webpackEnv) {
                 }
               ),
             },
-            // sass
             {
               test: sassRegex,
               exclude: sassModuleRegex,
               use: getStyleLoaders(
                 {
-                  importLoaders: 2,
+                  importLoaders: 3,
                   sourceMap: isEnvProduction
                     ? shouldUseSourceMap
                     : isEnvDevelopment,
@@ -548,29 +438,6 @@ module.exports = function (webpackEnv) {
       ],
     },
     plugins: [
-      new AntDesignThemePlugin({
-        antDir: path.join(paths.appPath, "./node_modules/antd"), //antd包位置
-        stylesDir: path.join(paths.appPath, "./src/theme"), //指定皮肤文件夹
-        varFile: path.join(paths.appPath, "./src/theme/index.less"), //自己设置默认的主题色
-        indexFileName: "./public/index.html",
-        mainLessFile: path.join(paths.appPath, "./src/theme/base.less"),
-        outputFilePath: path.join(paths.appPath, "./public/color.less"), //输出到什么地方
-        themeVariables: [
-          //这里写要改变的主题变量
-          "@primary-color",
-          "@link-color",
-          "@success-color",
-          "@warning-color",
-          "@error-color",
-          "@heading-color",
-          "@text-color",
-          "@text-color-secondary",
-          "@disabled-color",
-          "@border-color-base",
-        ],
-        generateOnce: false,
-      }),
-      // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
           {},
@@ -596,67 +463,30 @@ module.exports = function (webpackEnv) {
             : undefined
         )
       ),
-      // Inlines the webpack runtime script. This script is too small to warrant
-      // a network request.
-      // https://github.com/facebook/create-react-app/issues/5358
       isEnvProduction &&
         shouldInlineRuntimeChunk &&
         new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
-      // Makes some environment variables available in index.html.
-      // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-      // <link rel="icon" href="%PUBLIC_URL%/favicon.ico">
-      // It will be an empty string unless you specify "homepage"
-      // in `package.json`, in which case it will be the pathname of that URL.
       new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
-      // This gives some necessary context to module not found errors, such as
-      // the requesting resource.
       new ModuleNotFoundPlugin(paths.appPath),
-      // Makes some environment variables available to the JS code, for example:
-      // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
-      // It is absolutely essential that NODE_ENV is set to production
-      // during a production build.
-      // Otherwise React will be compiled in the very slow development mode.
       new webpack.DefinePlugin(env.stringified),
-      // This is necessary to emit hot updates (CSS and Fast Refresh):
       isEnvDevelopment && new webpack.HotModuleReplacementPlugin(),
-      // Experimental hot reloading for React .
-      // https://github.com/facebook/react/tree/master/packages/react-refresh
       isEnvDevelopment &&
         shouldUseReactRefresh &&
         new ReactRefreshWebpackPlugin({
           overlay: {
             entry: webpackDevClientEntry,
-            // The expected exports are slightly different from what the overlay exports,
-            // so an interop is included here to enable feedback on module-level errors.
             module: reactRefreshOverlayEntry,
-            // Since we ship a custom dev client and overlay integration,
-            // the bundled socket handling logic can be eliminated.
             sockIntegration: false,
           },
         }),
-      // Watcher doesn't work well if you mistype casing in a path so we use
-      // a plugin that prints an error when you attempt to do this.
-      // See https://github.com/facebook/create-react-app/issues/240
       isEnvDevelopment && new CaseSensitivePathsPlugin(),
-      // If you require a missing module and then `npm install` it, you still have
-      // to restart the development server for webpack to discover it. This plugin
-      // makes the discovery automatic so you don't have to restart.
-      // See https://github.com/facebook/create-react-app/issues/186
       isEnvDevelopment &&
         new WatchMissingNodeModulesPlugin(paths.appNodeModules),
       isEnvProduction &&
         new MiniCssExtractPlugin({
-          // Options similar to the same options in webpackOptions.output
-          // both options are optional
           filename: "static/css/[name].[contenthash:8].css",
           chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
         }),
-      // Generate an asset manifest file with the following content:
-      // - "files" key: Mapping of all asset filenames to their corresponding
-      //   output file so that tools can pick it up without having to parse
-      //   `index.html`
-      // - "entrypoints" key: Array of files which are included in `index.html`,
-      //   can be used to reconstruct the HTML if necessary
       new ManifestPlugin({
         fileName: "asset-manifest.json",
         publicPath: paths.publicUrlOrPath,
@@ -675,26 +505,15 @@ module.exports = function (webpackEnv) {
           };
         },
       }),
-      // Moment.js is an extremely popular library that bundles large locale files
-      // by default due to how webpack interprets its code. This is a practical
-      // solution that requires the user to opt into importing specific locales.
-      // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-      // You can remove this if you don't use Moment.js:
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      // Generate a service worker script that will precache, and keep up to date,
-      // the HTML & assets that are part of the webpack build.
       isEnvProduction &&
         fs.existsSync(swSrc) &&
         new WorkboxWebpackPlugin.InjectManifest({
           swSrc,
           dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
           exclude: [/\.map$/, /asset-manifest\.json$/, /LICENSE/],
-          // Bump up the default maximum size (2mb) that's precached,
-          // to make lazy-loading failure scenarios less likely.
-          // See https://github.com/cra-template/pwa/issues/13#issuecomment-722667270
           maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         }),
-      // TypeScript type checking
       useTypeScript &&
         new ForkTsCheckerWebpackPlugin({
           typescript: resolve.sync("typescript", {
@@ -710,10 +529,6 @@ module.exports = function (webpackEnv) {
             : undefined,
           tsconfig: paths.appTsConfig,
           reportFiles: [
-            // This one is specifically to match during CI tests,
-            // as micromatch doesn't match
-            // '../cra-template-typescript/template/src/App.tsx'
-            // otherwise.
             "../**/src/**/*.{ts,tsx}",
             "**/src/**/*.{ts,tsx}",
             "!**/src/**/__tests__/**",
@@ -722,12 +537,10 @@ module.exports = function (webpackEnv) {
             "!**/src/setupTests.*",
           ],
           silent: true,
-          // The formatter is invoked directly in WebpackDevServerUtils during development
           formatter: isEnvProduction ? typescriptFormatter : undefined,
         }),
       !disableESLintPlugin &&
         new ESLintPlugin({
-          // Plugin options
           extensions: ["js", "mjs", "jsx", "ts", "tsx"],
           formatter: require.resolve("react-dev-utils/eslintFormatter"),
           eslintPath: require.resolve("eslint"),
@@ -738,7 +551,6 @@ module.exports = function (webpackEnv) {
             paths.appNodeModules,
             ".cache/.eslintcache"
           ),
-          // ESLint class options
           cwd: paths.appPath,
           resolvePluginsRelativeTo: __dirname,
           baseConfig: {
@@ -750,9 +562,29 @@ module.exports = function (webpackEnv) {
             },
           },
         }),
+      new AntDesignThemePlugin({
+        indexFileName: "./public/index.html",
+        antDir: path.join(paths.appPath, "./node_modules/antd"),
+        stylesDir: path.join(paths.appSrc, "./src"),
+        varFile: path.join(paths.appSrc, "./theme/variables.less"),
+        lessUrl: "https://cdn.bootcss.com/less.js/2.5.3/less.min.js",
+        themeVariables: [
+          "@primary-color",
+          "@link-color",
+          "@success-color",
+          "@warning-color",
+          "@error-color",
+          "@layout-text",
+          "@layout-background",
+          "@heading-color",
+          "@text-color",
+          "@text-color-secondary",
+          "@disabled-color",
+          "@border-color-base",
+        ],
+        generateOnce: false,
+      }),
     ].filter(Boolean),
-    // Some libraries import Node modules but don't use them in the browser.
-    // Tell webpack to provide empty mocks for them so importing them works.
     node: {
       module: "empty",
       dgram: "empty",
@@ -763,8 +595,6 @@ module.exports = function (webpackEnv) {
       tls: "empty",
       child_process: "empty",
     },
-    // Turn off performance processing because we utilize
-    // our own hints via the FileSizeReporter
     performance: false,
   };
 };
