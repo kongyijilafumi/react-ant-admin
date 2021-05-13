@@ -5,42 +5,11 @@
 @success-color        : #52c41a; // 成功色
 @warning-color        : #faad14; // 警告色
 @error-color          : #f5222d; // 错误色
-@layout-text          : #fff; // 布局字体色
+@layout-text          : rgb(241, 240, 240); // 布局字体色
 @layout-background    : rgba(0, 0, 0, 0.85); // 布局背景色
+@fade-color           : rgba(241, 240, 240, .9);
 @heading-color        : rgba(0, 0, 0, 0.85); // 标题色
 @text-color           : rgba(0, 0, 0, 0.65); // 主文本色
 @text-color-secondary : rgba(0, 0, 0, 0.45); // 次文本色
 @disabled-color       : rgba(0, 0, 0, 0.25); // 失效色
 @border-color-base    : #d9d9d9; // 边框色
-
-.hide-scrollbar {
-  scrollbar-width   : none;
-  -ms-overflow-style: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-#root {
-  position: relative;
-}
-
-.loading-page {
-
-  width  : 100%;
-  height : 100vh;
-  z-index: 1;
-
-  .ant-spin-text {
-    margin-top: 20px;
-    font-size : 15px;
-    color     : #000;
-  }
-}
-
-.mixin-text-over() {
-  white-space  : nowrap;
-  overflow     : hidden;
-  text-overflow: ellipsis;
-}

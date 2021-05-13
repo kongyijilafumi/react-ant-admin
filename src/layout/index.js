@@ -9,7 +9,7 @@ import "./index.less";
 const { Content } = Layout;
 const LayoutBody = () => {
   return (
-    <Layout className="layout-body">
+    <Layout className="my-layout-body">
       <Header />
       <Layout>
         <Menu />

@@ -1,4 +1,4 @@
-@opacity-text: fade(@layout-text , 60%);
+@import "../theme/variables";
 
 .ant-menu-item {
   align-items: center;
@@ -9,7 +9,7 @@
   }
 }
 
-.layout-body {
+.my-layout-body {
   min-height: 100vh;
 
   .ant-menu {
@@ -27,10 +27,6 @@
         font-size: 24px;
       }
     }
-  }
-
-  .ant-menu-dark.ant-menu-inline .ant-menu-submenu-title {
-    // .mixin-text-over();
   }
 
   .ant-layout-sider-children {
@@ -57,7 +53,7 @@
       svg,
       .ant-menu-submenu-arrow::before,
       .ant-menu-submenu-arrow::after {
-        color: @opacity-text;
+        color: @fade-color;
       }
 
       // 父级菜单 和子菜单选中的字体颜色
@@ -82,7 +78,7 @@
 
       // 背景色
       .ant-menu-sub.ant-menu-inline {
-        background: @heading-color;
+        background: @layout-background;
       }
 
 
@@ -106,7 +102,8 @@
 
           a,
           svg {
-            color: @opacity-text;
+
+            color: @fade-color;
           }
         }
       }
@@ -198,7 +195,8 @@
 
   .header {
     color           : @layout-text ;
-    background-color: @layout-header-background;
+    background-color: @layout-background;
+    box-shadow      : 0 10px 5px #888888;
 
     .logo {
       float: left;

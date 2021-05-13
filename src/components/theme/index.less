@@ -1,3 +1,5 @@
+@import "../../theme/variables.less";
+
 .set-theme {
 
   .icon {
@@ -10,7 +12,7 @@
     width           : 45px;
     height          : 45px;
     background-color: #fff;
-    box-shadow      : 0 3px 6px -4px rgb(0 0 0 / 12%), 0 6px 16px 0 rgb(0 0 0 / 8%), 0 9px 28px 8px rgb(0 0 0 / 5%);
+    box-shadow      : 0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05);
     border-radius   : 50%;
     cursor          : pointer;
 
@@ -25,8 +27,9 @@
 }
 
 .color-row {
-  padding: 10px;
+  padding    : 10px;
   align-items: center;
+
   .color-btn {
     margin-left  : 5px;
     width        : 100px;
