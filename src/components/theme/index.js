@@ -1,17 +1,57 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Drawer, Col, Row, message } from "antd";
 import MyIcon from "@/components/icon";
 import Color from "@/components/color";
+import { getTheme, saveTheme } from "@/utils";
 import "./index.less";
 
 const getColor = (color) => ({
   background: color,
 });
+const localTheme = getTheme();
 export default function SetTheme() {
   const [visible, setVisible] = useState(false);
   const [selectInfo, setInfo] = useState({});
   const [colorShow, setColorShow] = useState(false);
-  const [colors, setColor] = useState(process.env.varColors);
+  const [colors, setColor] = useState(localTheme || process.env.varColors);
+
+  // 关闭色板
+  const onCloseColor = useCallback(() => {
+    setInfo({});
+    setColorShow(false);
+  }, []);
+
+  // 设置主题
+  const setTheme = useCallback(
+    (obj, list, tip = true) => {
+      window.less
+        .modifyVars(obj)
+        .then((res) => {
+          tip && message.success("修改主题色成功");
+          saveTheme(list);
+          setColor(list);
+          onCloseColor();
+        })
+        .catch((err) => {
+          tip && message.error("修改失败");
+        });
+    },
+    [onCloseColor]
+  );
+
+  useEffect(() => {
+    if (localTheme) {
+      setTheme(
+        localTheme.reduce((a, c) => {
+          a[c.key] = c.value;
+          return a;
+        }, {}),
+        localTheme,
+        false
+      );
+    }
+    // eslint-disable-next-line
+  }, []);
   // 关闭抽屉
   const onClose = useCallback(() => {
     setVisible(false);
@@ -34,16 +74,7 @@ export default function SetTheme() {
     newColor.forEach((i) => {
       colorObj[i.key] = i.value;
     });
-    window.less
-      .modifyVars(colorObj)
-      .then((res) => {
-        message.success("修改主题色成功");
-        setColor(newColor);
-        onCloseColor();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setTheme(colorObj, newColor);
   };
 
   // 选中
@@ -53,15 +84,8 @@ export default function SetTheme() {
     if (pageY + 350 > height) {
       pageY -= 320;
     }
-    console.log(e);
     setInfo({ ...info, pageX, pageY });
     setColorShow(true);
-  }, []);
-
-  // 关闭色板
-  const onCloseColor = useCallback(() => {
-    setInfo({});
-    setColorShow(false);
   }, []);
 
   return (

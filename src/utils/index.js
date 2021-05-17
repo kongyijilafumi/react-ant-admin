@@ -25,13 +25,12 @@ async function getDefaultMenu() {
 }
 
 function getSeesionUser() {
-  const userInfo = window.sessionStorage.getItem("userInfo");
-  return userInfo ? JSON.parse(userInfo) : undefined;
+  return getKey(false, "userInfo");
 }
 
 function saveUser(info) {
-  window.sessionStorage.setItem("userInfo", JSON.stringify(info));
-  window.localStorage.setItem("userInfo", JSON.stringify(info));
+  setKey(true, "userInfo", info);
+  setKey(false, "userInfo", info);
 }
 
 function sleep(seconed) {
@@ -41,12 +40,11 @@ function sleep(seconed) {
 }
 
 function clearSessionUser() {
-  window.sessionStorage.removeItem("userInfo");
+  rmKey(false, "userInfo");
 }
 
 function getLocalUser() {
-  const userInfo = window.localStorage.getItem("userInfo");
-  return userInfo ? JSON.parse(userInfo) : undefined;
+  return getKey(true, "userInfo");
 }
 
 // 获取当前url
@@ -101,14 +99,11 @@ function reduceMenuList(list) {
 }
 
 function getLocalMenu() {
-  let menu = sessionStorage.getItem("menu") || "null";
-  menu = JSON.parse(menu);
-  return menu;
+  return getKey(false, "menu");
 }
 
 function saveLocalMenu(list) {
-  let str = JSON.stringify(list || null);
-  sessionStorage.setItem("menu", str);
+  setKey(false, "menu", list);
 }
 
 function saveToken(token) {
@@ -118,6 +113,32 @@ function saveToken(token) {
 
 function getToken() {
   return localStorage.getItem("token");
+}
+
+function getKey(isLocal, key) {
+  let storeage = getStorage(isLocal);
+  let data = storeage.getItem(key) || "null";
+  return JSON.parse(data);
+}
+function getStorage(isLocal) {
+  return isLocal ? window.localStorage : window.sessionStorage;
+}
+function setKey(isLocal, key, data) {
+  let storeage = getStorage(isLocal);
+  storeage.setItem(key, JSON.stringify(data || null));
+}
+
+function rmKey(isLocal, key) {
+  let storeage = getStorage(isLocal);
+  storeage.removeItem(key);
+}
+
+function saveTheme(data) {
+  setKey(true, "theme", data);
+}
+
+function getTheme() {
+  return getKey(true, "theme");
 }
 
 export {
@@ -135,4 +156,6 @@ export {
   saveLocalMenu,
   saveToken,
   getToken,
+  saveTheme,
+  getTheme,
 };
