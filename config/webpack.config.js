@@ -26,7 +26,6 @@ const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 const ForkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
 const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
-const AntDesignThemePlugin = require("antd-theme-webpack-plugin");
 
 const postcssNormalize = require("postcss-normalize");
 
@@ -131,6 +130,7 @@ module.exports = function (webpackEnv) {
           loader: require.resolve(preProcessor),
           options: {
             sourceMap: true,
+            ...options,
             lessOptions: {
               ...options,
             },
@@ -360,31 +360,36 @@ module.exports = function (webpackEnv) {
             {
               test: lessRegex,
               exclude: lessModuleRegex,
-              use: getStyleLoaders(
+              use: [
+                ...getStyleLoaders(
+                  {
+                    importLoaders: 3,
+                    sourceMap: isEnvProduction
+                      ? shouldUseSourceMap
+                      : isEnvDevelopment,
+                  },
+                  "less-loader",
+                  {
+                    javascriptEnabled: true,
+                  }
+                ),
                 {
-                  importLoaders: 2,
-                  sourceMap: isEnvProduction
-                    ? shouldUseSourceMap
-                    : isEnvDevelopment,
+                  loader: "style-resources-loader",
+                  options: {
+                    patterns: path.resolve(
+                      paths.appSrc,
+                      "assets/theme/var.less"
+                    ), //全局引入less 文件
+                  },
                 },
-                "less-loader",
-                {
-                  javascriptEnabled: true,
-                }
-              ),
-              // .concat({
-              //   loader: "style-resources-loader",
-              //   options: {
-              //     patterns: [path.resolve(paths.appSrc, "theme/index.less")], //全局引入公共的less 文件
-              //   },
-              // })
+              ],
               sideEffects: true,
             },
             {
               test: lessModuleRegex,
               use: getStyleLoaders(
                 {
-                  importLoaders: 2,
+                  importLoaders: 3,
                   sourceMap: isEnvProduction
                     ? shouldUseSourceMap
                     : isEnvDevelopment,
@@ -564,54 +569,6 @@ module.exports = function (webpackEnv) {
             },
           },
         }),
-      new AntDesignThemePlugin({
-        indexFileName: "./public/index.html",
-        antDir: path.join(paths.appPath, "./node_modules/antd"),
-        stylesDir: paths.appSrc,
-        varFile: path.join(paths.appSrc, "./theme/variables.less"),
-        lessUrl: "https://cdn.bootcss.com/less.js/2.5.3/less.min.js",
-        outputFilePath: path.join(paths.appPublic, "color.less"), //输出到什么地方
-        themeVariables: [
-          "@primary-color",
-          "@link-color",
-          "@success-color",
-          "@warning-color",
-          "@error-color",
-          "@layout-text",
-          "@layout-background",
-          "@heading-color",
-          "@text-color",
-          "@text-color-secondary",
-          "@disabled-color",
-          "@border-color-base",
-        ],
-        generateOnce: false,
-      }),
-      // new AntDesignThemePlugin({
-      //   indexFileName: "./public/index.html",
-      //   antDir: path.join(paths.appPath, "./src/pages"),
-      //   stylesDir: [
-      //     path.join(paths.appSrc, "./pages"),
-      //     path.join(paths.appSrc, "./components"),
-      //   ],
-      //   varFile: path.join(paths.appSrc, "./theme/index.less"),
-      //   lessUrl: "https://cdn.bootcss.com/less.js/2.5.3/less.min.js",
-      //   themeVariables: [
-      //     "@primary-color",
-      //     "@link-color",
-      //     "@success-color",
-      //     "@warning-color",
-      //     "@error-color",
-      //     "@layout-text",
-      //     "@layout-background",
-      //     "@heading-color",
-      //     "@text-color",
-      //     "@text-color-secondary",
-      //     "@disabled-color",
-      //     "@border-color-base",
-      //   ],
-      //   generateOnce: false,
-      // }),
     ].filter(Boolean),
     node: {
       module: "empty",

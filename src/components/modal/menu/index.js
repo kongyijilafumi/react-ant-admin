@@ -4,7 +4,7 @@ import { Modal, Form, Input, Select, message, Radio, InputNumber } from "antd";
 import { getPower, addMenu, getMenuInfo, editMenu } from "@/api";
 import "./index.less";
 
-const ICON_JSON = require("@/asset/json/iconfont.json");
+const ICON_JSON = require("@/assets/json/iconfont.json");
 const ICON_PREFIX = ICON_JSON.css_prefix_text;
 const ICON_DATA = ICON_JSON.glyphs;
 const titleRules = [{ required: true, message: "请填写菜单标题" }];

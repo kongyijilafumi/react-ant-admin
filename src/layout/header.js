@@ -1,6 +1,6 @@
 import React from "react";
 import { Layout, Menu, Dropdown } from "antd";
-import logo from "@/asset/images/logo.svg";
+import logo from "@/assets/images/logo.svg";
 import MyIcon from "@/components/icon/";
 import { connect } from "react-redux";
 import { clearUser } from "@/store/action";

@@ -3,7 +3,7 @@ import { Input, Row, Col } from "antd";
 import MyIcon from "@/components/icon";
 import "./index.less";
 import { Link } from "react-router-dom";
-const iconData = require("@/asset/json/iconfont");
+const iconData = require("@/assets/json/iconfont");
 const prefix_name = iconData.css_prefix_text;
 const initData = iconData.glyphs.map((item) => ({
   ...item,
