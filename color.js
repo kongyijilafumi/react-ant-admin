@@ -30,7 +30,9 @@ fs.readFile(varFile, "utf-8", function name(err, data) {
       });
     }
   });
-  fs.writeFile("./color.json", JSON.stringify(varColors), function (err) {
+  var tips = "\n // 本文件由脚本自动生成";
+  let exportStr = "module.exports=" + JSON.stringify(varColors) + tips;
+  fs.writeFile("./color.json.js", exportStr, function (err) {
     err && console.log(err);
   });
 

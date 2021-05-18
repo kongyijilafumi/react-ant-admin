@@ -75,7 +75,7 @@
   },
   "scripts": {
     "start": "node color && node scripts/start.js",
-    "start mock": "env-cmd -f .env.mock node color && node scripts/start.js",
+    "start mock": "node color && env-cmd -f .env.mock node scripts/start.js",
     "build": "node color && node scripts/build.js"
   },
   "eslintConfig": {

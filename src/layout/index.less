@@ -33,7 +33,7 @@
     background: @layout-aside-bg ;
 
     .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-      background: @primary-color;
+      background: @layout-aside-activeBg;
 
       a,
       svg {
@@ -57,6 +57,7 @@
       // 父级菜单 和子菜单选中的字体颜色
       .ant-menu-submenu-active,
       .ant-menu-submenu-selected,
+      .ant-menu-item.ant-menu-item-active,
       .ant-menu-submenu-open {
 
         .ant-menu-submenu-title,
@@ -81,7 +82,7 @@
 
 
       .ant-menu-submenu .ant-menu-item-selected {
-        background-color: @primary-color ;
+        background-color: @layout-aside-activeBg ;
       }
 
       // 子菜单 颜色
@@ -140,7 +141,7 @@
       right       : 0;
       width       : 100%;
       background  : inherit;
-      border-right: 1px solid #f0f0f0;
+      border-right: 1px solid @border-color-base;
     }
 
     .ant-btn {

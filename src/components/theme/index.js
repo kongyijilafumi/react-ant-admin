@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Drawer, Col, Row, message } from "antd";
+import { Drawer, Col, Row, message, Button } from "antd";
 import MyIcon from "@/components/icon";
 import Color from "@/components/color";
 import { getTheme, saveTheme } from "@/utils";
@@ -28,7 +28,6 @@ export default function SetTheme() {
         .modifyVars(obj)
         .then((res) => {
           tip && message.success("修改主题色成功");
-          saveTheme(list);
           setColor(list);
           onCloseColor();
         })
@@ -38,8 +37,9 @@ export default function SetTheme() {
     },
     [onCloseColor]
   );
-
+  // 初始化主题
   useEffect(() => {
+    saveTheme();
     if (localTheme) {
       setTheme(
         localTheme.reduce((a, c) => {
@@ -52,6 +52,7 @@ export default function SetTheme() {
     }
     // eslint-disable-next-line
   }, []);
+
   // 关闭抽屉
   const onClose = useCallback(() => {
     setVisible(false);
@@ -87,6 +88,12 @@ export default function SetTheme() {
     setInfo({ ...info, pageX, pageY });
     setColorShow(true);
   }, []);
+  
+  // 保存本地
+  const saveLocalTheme = useCallback(() => {
+    saveTheme(colors);
+    message.success("主题成功保存到本地！");
+  }, [colors]);
 
   return (
     <div className="set-theme">
@@ -116,6 +123,12 @@ export default function SetTheme() {
             ></Col>
           </Row>
         ))}
+
+        <Row justify="center">
+          <Button type="primary" onClick={saveLocalTheme}>
+            保存本地
+          </Button>
+        </Row>
         <Color
           pageX={selectInfo.pageX}
           pageY={selectInfo.pageY}
