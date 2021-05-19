@@ -11,17 +11,26 @@
 
 [react-ant-admin](http://azhengpersonalblog.top/react-ant-admin/)
 
+nodejs后台web服务:[react-ant-admin-server](https://gitee.com/kong_yiji_and_lavmi/react-ant-admin-server)
 ## 文档地址
 
 [react-ant-admin文档地址](https://azhengpersonalblog.top/doc-react-ant-admin/)
 
 更多建议欢迎骚扰~
 
+[qq交流群:532948540](https://qm.qq.com/cgi-bin/qm/qr?k=Wo_kXUOA-mTBviZ6gF4H912AKdE5vTML&jump_from=webapi)
+
+![qrcode](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/qq.jpg)
+
+欢迎各位提出建议与问题!
+
+
 ## 特性
 - 菜单配置:扁平化数据组织,方便编写,存库,页面菜单,标题,侧边栏,顶部导航栏同步
 - 页面懒加载:使用[@loadable/component](https://loadable-components.com/docs/getting-started/)来解决首次打开页面过慢的问题.
 - Ajax请求：restful规范，自动错误提示，提示可配置；自动打断未完成的请求；
 - 权限控制: 根据不用角色的功能类型显示菜单,路由页面拦截.
+- 自定义主题，可以自己定义界面颜色。
 
 系统提供了一些基础的页面
 - 登录页
@@ -179,8 +188,5 @@ let menu = [
 
 
 
-企鹅号:``1369501150``
 
-邮箱:``1369501150@qq.com``
 
-欢迎各位提出建议与问题!

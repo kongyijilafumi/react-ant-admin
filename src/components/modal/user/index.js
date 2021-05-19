@@ -32,7 +32,6 @@ export default function UserModal({ user_id, isShow, onCancel, onOk }) {
 
   const submit = () => {
     form.validateFields().then((values) => {
-      console.log(values);
       let modify = Boolean(user_id);
       let fn = modify ? editUser : addUser;
       if (modify) {

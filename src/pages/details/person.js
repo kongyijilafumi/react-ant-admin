@@ -137,6 +137,16 @@ export default function Person() {
                   github地址
                 </a>
               </p>
+              <p>
+                <MyIcon className="icon" type="icon_QQ" />
+                <a
+                  href="https://qm.qq.com/cgi-bin/qm/qr?k=Wo_kXUOA-mTBviZ6gF4H912AKdE5vTML&jump_from=webapi"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  qq交流群
+                </a>
+              </p>
             </div>
             <div className="tags">
               <div className="title">标签</div>
