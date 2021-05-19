@@ -17,7 +17,7 @@ fs.readFile(varFile, "utf-8", function name(err, data) {
     }
   });
   varStrArr = varStrArr.slice(...slice).filter((i) => i[0] === "@");
-  let colorsReg = /(.*?)\s+:\s+(.*?);\s+\/\/\s+([\u4e00-\u9fa5]+)/g;
+  let colorsReg = /(.*?)\s*:\s*(.*?);\s*\/\/\s*([\u4e00-\u9fa5]*)/g;
   let varColors = [];
   varStrArr.forEach((item) => {
     colorsReg.lastIndex = 0;
