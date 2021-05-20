@@ -62,7 +62,15 @@ export default function SetTheme() {
     if (THEME && THEME_NAME) {
       let newColorList = [...colorList];
       newColorList = findInfoColor(newColorList, THEME);
-      setColor(newColorList);
+      let newColorObj = {
+        ...Themes.find((i) => i.value === THEME_NAME).colorList,
+      };
+      newColorList.forEach((i) => {
+        let key = i.key,
+          value = i.value;
+        newColorObj[key] = value;
+      });
+      setTheme(newColorObj, newColorList, false);
       setStyle(THEME_NAME);
     }
     // eslint-disable-next-line
