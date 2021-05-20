@@ -11,6 +11,10 @@
   min-height: 100vh;
 
   .ant-menu {
+    &.layout-silder-menu {
+      border-color: @border-color-split ;
+    }
+
     .ant-menu-submenu .ant-menu-submenu-title .anticon {
       font-size     : 24px;
       vertical-align: middle;
@@ -28,22 +32,19 @@
   }
 
   .ant-layout-sider-children {
-    position  : relative;
-    height    : auto;
-    background: @layout-aside-bg ;
+    position: relative;
+    height  : auto;
 
     .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-      background: @layout-aside-activeBg;
 
       a,
       svg {
-        color: @layout-aside-color ;
+        color: @text-color ;
       }
     }
 
     &>.ant-menu {
-      background: @layout-aside-bg ;
-      color     : @layout-aside-color ;
+      color: @text-color ;
 
       // 父级菜单 和子菜单未选中的字体颜色
       .ant-menu-submenu-title,
@@ -51,7 +52,7 @@
       svg,
       .ant-menu-submenu-arrow::before,
       .ant-menu-submenu-arrow::after {
-        color: @layout-aside-fade;
+        color: @text-color-secondary;
       }
 
       // 父级菜单 和子菜单选中的字体颜色
@@ -65,25 +66,10 @@
         svg,
         .ant-menu-submenu-arrow::before,
         .ant-menu-submenu-arrow::after {
-          color: @layout-aside-color ;
+          color: @text-color ;
         }
       }
 
-      .ant-menu-item:active,
-      .ant-menu-submenu-title:active {
-        background-color: @layout-aside-bg ;
-      }
-
-
-      // 背景色
-      .ant-menu-sub.ant-menu-inline {
-        background: @layout-aside-bg ;
-      }
-
-
-      .ant-menu-submenu .ant-menu-item-selected {
-        background-color: @layout-aside-activeBg ;
-      }
 
       // 子菜单 颜色
       .ant-menu-submenu {
@@ -93,7 +79,7 @@
 
           a,
           svg {
-            color: @layout-aside-color ;
+            color: @text-color ;
           }
         }
 
@@ -101,8 +87,7 @@
 
           a,
           svg {
-
-            color: @layout-aside-fade;
+            color: @text-color-secondary;
           }
         }
       }
@@ -119,9 +104,10 @@
   .layout-content-body {
 
     &>div {
-      background: #fff;
-      padding   : 20px;
-      min-height: 100%;
+      padding         : 20px;
+      min-height      : 100%;
+      background-color: @body-background;
+      border          : 1px solid @border-color-split;
     }
   }
 
@@ -141,13 +127,13 @@
       right       : 0;
       width       : 100%;
       background  : inherit;
-      border-right: 1px solid @border-color-base;
+      border-right: 1px solid @border-color-split;
     }
 
     .ant-btn {
       width     : 100%;
       background: unset;
-      color     : @layout-aside-color ;
+      color     : @text-color ;
       border    : 0;
       outline   : none;
       transition: none;
@@ -158,11 +144,11 @@
   .top-menu {
     margin    : 10px 0;
     overflow-x: auto;
-    background: #fff;
+    background: @body-background;
   }
 
   .top-breadcrumb {
-    background-color: #fff;
+    background-color: @body-background;
     margin-top      : 10px;
     padding         : 10px;
     font-size       : 16px;
@@ -193,9 +179,9 @@
   }
 
   .header {
-    color           : @layout-header-color ;
-    background-color: @layout-header-bg;
-    box-shadow      : 0 10px 5px #888888;
+    color           : @text-color ;
+    background-color: @body-background;
+    border-bottom   : 1px solid @border-color-base;
 
     .logo {
       float: left;
@@ -218,7 +204,7 @@
     }
 
     .right-down {
-      background-color: #fafafa;
+      background-color: @border-color-split;
     }
   }
 

@@ -133,14 +133,6 @@ function rmKey(isLocal, key) {
   storeage.removeItem(key);
 }
 
-function saveTheme(data) {
-  setKey(true, "theme", data);
-}
-
-function getTheme() {
-  return getKey(true, "theme");
-}
-
 export {
   getDefaultMenu,
   getSeesionUser,
@@ -156,6 +148,6 @@ export {
   saveLocalMenu,
   saveToken,
   getToken,
-  saveTheme,
-  getTheme,
+  getKey,
+  setKey,
 };

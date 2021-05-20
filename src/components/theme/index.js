@@ -1,20 +1,40 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Drawer, Col, Row, message, Button } from "antd";
+import { Drawer, Col, Row, message, Button, Radio } from "antd";
 import MyIcon from "@/components/icon";
 import Color from "@/components/color";
-import { getTheme, saveTheme } from "@/utils";
+import { getKey, setKey } from "@/utils";
 import "./index.less";
+
+var darkTheme = require("@/assets/theme/dark.json");
+var defaultTheme = require("@/assets/theme/default.json");
+
+const Themes = [
+  { label: "默认", value: "default", colorList: defaultTheme },
+  { label: "暗黑", value: "dark", colorList: darkTheme },
+];
+
+function findInfoColor(list, obj) {
+  return list.map((item) => {
+    let key = item.key;
+    let value = obj[key];
+    if (value) {
+      item.value = value;
+    }
+    return item;
+  });
+}
 
 const getColor = (color) => ({
   background: color,
 });
-const localTheme = getTheme();
+const THEME_NAME = getKey(true, "theme-name");
+const THEME = getKey(true, "theme");
 export default function SetTheme() {
   const [visible, setVisible] = useState(false);
   const [selectInfo, setInfo] = useState({});
   const [colorShow, setColorShow] = useState(false);
-  const [colors, setColor] = useState(localTheme || process.env.varColors);
-
+  const [colorList, setColor] = useState(process.env.varColors);
+  const [themeStyle, setStyle] = useState(THEME_NAME || Themes[0].value);
   // 关闭色板
   const onCloseColor = useCallback(() => {
     setInfo({});
@@ -39,16 +59,11 @@ export default function SetTheme() {
   );
   // 初始化主题
   useEffect(() => {
-    saveTheme();
-    if (localTheme) {
-      setTheme(
-        localTheme.reduce((a, c) => {
-          a[c.key] = c.value;
-          return a;
-        }, {}),
-        localTheme,
-        false
-      );
+    if (THEME && THEME_NAME) {
+      let newColorList = [...colorList];
+      newColorList = findInfoColor(newColorList, THEME);
+      setColor(newColorList);
+      setStyle(THEME_NAME);
     }
     // eslint-disable-next-line
   }, []);
@@ -63,38 +78,58 @@ export default function SetTheme() {
     setVisible(true);
   }, []);
 
-  const onChangeComplete = (v, k) => {
-    let newColor = [...colors];
-    console.log(v);
-    newColor.forEach((i) => {
-      if (i.key === k) {
-        i.value = v.hex;
-      }
-    });
-    let colorObj = {};
-    newColor.forEach((i) => {
-      colorObj[i.key] = i.value;
-    });
-    setTheme(colorObj, newColor);
-  };
+  const onChangeComplete = useCallback(
+    (v, k) => {
+      let newColor = [...colorList];
+      newColor.forEach((i) => {
+        if (i.key === k) {
+          i.value = v.hex;
+        }
+      });
+      let colorObj = {};
+      newColor.forEach((i) => {
+        colorObj[i.key] = i.value;
+      });
+      setTheme(colorObj, newColor);
+    },
+    [colorList, setTheme]
+  );
 
   // 选中
   const onSelect = useCallback((e, info) => {
     const height = window.innerHeight;
+    const width = window.innerWidth;
     let { clientX: pageX, clientY: pageY } = e;
     if (pageY + 350 > height) {
       pageY -= 320;
     }
+    if (pageX + 250 > width) {
+      pageX -= 220;
+    }
     setInfo({ ...info, pageX, pageY });
     setColorShow(true);
   }, []);
-  
+
   // 保存本地
   const saveLocalTheme = useCallback(() => {
-    saveTheme(colors);
+    let themeObj = Themes.find((i) => i.value === themeStyle).colorList;
+    themeObj = colorList.reduce((a, c) => {
+      a[c.key] = c.value;
+      return a;
+    }, themeObj);
+    setKey(true, "theme-name", themeStyle);
+    setKey(true, "theme", themeObj);
     message.success("主题成功保存到本地！");
-  }, [colors]);
+  }, [themeStyle, colorList]);
 
+  // 选择主题
+  const themeChange = (e) => {
+    const { value } = e.target;
+    const chooseColor = Themes.find((i) => i.value === value).colorList;
+    const newColorList = findInfoColor([...colorList], chooseColor);
+    setTheme(chooseColor, newColorList);
+    setStyle(value);
+  };
   return (
     <div className="set-theme">
       <div className="icon" onClick={showDrawer}>
@@ -110,8 +145,16 @@ export default function SetTheme() {
         visible={visible}
         onClick={onCloseColor}
       >
-        {colors.map((i) => (
-          <Row className="color-row" key={i.key}>
+        <Radio.Group
+          options={Themes}
+          onChange={themeChange}
+          value={themeStyle}
+          optionType="button"
+          buttonStyle="solid"
+        />
+        <Row className="color-row primary">自定义Less变量:</Row>
+        {colorList.map((i) => (
+          <Row className="color-row" justify="space-between" key={i.key}>
             <Col>{i.title}:</Col>
             <Col
               className="color-btn"

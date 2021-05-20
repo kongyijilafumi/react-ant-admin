@@ -28,7 +28,7 @@ const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const postcssNormalize = require("postcss-normalize");
 const appPackageJson = require(paths.appPackageJson);
-
+const showColorSet = require("../color.config");
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== "false";
 
@@ -446,6 +446,7 @@ module.exports = function (webpackEnv) {
           {
             inject: true,
             template: paths.appHtml,
+            showColorSet,
           },
           isEnvProduction
             ? {

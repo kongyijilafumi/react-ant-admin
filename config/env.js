@@ -3,7 +3,10 @@
 const fs = require("fs");
 const path = require("path");
 const paths = require("./paths");
-const varColors = require("../color.json.js");
+const showColorSet = require("../color.config");
+try {
+  var varColors = require("../color.json.js");
+} catch (error) {}
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve("./paths")];
 
@@ -76,6 +79,7 @@ function getClientEnvironment(publicUrl) {
         WDS_SOCKET_PORT: process.env.WDS_SOCKET_PORT,
         FAST_REFRESH: process.env.FAST_REFRESH !== "false",
         varColors: varColors || [],
+        showColorSet,
       }
     );
   const stringified = {
