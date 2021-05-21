@@ -5,13 +5,21 @@ export default function BottomFooter() {
   return (
     <Footer className="footer">
       <p>
-        <a href="https://azhengpersonalblog.top/doc-react-ant-admin" target="_blank" rel="noreferrer">
+        <a
+          href="https://azhengpersonalblog.top/doc-react-ant-admin"
+          target="_blank"
+          rel="noreferrer"
+        >
           react-ant-admin文档地址
         </a>
       </p>
       <p>
-        <a href="mailto:1369501150@qq.com" target="_blank" rel="noreferrer" >
-          邮箱联系我
+        <a
+          href="https://qm.qq.com/cgi-bin/qm/qr?k=Wo_kXUOA-mTBviZ6gF4H912AKdE5vTML&jump_from=webapi"
+          target="_blank"
+          rel="noreferrer"
+        >
+          qq交流群
         </a>
       </p>
       <p>备案/许可证编号：湘ICP备20007569号</p>
