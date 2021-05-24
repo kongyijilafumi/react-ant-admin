@@ -33,7 +33,7 @@ function Login({ setUserInfo }) {
         setBtnLoad(false);
         if (status === 1) return;
         saveToken(token);
-        data.pswd = values.pswd;
+        data.isLogin = true;
         message.success(msg);
         if (values.remember) {
           saveUser(data);

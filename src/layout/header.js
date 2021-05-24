@@ -4,22 +4,29 @@ import logo from "@/assets/images/logo.svg";
 import MyIcon from "@/components/icon/";
 import { connect } from "react-redux";
 import { clearUser } from "@/store/action";
-import { clearSessionUser } from "@/utils";
+import { clearSessionUser, setKey, saveToken } from "@/utils";
 const { Header } = Layout;
 const mapStateToProps = (state) => ({
   userInfo: state.global.userInfo,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  userOut: () => {
+  userOut: (info) => {
     clearSessionUser();
+    info.isLogin = false;
+    saveToken();
+    setKey(true, "userInfo", info);
     dispatch(clearUser());
   },
 });
 
 const RightMenu = ({ logout }) => (
   <Menu className="right-down">
-    <Menu.Item key="logout" onClick={logout} icon={<MyIcon  type="icon_disconnectdevice" />}>
+    <Menu.Item
+      key="logout"
+      onClick={logout}
+      icon={<MyIcon type="icon_disconnectdevice" />}
+    >
       退出登录
     </Menu.Item>
   </Menu>
@@ -37,7 +44,7 @@ const HeaderDom = ({ userInfo, userOut }) => {
       <div className="right" placement="bottomCenter">
         <Dropdown
           getPopupContainer={getPopupContainer}
-          overlay={<RightMenu logout={userOut} />}
+          overlay={<RightMenu logout={() => userOut(userInfo)} />}
         >
           <div>管理员：{userInfo.username}</div>
         </Dropdown>
