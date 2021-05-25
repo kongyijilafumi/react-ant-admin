@@ -24,7 +24,7 @@ async function getDefaultMenu() {
   };
 }
 
-function getSeesionUser() {
+function getSessionUser() {
   return getKey(false, "userInfo");
 }
 
@@ -135,7 +135,7 @@ function rmKey(isLocal, key) {
 
 export {
   getDefaultMenu,
-  getSeesionUser,
+  getSessionUser,
   clearSessionUser,
   saveUser,
   sleep,

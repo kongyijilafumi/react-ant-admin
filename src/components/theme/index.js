@@ -86,6 +86,7 @@ export default function SetTheme() {
     setVisible(true);
   }, []);
 
+  // 自定义颜色选中
   const onChangeComplete = useCallback(
     (v, k) => {
       let newColor = [...colorList];
@@ -94,13 +95,16 @@ export default function SetTheme() {
           i.value = v.hex;
         }
       });
-      let colorObj = {};
+      let colorObj = {
+        ...Themes.find((i) => i.value === themeStyle).colorList,
+      };
       newColor.forEach((i) => {
         colorObj[i.key] = i.value;
       });
+      console.log(themeStyle);
       setTheme(colorObj, newColor);
     },
-    [colorList, setTheme]
+    [colorList, setTheme, themeStyle]
   );
 
   // 选中

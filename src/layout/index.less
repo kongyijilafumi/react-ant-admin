@@ -34,65 +34,6 @@
   .ant-layout-sider-children {
     position: relative;
     height  : auto;
-
-    .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-
-      a,
-      svg {
-        color: @text-color ;
-      }
-    }
-
-    &>.ant-menu {
-      color: @text-color ;
-
-      // 父级菜单 和子菜单未选中的字体颜色
-      .ant-menu-submenu-title,
-      a,
-      svg,
-      .ant-menu-submenu-arrow::before,
-      .ant-menu-submenu-arrow::after {
-        color: @text-color-secondary;
-      }
-
-      // 父级菜单 和子菜单选中的字体颜色
-      .ant-menu-submenu-active,
-      .ant-menu-submenu-selected,
-      .ant-menu-item.ant-menu-item-active,
-      .ant-menu-submenu-open {
-
-        .ant-menu-submenu-title,
-        a,
-        svg,
-        .ant-menu-submenu-arrow::before,
-        .ant-menu-submenu-arrow::after {
-          color: @text-color ;
-        }
-      }
-
-
-      // 子菜单 颜色
-      .ant-menu-submenu {
-
-        .ant-menu-item.ant-menu-item-active,
-        .ant-menu-item.ant-menu-item-selected {
-
-          a,
-          svg {
-            color: @text-color ;
-          }
-        }
-
-        .ant-menu-item {
-
-          a,
-          svg {
-            color: @text-color-secondary;
-          }
-        }
-      }
-
-    }
   }
 
   .layout-content-wrap {
