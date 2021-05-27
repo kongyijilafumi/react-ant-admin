@@ -5,20 +5,10 @@ import { Layout, Menu, Button, Affix } from "antd";
 import MyIcon from "@/components/icon";
 import { getMenus } from "@/common";
 import { setOpenKey } from "@/store/action";
-import { filterMenuList } from "@/utils";
+import { filterMenuList, stopPropagation } from "@/utils";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
-
-function getAllMenuKey(list) {
-  return list.reduce((a, c) => {
-    a.push(c.key);
-    if (c.children) {
-      a.push(...c.children.map((i) => i.key));
-    }
-    return a;
-  }, []);
-}
 
 const mapDispatchToProps = (dispatch) => ({
   setOpenKeys: (val) => dispatch(setOpenKey(val)),
@@ -44,16 +34,12 @@ const MenuDom = ({ openKeys, selectedKeys, setOpenKeys, userInfo }) => {
 
   // 菜单组折叠
   const onOpenChange = (keys) => {
-    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
-    if (getAllMenuKey(menuList).indexOf(latestOpenKey) === -1) {
-      setOpenKeys(keys);
-      return;
-    }
-    setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    setOpenKeys(keys);
   };
   // 折叠菜单
-  const toggleCollapsed = () => {
+  const toggleCollapsed = (e) => {
     setCollapsed(!collapsed);
+    stopPropagation(e);
   };
   // 菜单选项
   const menu = useMemo(() => {
@@ -74,7 +60,9 @@ const MenuDom = ({ openKeys, selectedKeys, setOpenKeys, userInfo }) => {
           {item.children.map((child) => {
             return (
               <Menu.Item key={child.key} icon={<MyIcon type={child.icon} />}>
-                <Link to={item.path + child.path}>{child.title}</Link>
+                <Link onClick={stopPropagation} to={item.path + child.path}>
+                  {child.title}
+                </Link>
               </Menu.Item>
             );
           })}

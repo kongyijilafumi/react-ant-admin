@@ -21,6 +21,12 @@ export default function reducer(state = initGlobalState, action) {
       return state;
     }
     case actionTypes.SET_OPENKEY: {
+      let oldKeys = state.openMenuKey;
+      let isSame = openKey.every((item, index) => item === openKey[index]);
+      let flag = openKey.length === oldKeys.length && isSame;
+      if (flag) {
+        return state;
+      }
       return { ...state, openMenuKey: openKey };
     }
     case actionTypes.SET_SELECTKEY: {

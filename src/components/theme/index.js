@@ -24,6 +24,14 @@ function findInfoColor(list, obj) {
   });
 }
 
+function setObjVal(list, obj) {
+  list.forEach((i) => {
+    if (obj[i.key]) {
+      obj[i.key] = i.value;
+    }
+  });
+}
+
 const getColor = (color) => ({
   background: color,
 });
@@ -60,16 +68,11 @@ export default function SetTheme() {
   // 初始化主题
   useEffect(() => {
     if (THEME && THEME_NAME) {
-      let newColorList = [...colorList];
+      let newColorList = [...colorList.map((i) => ({ ...i }))];
       newColorList = findInfoColor(newColorList, THEME);
       let newColorObj = {
         ...Themes.find((i) => i.value === THEME_NAME).colorList,
       };
-      newColorList.forEach((i) => {
-        let key = i.key,
-          value = i.value;
-        newColorObj[key] = value;
-      });
       setTheme(newColorObj, newColorList, false);
       setStyle(THEME_NAME);
     }
@@ -89,8 +92,8 @@ export default function SetTheme() {
   // 自定义颜色选中
   const onChangeComplete = useCallback(
     (v, k) => {
-      let newColor = [...colorList];
-      newColor.forEach((i) => {
+      let newColorList = [...colorList.map((i) => ({ ...i }))];
+      newColorList.forEach((i) => {
         if (i.key === k) {
           i.value = v.hex;
         }
@@ -98,11 +101,8 @@ export default function SetTheme() {
       let colorObj = {
         ...Themes.find((i) => i.value === themeStyle).colorList,
       };
-      newColor.forEach((i) => {
-        colorObj[i.key] = i.value;
-      });
-      console.log(themeStyle);
-      setTheme(colorObj, newColor);
+      setObjVal(newColorList, colorObj);
+      setTheme(colorObj, newColorList);
     },
     [colorList, setTheme, themeStyle]
   );
@@ -124,7 +124,7 @@ export default function SetTheme() {
 
   // 保存本地
   const saveLocalTheme = useCallback(() => {
-    let themeObj = Themes.find((i) => i.value === themeStyle).colorList;
+    let themeObj = { ...Themes.find((i) => i.value === themeStyle).colorList };
     themeObj = colorList.reduce((a, c) => {
       a[c.key] = c.value;
       return a;
@@ -135,13 +135,18 @@ export default function SetTheme() {
   }, [themeStyle, colorList]);
 
   // 选择主题
-  const themeChange = (e) => {
-    const { value } = e.target;
-    const chooseColor = Themes.find((i) => i.value === value).colorList;
-    const newColorList = findInfoColor([...colorList], chooseColor);
-    setTheme(chooseColor, newColorList);
-    setStyle(value);
-  };
+  const themeChange = useCallback(
+    (e) => {
+      const { value } = e.target;
+      const colorObj = {
+        ...Themes.find((i) => i.value === value).colorList,
+      };
+      setObjVal(colorList, colorObj);
+      setTheme(colorObj, colorList);
+      setStyle(value);
+    },
+    [colorList, setTheme]
+  );
   return (
     <div className="set-theme">
       <div className="icon" onClick={showDrawer}>

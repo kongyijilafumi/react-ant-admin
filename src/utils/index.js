@@ -133,6 +133,10 @@ function rmKey(isLocal, key) {
   storeage.removeItem(key);
 }
 
+function stopPropagation(e) {
+  e.stopPropagation();
+}
+
 export {
   getDefaultMenu,
   getSessionUser,
@@ -150,4 +154,5 @@ export {
   getToken,
   getKey,
   setKey,
+  stopPropagation,
 };
