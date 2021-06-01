@@ -6,8 +6,10 @@ import Intercept from "./intercept";
 import { getMenus } from "@/common";
 import { reduceMenuList } from "@/utils";
 
-const Router = () => {
+function useRouter() {
   const [list, setList] = useState([]);
+  const [routerBody, setRoute] = useState(null);
+
   useEffect(() => {
     getMenus().then((res) => {
       let list = reduceMenuList(res);
@@ -25,36 +27,33 @@ const Router = () => {
       }
     });
   }, []);
-  if (list.length === 0) return null;
-  return (
-    <CacheSwitch>
-      {list.map((item) => {
+
+  useEffect(() => {
+    if (list.length > 0) {
+      const dom = list.map((item) => {
         let { key, path } = item;
-        if (item.keepAlive === "true") {
-          return (
-            <CacheRoute
-              key={key}
-              exact={true}
-              path={path}
-              render={(allProps) => (
-                <Intercept {...allProps} {...item} pageKey={key} />
-              )}
-            />
-          );
-        }
+        const RenderRoute = item.keepAlive === "true" ? CacheRoute : Route;
         return (
-          <Route
-            exact={true}
+          <RenderRoute
             key={key}
+            exact={true}
             path={path}
             render={(allProps) => (
               <Intercept {...allProps} {...item} pageKey={key} />
             )}
           />
         );
-      })}
-    </CacheSwitch>
-  );
+      });
+      setRoute(dom);
+    }
+  }, [list]);
+
+  return { routerBody };
+}
+
+const Router = () => {
+  const { routerBody } = useRouter();
+  return <CacheSwitch>{routerBody}</CacheSwitch>;
 };
 
 export default Router;

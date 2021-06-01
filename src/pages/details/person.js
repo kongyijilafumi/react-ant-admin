@@ -5,6 +5,7 @@ import "./index.less";
 
 const { TabPane } = Tabs;
 const { Meta } = Card;
+
 const tagInitVal = [
   { value: "足球", color: "magenta" },
   { value: "跑步", color: "volcano" },
@@ -15,18 +16,15 @@ function getRandomColor() {
   return "#" + Math.random().toString(16).slice(2, 8);
 }
 
-const listData = [];
-for (let i = 0; i < 10; i++) {
-  listData.push({
-    href: "https://ant.design",
-    title: `ant design part ${i}`,
-    avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-    description:
-      "Ant Design, a design language for background applications, is refined by Ant UED Team.",
-    content:
-      "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
-  });
-}
+const listData = Array.from({ length: 10 }, (v, k) => ({
+  href: "https://ant.design",
+  title: `ant design part ${k + 1}`,
+  avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+  description:
+    "Ant Design, a design language for background applications, is refined by Ant UED Team.",
+  content:
+    "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
+}));
 
 const IconText = ({ icon, text }) => (
   <Space>

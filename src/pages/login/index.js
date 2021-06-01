@@ -23,7 +23,8 @@ const IPT_RULE_PASSWORD = [
     message: "请输入密码",
   },
 ];
-function Login({ setUserInfo }) {
+
+function useLogin(setUserInfo) {
   const [btnLoad, setBtnLoad] = useState(false);
   const onFinish = (values) => {
     setBtnLoad(true);
@@ -44,6 +45,11 @@ function Login({ setUserInfo }) {
         setBtnLoad(false);
       });
   };
+  return { btnLoad, onFinish };
+}
+
+function Login({ setUserInfo }) {
+  const { btnLoad, onFinish } = useLogin(setUserInfo);
   return (
     <div className="login-container">
       <div className="wrapper">

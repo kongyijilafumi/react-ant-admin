@@ -53,7 +53,14 @@ function getPercentage(up, down) {
 const echartStyle = {
   height: 50,
 };
-export default function Vistor() {
+const getTableTitle = () => {
+  return (
+    <Row justify="space-between" align="center" gutter={80}>
+      <Col style={{ lineHeight: "32px" }}>访问统计</Col>
+    </Row>
+  );
+};
+function useVistor() {
   const [tableCol, setCol] = useState([]);
   const [tableData, setData] = useState([]);
   const [total, setTotal] = useState(0);
@@ -92,15 +99,29 @@ export default function Vistor() {
       }
     });
   };
-
-  const getTableTitle = () => {
-    return (
-      <Row justify="space-between" align="center" gutter={80}>
-        <Col style={{ lineHeight: "32px" }}>访问统计</Col>
-      </Row>
-    );
+  return {
+    visitorOpt,
+    dealOpt,
+    sumVisitor,
+    sumDeal,
+    tableData,
+    tableCol,
+    getList,
+    total,
   };
+}
 
+export default function Vistor() {
+  const {
+    visitorOpt,
+    dealOpt,
+    sumVisitor,
+    sumDeal,
+    tableData,
+    tableCol,
+    getList,
+    total,
+  } = useVistor();
   return (
     <div className="vistor-container">
       <Row gutter={[20, 20]}>

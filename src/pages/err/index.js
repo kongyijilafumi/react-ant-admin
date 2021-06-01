@@ -12,7 +12,7 @@ const mapDispatchToProps = (dispatch) => ({
   filterOpenKeyFn: (key) => dispatch(filterOpenKey(key)),
 });
 
-function ErrorPage(props) {
+function useErrorPage(props) {
   const {
     openMenus,
     history,
@@ -38,6 +38,11 @@ function ErrorPage(props) {
     const next = menuList[menuList.length - 1];
     history.replace(next.path);
   };
+  return { status, errTitle, subTitle, back };
+}
+
+function ErrorPage(props) {
+  const { status, errTitle, subTitle, back } = useErrorPage(props);
   return (
     <Result
       status={status}

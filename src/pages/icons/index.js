@@ -8,7 +8,8 @@ const initData = iconData.glyphs.map((item) => ({
   ...item,
   type: prefix_name + item.font_class,
 }));
-export default function Icons() {
+
+function useIcons() {
   const [icons, setIcons] = useState(initData);
   const change = (e) => {
     const val = e.target.value;
@@ -19,6 +20,11 @@ export default function Icons() {
     const newData = initData.filter((i) => i.name.includes(val));
     setIcons(newData);
   };
+  return { change, icons };
+}
+
+export default function Icons() {
+  const { change, icons } = useIcons();
   return (
     <div className="icons-container">
       <h2>Icon自定义</h2>

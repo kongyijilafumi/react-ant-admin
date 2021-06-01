@@ -31,22 +31,56 @@ const list = [
 ];
 
 const { Meta } = Card;
-export default function CardPage() {
+const dRules = [
+  {
+    required: true,
+    message: "Please input your description!",
+  },
+  {
+    min: 50,
+    message: "The description must be more than 50 words!",
+  },
+];
+const tRules = [
+  {
+    required: true,
+    message: "Please input your title!",
+  },
+];
+const iRules = [
+  {
+    required: true,
+    message: "Please input your img!",
+  },
+];
+function useCardPage() {
   const [dataList, setList] = useState(list);
   const [showModal, setShow] = useState(false);
   const [form] = Form.useForm();
+
+  const show = () => {
+    setShow(true);
+  };
+  const hide = () => {
+    setShow(false);
+  };
   const addList = () => {
     form.validateFields().then((values) => {
       setList([...dataList, values]);
       form.resetFields();
-      setShow(false);
+      hide();
     });
   };
+  return { show, dataList, showModal, hide, addList, form };
+}
+
+export default function CardPage() {
+  const { show, showModal, addList, dataList, hide, form } = useCardPage();
   return (
     <div className="card-container">
       <Row gutter={[16, 16]}>
         <Col span={6}>
-          <Card hoverable className="add-wapper" onClick={() => setShow(true)}>
+          <Card hoverable className="add-wapper" onClick={show}>
             <MyIcon type="icon_increase" />
             <p>新增</p>
           </Card>
@@ -78,48 +112,17 @@ export default function CardPage() {
         visible={showModal}
         cancelText="取消"
         okText="添加"
-        onOk={() => addList()}
-        onCancel={() => setShow(false)}
+        onOk={addList}
+        onCancel={hide}
       >
         <Form form={form}>
-          <Form.Item
-            label="图片链接"
-            name="img"
-            rules={[
-              {
-                required: true,
-                message: "Please input your img!",
-              },
-            ]}
-          >
+          <Form.Item label="图片链接" name="img" rules={iRules}>
             <Input />
           </Form.Item>
-          <Form.Item
-            label="标题"
-            name="title"
-            rules={[
-              {
-                required: true,
-                message: "Please input your title!",
-              },
-            ]}
-          >
+          <Form.Item label="标题" name="title" rules={tRules}>
             <Input />
           </Form.Item>
-          <Form.Item
-            label="描述"
-            name="description"
-            rules={[
-              {
-                required: true,
-                message: "Please input your description!",
-              },
-              {
-                min: 50,
-                message: "The description must be more than 50 words!",
-              },
-            ]}
-          >
+          <Form.Item label="描述" name="description" rules={dRules}>
             <Input />
           </Form.Item>
         </Form>

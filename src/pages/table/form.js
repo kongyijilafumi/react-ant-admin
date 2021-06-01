@@ -20,11 +20,15 @@ const validateMessages = {
   },
 };
 
-export default function Forms() {
+function useForms() {
   const [info, setInfo] = useState({});
   const onFinish = (values) => {
     setInfo(values);
   };
+  return { info, onFinish };
+}
+export default function Forms() {
+  const { info, onFinish } = useForms();
   return (
     <div>
       <h2>ant Form</h2>

@@ -6,7 +6,8 @@ const pagination = {
   showSizeChanger: true,
   pageSizeOptions: [10, 20, 50, 100],
 };
-export default function Tables() {
+
+function useTables() {
   const [tableData, setTableData] = useState([]);
   const [columns, setColumns] = useState([]);
 
@@ -30,7 +31,11 @@ export default function Tables() {
     setTableData(data);
     setColumns(col);
   }, []);
+  return { tableData, columns };
+}
 
+export default function Tables() {
+  const { tableData, columns } = useTables();
   return (
     <div>
       <h2>ant 表格</h2>

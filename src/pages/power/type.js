@@ -3,7 +3,8 @@ import { Button, Table, Row, Col } from "antd";
 import TypeModal from "@/components/modal/type";
 import { getPower } from "@/api";
 import "./index.less";
-export default function Types() {
+
+function useTypes() {
   const [showModal, setShow] = useState(false);
   const [tableData, setData] = useState([]);
   const [tableCol, setCol] = useState([]);
@@ -52,6 +53,27 @@ export default function Types() {
       }
     });
   }, [activeCol]);
+  return {
+    renderTitle,
+    tableCol,
+    tableData,
+    showModal,
+    choose,
+    modalControl,
+    getTypeData,
+  };
+}
+
+export default function Types() {
+  const {
+    renderTitle,
+    tableCol,
+    tableData,
+    showModal,
+    choose,
+    modalControl,
+    getTypeData,
+  } = useTypes();
   return (
     <div className="type-container">
       <Table

@@ -7,7 +7,7 @@ import "./index.less";
 
 const { TreeNode } = Tree;
 
-export default function Menu() {
+function useMenu() {
   const [menus, setMenu] = useState([]);
   const [selectInfo, setSelectInfo] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -53,6 +53,35 @@ export default function Menu() {
       }
     });
   };
+  return {
+    addChildMenu,
+    selectInfo,
+    addMenu,
+    setMenuInfo,
+    deleteMenu,
+    onSelect,
+    menus,
+    showModal,
+    modalType,
+    setShowModal,
+    getMenuList,
+  };
+}
+
+export default function Menu() {
+  const {
+    addChildMenu,
+    selectInfo,
+    addMenu,
+    setMenuInfo,
+    deleteMenu,
+    onSelect,
+    menus,
+    showModal,
+    modalType,
+    setShowModal,
+    getMenuList,
+  } = useMenu();
   return (
     <div className="powermenu-container">
       <div className="top-form">
