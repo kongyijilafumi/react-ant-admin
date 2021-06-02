@@ -164,7 +164,7 @@
   },
   "devDependencies": {
     "@loadable/component": "^5.14.1",
-    "antd-theme-generator": "^1.2.5",
+    "ant-theme-generator": "^1.0.0",
     "dayjs": "^1.10.4",
     "echarts": "^5.0.2",
     "echarts-for-react": "^3.0.1",

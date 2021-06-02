@@ -329,7 +329,7 @@ function formatMenu(list) {
     let praentList = [],
       childList = [];
     data.forEach((item) => {
-      item.type = item.type.split(",");
+      item.type = Array.isArray(item.type) ? item.type : item.type.split(",");
       if (item.parentKey) {
         childList.push(item);
         return;

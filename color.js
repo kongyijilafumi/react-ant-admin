@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs");
-const { generateTheme, getLessVars } = require("antd-theme-generator");
+const { generateTheme, getLessVars } = require("ant-theme-generator");
 
 const showColorSet = require("./color.config");
 
@@ -60,7 +60,7 @@ function colorStart() {
     ...getLessVars(antdLightPath),
     "@primary-color": defaultVars["@primary-color"],
   };
-
+  const configVars = reduceMap(varColors, "key", "value");
   try {
     // 写入json文件
     fs.writeFileSync(
@@ -68,10 +68,17 @@ function colorStart() {
       JSON.stringify({
         ...defaultVars,
         ...lightVars,
-        ...reduceMap(varColors, "key", "value"),
+        ...configVars,
       })
     );
-    fs.writeFileSync(darkPath, JSON.stringify({ ...defaultVars, ...darkVars }));
+    fs.writeFileSync(
+      darkPath,
+      JSON.stringify({
+        ...defaultVars,
+        ...darkVars,
+        ...configVars,
+      })
+    );
   } catch (error) {
     throw error;
   }
