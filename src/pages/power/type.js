@@ -91,3 +91,5 @@ export default function Types() {
     </div>
   );
 }
+
+Types.route = { path: "/power/type" };

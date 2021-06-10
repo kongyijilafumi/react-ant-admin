@@ -14,7 +14,6 @@ import MyPagination from "@/components/pagination";
 import { getMsg, addMsg } from "@/api";
 
 import "./index.less";
-
 export default function SearchPage() {
   const [form] = Form.useForm();
   const [searchForm] = Form.useForm();
@@ -161,3 +160,6 @@ export default function SearchPage() {
     </div>
   );
 }
+SearchPage.route = {
+  path: "/list/search",
+};

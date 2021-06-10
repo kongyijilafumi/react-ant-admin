@@ -130,3 +130,4 @@ export default function CardPage() {
     </div>
   );
 }
+CardPage.route={ path:"/list/card" }

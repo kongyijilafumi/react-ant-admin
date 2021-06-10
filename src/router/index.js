@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { CacheRoute, CacheSwitch } from "react-router-cache-route";
-import routerList from "./route";
-import Intercept from "./intercept";
+import routerList from "./list";
+import Intercept from "./intercept.js";
 import { getMenus } from "@/common";
 import { reduceMenuList } from "@/utils";
 

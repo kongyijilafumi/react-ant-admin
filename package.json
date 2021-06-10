@@ -178,6 +178,7 @@
     "react-router-cache-route": "^1.11.0",
     "react-router-dom": "^5.2.0",
     "sass": "^1.32.8",
-    "style-resources-loader": "^1.4.1"
+    "style-resources-loader": "^1.4.1",
+    "webpack-router-generator": "^1.0.0"
   }
 }

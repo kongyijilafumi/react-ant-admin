@@ -54,3 +54,5 @@ export default function Icons() {
     </div>
   );
 }
+
+Icons.route = { path: "/icons" };

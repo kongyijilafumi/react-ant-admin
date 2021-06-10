@@ -29,6 +29,7 @@ const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin"
 const postcssNormalize = require("postcss-normalize");
 const appPackageJson = require(paths.appPackageJson);
 const showColorSet = require("../color.config");
+const WebpackRouterGenerator = require("webpack-router-generator");
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== "false";
 
@@ -440,6 +441,10 @@ module.exports = function (webpackEnv) {
       ],
     },
     plugins: [
+      new WebpackRouterGenerator({
+        comKey: "components",
+        outputFile: path.join(paths.appSrc, "./router/auto.js"),
+      }),
       new HtmlWebpackPlugin(
         Object.assign(
           {},

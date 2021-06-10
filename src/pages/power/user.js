@@ -21,8 +21,8 @@ export default function User() {
     }
     setShow(type);
   }, []);
-  
-  // 
+
+  //
   const showEdit = useCallback(
     (id) => {
       showInfoModal(id, true);
@@ -76,8 +76,6 @@ export default function User() {
     getUserData(pageData);
   }, [pageData, getUserData]);
 
- 
-
   return (
     <div className="user-container">
       <Table
@@ -101,3 +99,5 @@ export default function User() {
     </div>
   );
 }
+
+User.route = { path: "/power/user" };

@@ -191,3 +191,6 @@ export default function Vistor() {
     </div>
   );
 }
+Vistor.route = {
+  path: "/statistics/visitor",
+};

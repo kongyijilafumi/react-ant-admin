@@ -152,3 +152,7 @@ export default function Menu() {
     </div>
   );
 }
+
+Menu.route={
+  path:"/power/menu"
+}

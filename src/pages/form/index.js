@@ -77,7 +77,7 @@ const tailFormItemLayout = {
   },
 };
 
-const RegistrationForm = () => {
+function RegistrationForm() {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
@@ -302,6 +302,10 @@ const RegistrationForm = () => {
       </Form>
     </div>
   );
-};
+}
 
 export default RegistrationForm;
+
+RegistrationForm.route = {
+  path: "/form/index",
+};

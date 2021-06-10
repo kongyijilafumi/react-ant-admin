@@ -176,3 +176,4 @@ export default function Person() {
     </div>
   );
 }
+Person.route = { path: "/details/person" };

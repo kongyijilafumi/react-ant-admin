@@ -22,7 +22,7 @@ export default function reducer(state = initGlobalState, action) {
     }
     case actionTypes.SET_OPENKEY: {
       let oldKeys = state.openMenuKey;
-      let isSame = openKey.every((item, index) => item === openKey[index]);
+      let isSame = openKey.every((item, index) => item === oldKeys[index]);
       let flag = openKey.length === oldKeys.length && isSame;
       if (flag) {
         return state;
