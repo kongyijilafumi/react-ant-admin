@@ -60,14 +60,6 @@ function TopMenu({ openedMenu, filterKey, history, childKey }) {
     [history, filterKey]
   );
 
-  const gotoMenuUrl = useCallback(
-    (item) => {
-      if (item.path === getCurrentUrl()) return;
-      let parentPath = item.parentPath || "";
-      history.replace(parentPath + item.path);
-    },
-    [history]
-  );
 
   return (
     <div>
@@ -87,7 +79,6 @@ function TopMenu({ openedMenu, filterKey, history, childKey }) {
           currentKey={getCurrentUrl()}
           rangeVal={openedMenu}
           onClose={closeTopMenu}
-          onChoose={gotoMenuUrl}
         />
       </div>
     </div>

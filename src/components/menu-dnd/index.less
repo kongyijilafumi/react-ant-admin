@@ -1,7 +1,6 @@
 .dnd-body {
   height     : 35px;
   box-sizing : content-box;
-  padding-top: 5px;
   white-space: nowrap;
   overflow-x : scroll;
   overflow-y : hidden;
@@ -12,19 +11,21 @@
     display         : inline-block;
     padding         : 10px 40px 5px 10px;
     font-size       : 12px;
-    border          : 1px solid @border-color-split;
-    border-radius   : 15px 15px 0 0;
     margin-right    : 2px;
     background-color: @body-background;
     box-sizing      : border-box;
     cursor          : pointer !important;
     color           : @text-color-secondary;
     vertical-align  : text-bottom;
+    height          : 35px;
 
     &.active {
-      background-color      : @component-background;
-      color                 : @heading-color;
-      border-color          : @text-color-secondary;
+      background-color: @background-color-base;
+      color           : @text-color;
+
+      .anticon-close {
+        background-color: @error-color;
+      }
 
       .anticon-close svg {
         color: @heading-color;
@@ -37,11 +38,12 @@
 
 
     .anticon-close {
-      position: absolute;
-      top     : 5px;
-      right   : 5px;
-      width   : 15px;
-      height  : 15px;
+      position     : absolute;
+      top          : 5px;
+      right        : 5px;
+      width        : 15px;
+      height       : 15px;
+      border-radius: 50%;
 
       svg {
         width : inherit;

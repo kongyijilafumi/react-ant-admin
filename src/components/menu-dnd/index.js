@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import MyIcon from "@/components/icon";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { Link } from "react-router-dom";
 import "./index.less";
 // 重新记录数组顺序
 const reorder = (list, startIndex, endIndex) => {
@@ -12,7 +13,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-export default function Dnd({ rangeVal, onClose, onChoose, currentKey }) {
+export default function Dnd({ rangeVal, onClose, currentKey }) {
   const [data, setData] = useState([]);
   // 根据 选中的菜单 往里添加拖拽选项
   useEffect(() => {
@@ -70,7 +71,7 @@ export default function Dnd({ rangeVal, onClose, onChoose, currentKey }) {
               <Draggable index={index} key={item.path} draggableId={item.path}>
                 {(provided, snapshot) => (
                   //在这里写你的拖拽组件的样式 dom 等等...
-                  <div
+                  <Link
                     className={
                       currentKey === item.path
                         ? "dnd-items active"
@@ -80,7 +81,7 @@ export default function Dnd({ rangeVal, onClose, onChoose, currentKey }) {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     style={{ ...provided.draggableProps.style }}
-                    onClick={() => onChoose(item)}
+                    to={item.path}
                   >
                     {item.title}
                     <MyIcon
@@ -92,7 +93,7 @@ export default function Dnd({ rangeVal, onClose, onChoose, currentKey }) {
                         closeCurrent(item);
                       }}
                     />
-                  </div>
+                  </Link>
                 )}
               </Draggable>
             ))}

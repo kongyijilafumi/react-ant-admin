@@ -50,6 +50,9 @@ function getLocalUser() {
 // 获取当前url
 function getCurrentUrl() {
   let path = window.location.pathname;
+  if (RouterBasename === "/") {
+    return path;
+  }
   path = path.replace(RouterBasename, "");
   return path;
 }
