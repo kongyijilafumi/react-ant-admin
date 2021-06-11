@@ -79,46 +79,36 @@ import React from "react";
 export default function Test() {
   return <div>test页面</div>;
 }
-// 类组件
-import React from "react";
 
+// 类组件
 export default class Test extends React.Component {
   render() {
     return <div>test页面</div>;
   }
 }
 
+/**
+ * 给 pages 组件追加路由信息 
+ * export default 组件的原型上添加route信息,或者向外暴露一个 route 
+ * 会被webpack的webpack-router-generator插件捕获信息
+ */
+
+// 1.被捕获 export default 原型上的route
+Test.route={
+  tile : "test页面",
+  key : "test",
+  path: "/test"
+}
+
+// 2.被捕获 暴露的route信息  优先级比上面高
+export const route = {
+  tile : "test页面",
+  key : "test",
+  path: "/test"
+}
 ```
 
-2. 在``src/router/route/index.js`文件里追加路由信息.代码如下
-
-```js
-import loadable from "@loadable/component";
-import { Redirect } from "react-router-dom";
-// .....
-const Test = loadable(() => import("@pages/test")); // 支持路由懒加载
-// 路由列表
-const routerList = [
-  {
-    path: "/",
-    key: "index",
-    to: "/details/person",
-    components: Redirect,
-  },
-  // ....
-  {
-    path: "/test", // 对应的路由
-    key: "test",// 必要
-    title: "test页面",// 标题
-    components: Test,
-  },
-];
-
-export default routerList;
-
-```
-
-3. 浏览器访问 http://localhost:3000/react-ant-admin/test 即可
+2. 浏览器访问 http://localhost:3000/react-ant-admin/test 即可
 
 ## 创建一个菜单
 
@@ -147,12 +137,13 @@ let menu = [
   },
   // .... 开始添加菜单信息 ....
   {
-    title: "test",
-    path: "/test",
-    key: "test",
+    title: "test", // 标题
+    path: "/test",// 访问路径
+    key: "test", // 唯一key
     parentKey: "",// 空表示 为主菜单而非子菜单
     icon: "icon_infopersonal",// 菜单图标
     type: "0,1", // 访问权限,自定义,当前项目 0为管理员,1为普通用户.原始数据为字符串形式,会中途进行转化为数组形式["0","1"]
+    order:1,// 菜单排序 越小越靠前
   }
   // .....
 ]
