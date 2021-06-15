@@ -1,30 +1,12 @@
-import React from "react";
 import { Provider } from "react-redux";
 import store from "./store";
-import AppRouter from "./router/appRouter";
-var SetTheme;
-if (process.env.showColorSet) {
-  SetTheme = import("./components/theme");
-}
-
-class Theme extends React.Component {
-  constructor() {
-    super(...arguments);
-    this.state = { com: null };
-  }
-  componentDidMount() {
-    if (SetTheme) {
-      SetTheme.then(({ default: Com }) => {
-        this.setState({ com: <Com /> });
-      });
-    }
-  }
-  render() {
-    const { com } = this.state;
-    return com ? com : null;
-  }
-}
-
+import loadable from "@loadable/component";
+const AppRouter = loadable(() => import("./router/appRouter"));
+const Theme = process.env.showColorSet ? (
+  loadable(() => import("./components/theme"))
+) : (
+  <></>
+);
 function App() {
   return (
     <Provider store={store}>
