@@ -21,11 +21,6 @@ export const filterOpenKey = (openKey) => ({
   openKey,
 });
 
-export const setOpenMenu = (openKey) => ({
-  type: ActionTypes.SET_OPENMENU,
-  openKey,
-});
-
 export const setUserInfoAction = (info) => ({
   type: ActionTypes.SET_USERINFO,
   info,
