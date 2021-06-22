@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import MenuDnd from "@/components/menu-dnd";
 import MyIcon from "@/components/icon";
 import { withRouter } from "react-router-dom";
-import { filterOpenKey } from "@/store/action";
+import { filterOpenKey } from "@/store/menu/action";
 import { getCurrentUrl, reduceMenuList } from "@/utils";
 import { message, Breadcrumb } from "antd";
 import { getMenus } from "@/common";
 
 const mapStateToProps = (state) => ({
-  openedMenu: state.global.openedMenu,
-  childKey: state.global.selectMenuKey,
+  openedMenu: state.menu.openedMenu,
+  childKey: state.menu.selectMenuKey,
 });
 const mapDispatchToProps = (dispatch) => ({
   filterKey: (key) => dispatch(filterOpenKey(key)),
@@ -53,13 +53,11 @@ function TopMenu({ openedMenu, filterKey, history, childKey }) {
         message.error("最后一个选项菜单不可关闭");
       }
       if (nextItem && isCurrent) {
-        let parentPath = nextItem.parentPath || "";
-        history.replace(parentPath + nextItem.path);
+        history.replace(nextItem.path);
       }
     },
     [history, filterKey]
   );
-
 
   return (
     <div>

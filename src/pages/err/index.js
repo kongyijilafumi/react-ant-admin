@@ -2,10 +2,10 @@ import React from "react";
 import { Result, Button } from "antd";
 import { connect } from "react-redux";
 import { getDefaultMenu, getCurrentUrl } from "@/utils";
-import { filterOpenKey } from "@/store/action";
+import { filterOpenKey } from "@/store/menu/action";
 
 const mapStateToProps = (state) => ({
-  openMenus: state.global.openedMenu,
+  openMenus: state.menu.openedMenu,
 });
 
 const mapDispatchToProps = (dispatch) => ({

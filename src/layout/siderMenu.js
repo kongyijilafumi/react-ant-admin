@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Layout, Menu, Button, Affix } from "antd";
 import MyIcon from "@/components/icon";
 import { getMenus } from "@/common";
-import { setOpenKey } from "@/store/action";
+import { setOpenKey } from "@/store/menu/action";
 import { filterMenuList, stopPropagation } from "@/utils";
 
 const { Sider } = Layout;
@@ -15,9 +15,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  openKeys: state.global.openMenuKey,
-  selectedKeys: state.global.selectMenuKey,
-  userInfo: state.global.userInfo,
+  openKeys: state.menu.openMenuKey,
+  selectedKeys: state.menu.selectMenuKey,
+  userInfo: state.user,
 });
 
 const MenuDom = ({ openKeys, selectedKeys, setOpenKeys, userInfo }) => {

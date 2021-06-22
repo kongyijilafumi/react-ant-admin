@@ -3,7 +3,7 @@ import { Form, Input, Button, Checkbox, message } from "antd";
 import { connect } from "react-redux";
 import MyIcon from "@/components/icon";
 import { saveUser, getLocalUser, saveToken } from "@/utils";
-import { setUserInfoAction } from "@/store/action";
+import { setUserInfoAction } from "@/store/user/action";
 import { login } from "@/api";
 import "./index.less";
 

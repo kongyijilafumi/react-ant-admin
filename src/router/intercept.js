@@ -1,11 +1,11 @@
 import React from "react";
-import { addOpenedMenu, setOpenKey, setSelectKey } from "@/store/action";
+import { addOpenedMenu, setOpenKey, setSelectKey } from "@/store/menu/action";
 import { connect } from "react-redux";
 import { getCurrentUrl, getMenuParentKey } from "@/utils";
 import Error from "@pages/err";
 const mapStateToProps = (state) => ({
-  openMenus: state.global.openedMenu,
-  userInfo: state.global.userInfo,
+  openMenus: state.menu.openedMenu,
+  userInfo: state.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -27,13 +27,8 @@ class Intercept extends React.Component {
     this.scrollToTop();
   }
   setInfo = async () => {
-    const {
-      title,
-      pageKey,
-      openMenus,
-      setOpenKeys,
-      setSelectedKeys,
-    } = this.props;
+    const { title, pageKey, openMenus, setOpenKeys, setSelectedKeys } =
+      this.props;
     if (!title) {
       return;
     }

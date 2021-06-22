@@ -3,11 +3,11 @@ import { Layout, Menu, Dropdown } from "antd";
 import logo from "@/assets/images/logo.svg";
 import MyIcon from "@/components/icon/";
 import { connect } from "react-redux";
-import { clearUser } from "@/store/action";
+import { clearUser } from "@/store/user/action";
 import { clearSessionUser, setKey, saveToken } from "@/utils";
 const { Header } = Layout;
 const mapStateToProps = (state) => ({
-  userInfo: state.global.userInfo,
+  userInfo: state.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({

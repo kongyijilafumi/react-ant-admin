@@ -5,11 +5,11 @@ import Layout from "@/layout";
 import Login from "@pages/login";
 import { connect } from "react-redux";
 import { RouterBasename } from "@/common";
-import { setUserInfoAction } from "@/store/action";
+import { setUserInfoAction } from "@/store/user/action";
 import { getLocalUser } from "@/utils";
 
 const mapStateToProps = (state) => ({
-  userInfo: state.global.userInfo,
+  userInfo: state.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({
