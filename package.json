@@ -77,7 +77,7 @@
     "start": "node color && node scripts/start.js",
     "start color": "cross-env COLOR=true node color && cross-env COLOR=true node scripts/start.js",
     "start mock": "node color && cross-env REACT_APP_MOCK=1 node scripts/start.js",
-    "start mock color": "node color && cross-env REACT_APP_MOCK=1 COLOR=true node scripts/start.js",
+    "start mock color": "cross-env COLOR=true node color && cross-env REACT_APP_MOCK=1 COLOR=true node scripts/start.js",
     "build": "node color && node scripts/build.js",
     "build color": "cross-env COLOR=true node color && cross-env COLOR=true node scripts/build.js"
   },
