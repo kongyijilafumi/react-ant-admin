@@ -5,8 +5,12 @@ import Color from "@/components/color";
 import { getKey, setKey } from "@/utils";
 import "./index.less";
 
-var darkTheme = require("@/assets/theme/dark.json");
-var defaultTheme = require("@/assets/theme/default.json");
+const darkTheme = process.env.showColorSet
+  ? require("@/assets/theme/dark.json")
+  : {};
+const defaultTheme = process.env.showColorSet
+  ? require("@/assets/theme/default.json")
+  : {};
 
 const Themes = [
   { label: "默认", value: "default", colorList: defaultTheme },
@@ -37,7 +41,7 @@ const getColor = (color) => ({
 });
 const THEME_NAME = getKey(true, "theme-name");
 const THEME = getKey(true, "theme");
-export default function SetTheme() {
+function SetTheme() {
   const [visible, setVisible] = useState(false);
   const [selectInfo, setInfo] = useState({});
   const [colorShow, setColorShow] = useState(false);
@@ -202,3 +206,4 @@ export default function SetTheme() {
     </div>
   );
 }
+export default SetTheme;

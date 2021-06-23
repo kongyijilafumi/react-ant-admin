@@ -75,8 +75,11 @@
   },
   "scripts": {
     "start": "node color && node scripts/start.js",
-    "start mock": "node color && env-cmd -f .env.mock node scripts/start.js",
-    "build": "node color && node scripts/build.js"
+    "start color": "cross-env COLOR=true node color && cross-env COLOR=true node scripts/start.js",
+    "start mock": "node color && cross-env REACT_APP_MOCK=1 node scripts/start.js",
+    "start mock color": "node color && cross-env REACT_APP_MOCK=1 COLOR=true node scripts/start.js",
+    "build": "node color && node scripts/build.js",
+    "build color": "cross-env COLOR=true node color && cross-env COLOR=true node scripts/build.js"
   },
   "eslintConfig": {
     "extends": [
@@ -165,10 +168,10 @@
   "devDependencies": {
     "@loadable/component": "^5.14.1",
     "ant-theme-generator": "^1.0.0",
+    "cross-env": "^7.0.3",
     "dayjs": "^1.10.4",
     "echarts": "^5.0.2",
     "echarts-for-react": "^3.0.1",
-    "env-cmd": "^10.1.0",
     "http-proxy-middleware": "^2.0.0",
     "less": "^4.1.1",
     "less-loader": "^5.0.0",

@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const { generateTheme, getLessVars } = require("ant-theme-generator");
 
-const showColorSet = require("./color.config");
+const showColorSet = process.env.COLOR === "true";
 
 // 变量文件夹
 const varFile = path.join(__dirname, "./src/assets/theme/var.less");

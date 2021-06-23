@@ -3,7 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const paths = require("./paths");
-const showColorSet = require("../color.config");
+const showColorSet = process.env.COLOR === "true";
 try {
   var varColors = require("../color.json.js");
 } catch (error) {}
