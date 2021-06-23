@@ -160,6 +160,39 @@ let menu = [
 
 
 
+## 脚本启动
+
+在完成依赖安装之后,有以下几种启动方式。
+- npm run start
+
+请求接口数据，通过后台返回数据显示项目信息
+
+- npm run "start color"
+
+请求接口数据，通过后台返回数据显示项目信息，并且开启主题色配置。
+
+- npm run "start mock"
+
+本地模拟数据，假数据来显示项目信息
+
+- npm run "start mock color"
+
+本地模拟数据，假数据来显示项目信息，并且开启主题色配置。
+
+- npm run build
+
+普通打包模式。
+
+- npm run "build color"
+
+打包主题色。项目体积会有所增加。
+
+### vscode快速启动项目
+
+使用[vscode编辑器](https://code.visualstudio.com/)[下载地址](https://blog.csdn.net/bielaiwuyang1999/article/details/117814237)
+
+把此项目文件夹拖入`vscode编辑器`,找到左下角`npm 脚本栏目`选择快速启动，免命令。
+![免命令示例图](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/run.png)
 
 ## 项目截图
 
