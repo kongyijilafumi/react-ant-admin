@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Table, Row, Col } from "antd";
+import { Button, Row, Col } from "antd";
 import TypeModal from "@/components/modal/type";
 import { getPower } from "@/api";
+import MyTable from "@/components/table";
 import "./index.less";
 
 function useTypes() {
@@ -76,7 +77,7 @@ export default function Types() {
   } = useTypes();
   return (
     <div className="type-container">
-      <Table
+      <MyTable
         rowKey="type"
         title={renderTitle}
         columns={tableCol}

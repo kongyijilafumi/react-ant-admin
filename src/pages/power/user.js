@@ -1,7 +1,8 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { Button, Table, Row, Col } from "antd";
+import { Button, Row, Col } from "antd";
 import MyPagination from "@/components/pagination";
 import UserModal from "@/components/modal/user";
+import MyTable from "@/components/table";
 import { getUserList } from "@/api";
 import "./index.less";
 
@@ -75,10 +76,9 @@ export default function User() {
   const updateUserData = useCallback(() => {
     getUserData(pageData);
   }, [pageData, getUserData]);
-
   return (
     <div className="user-container">
-      <Table
+      <MyTable
         title={renderTitle}
         dataSource={tableData}
         rowKey="user_id"

@@ -1,16 +1,7 @@
 import React, { useState } from "react";
-import {
-  Form,
-  Table,
-  Input,
-  Modal,
-  Button,
-  Row,
-  Col,
-  Spin,
-  message,
-} from "antd";
+import { Form, Input, Modal, Button, Row, Col, Spin, message } from "antd";
 import MyPagination from "@/components/pagination";
+import MyTable from "@/components/table";
 import { getMsg, addMsg } from "@/api";
 
 import "./index.less";
@@ -106,7 +97,7 @@ export default function SearchPage() {
             </Button>
           </Form>
         </div>
-        <Table
+        <MyTable
           title={() => tableTop}
           dataSource={tableData}
           columns={tableCol}
