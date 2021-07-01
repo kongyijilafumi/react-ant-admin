@@ -1,4 +1,10 @@
 # react-ant-admin
+[![GitHub star](https://img.shields.io/github/stars/kongyijilafumi/react-ant-admin?label=GitHub%20Star)](https://github.com/kongyijilafumi/react-ant-admin)
+[![GitHub fork](https://img.shields.io/github/forks/kongyijilafumi/react-ant-admin?label=GitHub%20fork)](https://github.com/kongyijilafumi/react-ant-admin/network/members)
+[![Gitee star](https://gitee.com/kong_yiji_and_lavmi/react-ant-admin/badge/star.svg?theme=dark)](https://gitee.com/kong_yiji_and_lavmi/react-ant-admin/stargazers)
+[![Gitee fork](https://gitee.com/kong_yiji_and_lavmi/react-ant-admin/badge/fork.svg?theme=dark)](https://gitee.com/kong_yiji_and_lavmi/react-ant-admin/members)
+![](https://img.shields.io/github/license/kongyijilafumi/react-ant-admin)
+
 
 TypeScript 版[GitHub(国外地址)](https://github.com/kongyijilafumi/react-ant-admin-ts) |
 TypeScript 版[码云(国内镜像)](https://gitee.com/kong_yiji_and_lavmi/react-ant-admin-ts)
