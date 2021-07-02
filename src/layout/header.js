@@ -34,13 +34,14 @@ const RightMenu = ({ logout }) => (
 
 const getPopupContainer = (HTMLElement) => HTMLElement;
 
-const HeaderDom = ({ userInfo, userOut }) => {
+const LayoutHeader = ({ userInfo, userOut, children }) => {
   return (
     <Header className="header">
       <div className="logo">
         <img src={logo} alt="logo"></img>
         <span>react-ant-admin</span>
       </div>
+      {children}
       <div className="right" placement="bottomCenter">
         <Dropdown
           getPopupContainer={getPopupContainer}
@@ -52,4 +53,4 @@ const HeaderDom = ({ userInfo, userOut }) => {
     </Header>
   );
 };
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderDom);
+export default connect(mapStateToProps, mapDispatchToProps)(LayoutHeader);

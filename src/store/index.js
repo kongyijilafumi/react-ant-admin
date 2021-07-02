@@ -1,9 +1,11 @@
 import { createStore, combineReducers } from "redux";
 import MenuReducer from "./menu/reducer";
 import UserReducer from "./user/reducer";
+import LayoutReducer from "./layout/reducer";
 const reducer = combineReducers({
   menu: MenuReducer,
   user: UserReducer,
+  layout: LayoutReducer,
 });
 
 const store = createStore(

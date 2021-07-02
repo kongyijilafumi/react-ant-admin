@@ -139,7 +139,12 @@ function rmKey(isLocal, key) {
 function stopPropagation(e) {
   e.stopPropagation();
 }
-
+function getLayoutMode() {
+  return getKey(true, "layout-mode");
+}
+function setLayoutMode(data) {
+  setKey(true, "layout-mode", data);
+}
 export {
   getDefaultMenu,
   getSessionUser,
@@ -158,4 +163,6 @@ export {
   getKey,
   setKey,
   stopPropagation,
+  getLayoutMode,
+  setLayoutMode,
 };

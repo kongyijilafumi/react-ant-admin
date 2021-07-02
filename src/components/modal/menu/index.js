@@ -57,7 +57,7 @@ export default function AddMenu({
       });
     }
     // eslint-disable-next-line
-  }, [modalType, isShow]);
+  }, [modalType, isShow, info]);
   // 提交表单
   const submit = () => {
     form.validateFields().then((values) => {
@@ -165,7 +165,12 @@ export default function AddMenu({
             <Radio value="false">否</Radio>
           </Radio.Group>
         </Form.Item>
-        <Form.Item className="ipt-number" rules={orderRules} name="order" label="菜单排序">
+        <Form.Item
+          className="ipt-number"
+          rules={orderRules}
+          name="order"
+          label="菜单排序"
+        >
           <InputNumber placeholder="数值越小越靠前" />
         </Form.Item>
       </Form>

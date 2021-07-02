@@ -12,10 +12,14 @@ function useMenu() {
   const [selectInfo, setSelectInfo] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
+  
+  const getMenuList = () => {
+    getMenu().then(setMenu);
+  };
+
   useEffect(() => {
     getMenuList();
   }, []);
-
   const onSelect = (selectedKeys, info) => {
     let { key, pos } = info.node;
     if (info.selected) {
@@ -25,9 +29,6 @@ function useMenu() {
     setSelectInfo(null);
   };
 
-  const getMenuList = () => {
-    getMenu().then(setMenu);
-  };
 
   const addMenu = () => {
     openModal("add");

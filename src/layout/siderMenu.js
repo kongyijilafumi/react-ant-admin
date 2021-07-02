@@ -6,7 +6,7 @@ import MyIcon from "@/components/icon";
 import { getMenus } from "@/common";
 import { setOpenKey } from "@/store/menu/action";
 import { filterMenuList, stopPropagation } from "@/utils";
-
+import * as layoutTypes from "@/store/layout/actionTypes";
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -18,9 +18,16 @@ const mapStateToProps = (state) => ({
   openKeys: state.menu.openMenuKey,
   selectedKeys: state.menu.selectMenuKey,
   userInfo: state.user,
+  layout: state.layout,
 });
 
-const MenuDom = ({ openKeys, selectedKeys, setOpenKeys, userInfo }) => {
+const SiderMenu = ({
+  openKeys,
+  selectedKeys,
+  setOpenKeys,
+  userInfo,
+  layout,
+}) => {
   const [collapsed, setCollapsed] = useState(false);
   const [menuList, setMenu] = useState([]);
   // 设置菜单
@@ -71,33 +78,47 @@ const MenuDom = ({ openKeys, selectedKeys, setOpenKeys, userInfo }) => {
     });
   }, [menuList]);
   // 菜单点击
-
-  return (
-    <Affix>
-      <Sider
-        width={200}
-        collapsed={collapsed}
-        className="site-layout-background"
-      >
-        <Menu
-          mode="inline"
-          triggerSubMenuAction="click"
-          className="layout-silder-menu hide-scrollbar"
-          onOpenChange={onOpenChange}
-          openKeys={openKeys}
-          selectedKeys={selectedKeys}
+  const MenuList = (
+    <Menu
+      mode={layout === layoutTypes.TWO_COLUMN ? "inline" : "horizontal"}
+      triggerSubMenuAction="click"
+      className={
+        layout === layoutTypes.TWO_COLUMN
+          ? "layout-silder-menu hide-scrollbar"
+          : "layout-silder-menu w800"
+      }
+      onOpenChange={onOpenChange}
+      openKeys={openKeys}
+      selectedKeys={selectedKeys}
+    >
+      {menu}
+    </Menu>
+  );
+  const SliderContent = ({ children }) => {
+    return (
+      <Affix>
+        <Sider
+          width={200}
+          collapsed={collapsed}
+          className="site-layout-background"
         >
-          {menu}
-        </Menu>
-        <div className="fold-control fixed">
-          <Button onClick={toggleCollapsed}>
-            {collapsed ? "展开" : "收起"}
-            <MyIcon type={collapsed ? "icon_next" : "icon_back"} />
-          </Button>
-        </div>
-      </Sider>
-    </Affix>
+          {children}
+          <div className="fold-control fixed">
+            <Button onClick={toggleCollapsed}>
+              {collapsed ? "展开" : "收起"}
+              <MyIcon type={collapsed ? "icon_next" : "icon_back"} />
+            </Button>
+          </div>
+        </Sider>
+      </Affix>
+    );
+  };
+
+  return layout === layoutTypes.TWO_COLUMN ? (
+    <SliderContent> {MenuList} </SliderContent>
+  ) : (
+    MenuList
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuDom);
+export default connect(mapStateToProps, mapDispatchToProps)(SiderMenu);
