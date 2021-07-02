@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Layout, Menu, Button, Affix } from "antd";
+import { Layout, Menu, Button, Affix, Col } from "antd";
 import MyIcon from "@/components/icon";
 import { getMenus } from "@/common";
 import { setOpenKey } from "@/store/menu/action";
@@ -20,7 +20,38 @@ const mapStateToProps = (state) => ({
   userInfo: state.user,
   layout: state.layout,
 });
-
+const SliderContent = ({ children }) => {
+  const [collapsed, setCollapsed] = useState(false);
+  // 折叠菜单
+  const toggleCollapsed = (e) => {
+    setCollapsed(!collapsed);
+    stopPropagation(e);
+  };
+  return (
+    <Affix>
+      <Sider
+        width={200}
+        collapsed={collapsed}
+        className="site-layout-background"
+      >
+        {children}
+        <div className="fold-control fixed">
+          <Button onClick={toggleCollapsed}>
+            {collapsed ? "展开" : "收起"}
+            <MyIcon type={collapsed ? "icon_next" : "icon_back"} />
+          </Button>
+        </div>
+      </Sider>
+    </Affix>
+  );
+};
+const FlexBox = ({ children }) => {
+  return (
+    <Col sm={6} md={10} lg={15} className="fl">
+      {children}
+    </Col>
+  );
+};
 const SiderMenu = ({
   openKeys,
   selectedKeys,
@@ -28,7 +59,6 @@ const SiderMenu = ({
   userInfo,
   layout,
 }) => {
-  const [collapsed, setCollapsed] = useState(false);
   const [menuList, setMenu] = useState([]);
   // 设置菜单
   useEffect(() => {
@@ -43,11 +73,7 @@ const SiderMenu = ({
   const onOpenChange = (keys) => {
     setOpenKeys(keys);
   };
-  // 折叠菜单
-  const toggleCollapsed = (e) => {
-    setCollapsed(!collapsed);
-    stopPropagation(e);
-  };
+
   // 菜单选项
   const menu = useMemo(() => {
     return menuList.map((item) => {
@@ -85,7 +111,7 @@ const SiderMenu = ({
       className={
         layout === layoutTypes.TWO_COLUMN
           ? "layout-silder-menu hide-scrollbar"
-          : "layout-silder-menu w800"
+          : "layout-silder-menu col"
       }
       onOpenChange={onOpenChange}
       openKeys={openKeys}
@@ -94,31 +120,10 @@ const SiderMenu = ({
       {menu}
     </Menu>
   );
-  const SliderContent = ({ children }) => {
-    return (
-      <Affix>
-        <Sider
-          width={200}
-          collapsed={collapsed}
-          className="site-layout-background"
-        >
-          {children}
-          <div className="fold-control fixed">
-            <Button onClick={toggleCollapsed}>
-              {collapsed ? "展开" : "收起"}
-              <MyIcon type={collapsed ? "icon_next" : "icon_back"} />
-            </Button>
-          </div>
-        </Sider>
-      </Affix>
-    );
-  };
 
-  return layout === layoutTypes.TWO_COLUMN ? (
-    <SliderContent> {MenuList} </SliderContent>
-  ) : (
-    MenuList
-  );
+  const WrapContainer =
+    layout === layoutTypes.TWO_COLUMN ? SliderContent : FlexBox;
+  return <WrapContainer>{MenuList}</WrapContainer>;
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiderMenu);
