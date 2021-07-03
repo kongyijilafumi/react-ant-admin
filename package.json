@@ -168,6 +168,7 @@
   "devDependencies": {
     "@loadable/component": "^5.14.1",
     "ant-theme-generator": "^1.0.0",
+    "array-move": "^3.0.1",
     "cross-env": "^7.0.3",
     "dayjs": "^1.10.4",
     "echarts": "^5.0.2",
@@ -180,6 +181,7 @@
     "react-draggable-tags": "^1.0.2",
     "react-router-cache-route": "^1.11.0",
     "react-router-dom": "^5.2.0",
+    "react-sortable-hoc": "^2.0.0",
     "sass": "^1.32.8",
     "style-resources-loader": "^1.4.1",
     "webpack-router-generator": "^1.0.8"
