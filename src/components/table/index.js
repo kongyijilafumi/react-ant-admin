@@ -1,39 +1,36 @@
 import { useEffect, useState } from "react";
+import { Table, Row, Spin, Drawer, Radio, Tooltip, InputNumber } from "antd";
 import {
-  Table,
-  Row,
-  Spin,
-  Drawer,
-  Slider,
-  Radio,
-  Tooltip,
-} from "antd";
-import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc';
-import arrayMove from 'array-move';
+  sortableContainer,
+  sortableElement,
+  sortableHandle,
+} from "react-sortable-hoc";
+import arrayMove from "array-move";
 import MyIcon from "../icon";
 import "./index.less";
 
-const DragHandle = sortableHandle(() => <MyIcon type="icon_mirrorlightctrl" className="drag-sort" />);
-const SortableItem = sortableElement(props => <tr {...props} />);
-const SortableContainer = sortableContainer(props => <tbody {...props} />);
+const DragHandle = sortableHandle(() => (
+  <MyIcon type="icon_mirrorlightctrl" className="drag-sort" />
+));
+const SortableItem = sortableElement((props) => <tr {...props} />);
+const SortableContainer = sortableContainer((props) => <tbody {...props} />);
 
 const setColTitle = [
   {
-    title: '列排序',
-    dataIndex: 'sort',
-    className: 'drag-visible',
+    title: "列排序",
+    dataIndex: "sort",
+    className: "drag-visible",
     render: () => <DragHandle />,
   },
   {
     title: "列名",
     dataIndex: "title",
-    className: 'drag-visible',
+    className: "drag-visible",
     align: "center",
   },
   {
     title: "宽度",
     dataIndex: "width",
-    width: 200,
     type: "slider",
   },
   {
@@ -69,6 +66,16 @@ const setColTitle = [
       { v: "right", t: "右" },
     ],
   },
+  {
+    title: "隐藏",
+    dataIndex: "hidden",
+    type: "switch",
+    align: "center",
+    range: [
+      { v: "hidden", t: "隐藏" },
+      { v: "auto", t: "显示" },
+    ],
+  },
 ];
 
 const defaultCol = {
@@ -76,6 +83,7 @@ const defaultCol = {
   fixed: false,
   ellipsis: false,
   align: "left",
+  hidden: "auto",
 };
 
 function UseTable(columns) {
@@ -83,21 +91,27 @@ function UseTable(columns) {
   const [col, setCol] = useState([]); // 显示表格
   const [tbTitle, setTitle] = useState([]); // 设置表格
 
-  const DraggableContainer = (props) => <SortableContainer
-    useDragHandle
-    disableAutoscroll
-    helperClass="row-dragging"
-    onSortEnd={onSortEnd}
-    {...props}
-  />
+  const DraggableContainer = (props) => (
+    <SortableContainer
+      useDragHandle
+      disableAutoscroll
+      helperClass="row-dragging"
+      onSortEnd={onSortEnd}
+      {...props}
+    />
+  );
   const DraggableBodyRow = ({ className, style, ...restProps }) => {
-    const index = col.findIndex(x => x.index === restProps['data-row-key']);
+    const index = col.findIndex((x) => x.index === restProps["data-row-key"]);
     return <SortableItem index={index} {...restProps} />;
   };
   // 初始化表格设置
   useEffect(() => {
     if (columns && columns.length && col.length === 0) {
-      const newCol = columns.map((c, index) => ({ ...defaultCol, ...c, index }));
+      const newCol = columns.map((c, index) => ({
+        ...defaultCol,
+        ...c,
+        index,
+      }));
       setCol(newCol);
     }
     // eslint-disable-next-line
@@ -140,9 +154,10 @@ function UseTable(columns) {
       </Radio.Group>
     );
   }
+
   function switchChange(key, val, current) {
     const dataIndex = current.dataIndex;
-    let newCol = col.map((item) => {
+    const newCol = col.map((item) => {
       if (item.dataIndex === dataIndex) {
         item[key] = val;
       }
@@ -153,27 +168,16 @@ function UseTable(columns) {
 
   function sliderRender(dataIndex, text, col) {
     return (
-      <>
-        <Slider
+      <Tooltip title="失去焦点触发" arrowPointAtCenter>
+        <InputNumber
           min={0}
           max={800}
-          onChange={(v) => sliderChange(dataIndex, v, col)}
-          value={text === "auto" ? 0 : text}
+          onBlur={(v) => switchChange(dataIndex, Number(v.target.value), col)}
+          value={text}
         />
-      </>
+      </Tooltip>
     );
   }
-  function sliderChange(key, val, current) {
-    const dataIndex = current.dataIndex;
-    let newCol = col.map((item) => {
-      if (item.dataIndex === dataIndex) {
-        item[key] = val;
-      }
-      return item;
-    });
-    setCol(newCol);
-  }
-
 
   function hiddin() {
     setShowDrawer(false);
@@ -184,22 +188,56 @@ function UseTable(columns) {
 
   function onSortEnd({ oldIndex, newIndex }) {
     if (oldIndex !== newIndex) {
-      const newData = arrayMove([].concat(col), oldIndex, newIndex).filter(el => !!el);
-      setCol(newData)
+      const newData = arrayMove([].concat(col), oldIndex, newIndex).filter(
+        (el) => !!el
+      );
+      setCol(newData);
     }
   }
-  return { col, showDrawer, show, hiddin, tbTitle, DraggableContainer, DraggableBodyRow };
+  return {
+    col,
+    showDrawer,
+    show,
+    hiddin,
+    tbTitle,
+    DraggableContainer,
+    DraggableBodyRow,
+  };
 }
 
-function MyTable({ columns, dataSource, loading = false, children, ...Props }) {
-  const { showDrawer, show, hiddin, col, tbTitle, DraggableContainer, DraggableBodyRow } = UseTable(columns);
+function MyTable({
+  columns,
+  dataSource,
+  loading = false,
+  className,
+  children,
+  ...Props
+}) {
+  const {
+    showDrawer,
+    show,
+    hiddin,
+    col,
+    tbTitle,
+    DraggableContainer,
+    DraggableBodyRow,
+  } = UseTable(columns);
 
   return (
     <Spin spinning={loading}>
       <Row className="set" justify="end">
         <MyIcon type="icon_set" onClick={show} />
       </Row>
-      <Table columns={col} dataSource={dataSource} {...Props}>
+      <Table
+        columns={col.filter((i) => i.hidden !== "hidden")}
+        dataSource={dataSource}
+        className={
+          className
+            ? `table-show-container ${className}`
+            : "table-show-container"
+        }
+        {...Props}
+      >
         {children}
       </Table>
       <Drawer
@@ -218,9 +256,10 @@ function MyTable({ columns, dataSource, loading = false, children, ...Props }) {
             body: {
               wrapper: DraggableContainer,
               row: DraggableBodyRow,
-            }
+            },
           }}
-          pagination={false} />
+          pagination={false}
+        />
       </Drawer>
     </Spin>
   );
