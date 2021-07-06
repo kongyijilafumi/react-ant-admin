@@ -1,52 +1,87 @@
 import React, { useEffect, useState } from "react";
-import { Tree, Row, Col, Button, message, Popconfirm } from "antd";
-import MyIcon from "@/components/icon";
+import { Row, Button, message, Popconfirm, Tag } from "antd";
 import { getMenu, delMenu } from "@/api";
 import MenuModal from "@/components/modal/menu";
+import MyTable from "@/components/table";
+import MyIcon from "@/components/icon";
 import "./index.less";
-
-const { TreeNode } = Tree;
 
 function useMenu() {
   const [menus, setMenu] = useState([]);
+  const [tabCol, setCol] = useState([]);
   const [selectInfo, setSelectInfo] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
-  
+
+  const menuAction = {
+    title: "操作",
+    dataIndex: "action",
+    align: "center",
+    render: (text, record) => {
+      return (
+        <Row>
+          <Button type="link" onClick={() => openModal("edit", record)}>
+            编辑
+          </Button>
+          {!record.parentKey && (
+            <Button type="link" onClick={() => openModal("addChild", record)}>
+              添加子菜单
+            </Button>
+          )}
+          <Popconfirm
+            onConfirm={() => deleteMenu(record)}
+            okText="确认"
+            title="删除选中菜单会一同删除其下所有子菜单，确认删除？"
+            cancelText="取消"
+          >
+            <Button type="link" danger>
+              删除
+            </Button>
+          </Popconfirm>
+        </Row>
+      );
+    },
+  };
+
   const getMenuList = () => {
-    getMenu().then(setMenu);
+    getMenu().then((res) => {
+      if (res) {
+        const types = res.type;
+        res.mapKey.push(menuAction);
+        res.mapKey.forEach((item) => {
+          if (item.dataIndex === "icon") {
+            item.render = (text) =>
+              text ? <MyIcon className="preview" type={text} /> : "暂未设置";
+          } else if (item.dataIndex === "keepAlive") {
+            item.render = (text) => (text === "true" ? "保持" : "关闭销毁");
+          } else if (item.dataIndex === "type") {
+            item.render = (text) => {
+              return text.map((type) => {
+                const find = types.find((i) => i.type === type);
+                return find ? <Tag color="#2db7f5" key={type}>{find.name}</Tag> : type;
+              });
+            };
+          }
+        });
+        setCol(res.mapKey);
+        setMenu(res.data);
+      }
+    });
   };
 
   useEffect(() => {
     getMenuList();
+    // eslint-disable-next-line
   }, []);
-  const onSelect = (selectedKeys, info) => {
-    let { key, pos } = info.node;
-    if (info.selected) {
-      setSelectInfo({ key, isParent: Boolean(pos.split("-").length === 2) });
-      return;
-    }
-    setSelectInfo(null);
-  };
 
-
-  const addMenu = () => {
-    openModal("add");
-  };
-  const addChildMenu = () => {
-    openModal("addChild");
-  };
-
-  const openModal = (type) => {
+  const openModal = (type, { key, parentKey }) => {
+    setSelectInfo({ key, isParent: Boolean(parentKey) });
     setModalType(type);
     setShowModal(true);
   };
 
-  const setMenuInfo = () => {
-    openModal("edit");
-  };
-  const deleteMenu = () => {
-    delMenu(selectInfo).then((res) => {
+  const deleteMenu = (info) => {
+    delMenu(info).then((res) => {
       const { msg, status } = res;
       if (status === 0) {
         message.success(msg);
@@ -55,15 +90,11 @@ function useMenu() {
     });
   };
   return {
-    addChildMenu,
     selectInfo,
-    addMenu,
-    setMenuInfo,
-    deleteMenu,
-    onSelect,
     menus,
     showModal,
     modalType,
+    tabCol,
     setShowModal,
     getMenuList,
   };
@@ -71,77 +102,17 @@ function useMenu() {
 
 export default function Menu() {
   const {
-    addChildMenu,
     selectInfo,
-    addMenu,
-    setMenuInfo,
-    deleteMenu,
-    onSelect,
     menus,
     showModal,
     modalType,
+    tabCol,
     setShowModal,
     getMenuList,
   } = useMenu();
   return (
     <div className="powermenu-container">
-      <div className="top-form">
-        <Button
-          type="primary"
-          onClick={addChildMenu}
-          disabled={!selectInfo || !selectInfo.isParent}
-        >
-          新增子菜单
-        </Button>
-        <Button type="primary" onClick={addMenu}>
-          新增菜单
-        </Button>
-        <Button
-          type="dashed"
-          onClick={setMenuInfo}
-          danger
-          disabled={!selectInfo}
-        >
-          修改菜单
-        </Button>
-        <Popconfirm
-          disabled={!selectInfo}
-          onConfirm={deleteMenu}
-          okText="确认"
-          title="删除选中菜单会一同删除其下所有子菜单，确认删除？"
-          cancelText="取消"
-        >
-          <Button danger disabled={!selectInfo}>
-            删除菜单
-          </Button>
-        </Popconfirm>
-      </div>
-      <Row className="tree-data">
-        <Col span={8}>
-          {(menus.length && (
-            <Tree blockNode showIcon onSelect={onSelect}>
-              {menus.map((item) => (
-                <TreeNode
-                  key={item.key}
-                  title={item.title}
-                  icon={item.icon && <MyIcon type={item.icon} />}
-                  children={
-                    item.children &&
-                    item.children.map((child) => (
-                      <TreeNode
-                        key={child.key}
-                        title={child.title}
-                        icon={child.icon && <MyIcon type={child.icon} />}
-                      />
-                    ))
-                  }
-                />
-              ))}
-            </Tree>
-          )) ||
-            null}
-        </Col>
-      </Row>
+      <MyTable dataSource={menus} columns={tabCol} saveKey="menuTbale" />
       <MenuModal
         menus={menus}
         isShow={showModal}
@@ -154,6 +125,6 @@ export default function Menu() {
   );
 }
 
-Menu.route={
-  path:"/power/menu"
-}
+Menu.route = {
+  path: "/power/menu",
+};

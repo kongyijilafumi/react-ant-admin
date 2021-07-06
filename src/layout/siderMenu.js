@@ -63,7 +63,7 @@ const SiderMenu = ({
   // 设置菜单
   useEffect(() => {
     getMenus().then((res) => {
-      let list = filterMenuList(res, userInfo.type);
+      let list = filterMenuList(res.data, userInfo.type);
       setMenu(list);
     });
     // eslint-disable-next-line

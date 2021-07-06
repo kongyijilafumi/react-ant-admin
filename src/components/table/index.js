@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   Table,
   Row,
-  Spin,
   Drawer,
   Radio,
   Tooltip,
@@ -117,10 +116,15 @@ function UseTable(columns, saveKey) {
   };
   useEffect(() => {
     const data = getKey(true, saveKey);
-    if (saveKey && data) {
-      setCol(data);
+    if (saveKey && data && columns && columns.length === data.length) {
+      const merge = data.map((item) => ({
+        ...item,
+        ...columns.find((i) => i.dataIndex === item.dataIndex),
+        render: item.render,
+      }));
+      setCol(merge);
     }
-  }, [saveKey]);
+  }, [saveKey, columns]);
   // 初始化表格设置
   useEffect(() => {
     if (columns && columns.length !== col.length) {
@@ -236,7 +240,6 @@ function UseTable(columns, saveKey) {
 function MyTable({
   columns,
   dataSource,
-  loading = false,
   className,
   children,
   saveKey,
@@ -254,9 +257,9 @@ function MyTable({
   } = UseTable(columns, saveKey);
 
   return (
-    <Spin spinning={loading}>
+    <div className="react-ant-table">
       <Row className="set" justify="end">
-        <MyIcon type="icon_set" onClick={show} />
+        <MyIcon type="icon_edit" onClick={show} />
       </Row>
       <Table
         columns={col.filter((i) => i.hidden !== "hidden")}
@@ -296,7 +299,7 @@ function MyTable({
           </Button>
         </Row>
       </Drawer>
-    </Spin>
+    </div>
   );
 }
 export default MyTable;

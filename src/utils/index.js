@@ -5,8 +5,8 @@ async function getDefaultMenu() {
   let openKeys = [],
     selectKey = [],
     openedMenu = [];
-  const menuList = await getMenus();
-  menuList.some((list) => {
+  const res = await getMenus();
+  res.data.some((list) => {
     const child = list.children;
     if (child && child.length) {
       openKeys = [list.key];
@@ -59,8 +59,8 @@ function getCurrentUrl() {
 
 async function getMenuParentKey(key) {
   let parentKey;
-  const menuList = await getMenus();
-  menuList.some((menu) => {
+  const res = await getMenus();
+  res.data.some((menu) => {
     if (menu.key === key) {
       parentKey = key;
       return true;
@@ -105,8 +105,8 @@ function getLocalMenu() {
   return getKey(false, "menu");
 }
 
-function saveLocalMenu(list) {
-  setKey(false, "menu", list);
+function saveLocalMenu(menu) {
+  setKey(false, "menu", menu);
 }
 
 function saveToken(token) {

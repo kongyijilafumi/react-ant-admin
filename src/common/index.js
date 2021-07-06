@@ -10,8 +10,10 @@ function getMenus() {
     }
     getMenu()
       .then((result) => {
-        saveLocalMenu(result);
-        res(result);
+        if (result) {
+          saveLocalMenu(result);
+          res(result);
+        }
       })
       .catch((err) => {
         res([]);

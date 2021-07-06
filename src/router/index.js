@@ -12,7 +12,7 @@ function useRouter() {
 
   useEffect(() => {
     getMenus().then((res) => {
-      let list = reduceMenuList(res);
+      let list = reduceMenuList(res.data);
       let routers = routerList.map((router) => {
         let find = list.find(
           (i) => (i.parentPath || "") + i.path === router.path
