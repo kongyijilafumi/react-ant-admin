@@ -186,6 +186,7 @@ export default function Vistor() {
         dataSource={tableData}
         columns={tableCol}
         rowKey="s_id"
+        saveKey="vistorTb"
         pagination={false}
       />
       <MyPagination change={getList} immediately={getList} total={total} />

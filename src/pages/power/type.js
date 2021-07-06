@@ -79,6 +79,7 @@ export default function Types() {
     <div className="type-container">
       <MyTable
         rowKey="type"
+        saveKey="typeTable"
         title={renderTitle}
         columns={tableCol}
         dataSource={tableData}

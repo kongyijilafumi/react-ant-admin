@@ -82,6 +82,7 @@ export default function User() {
         title={renderTitle}
         dataSource={tableData}
         rowKey="user_id"
+        saveKey="userTable"
         columns={tableCol}
         pagination={false}
       />

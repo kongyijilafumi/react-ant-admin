@@ -1,12 +1,24 @@
 import { useEffect, useState } from "react";
-import { Table, Row, Spin, Drawer, Radio, Tooltip, InputNumber } from "antd";
+import {
+  Table,
+  Row,
+  Spin,
+  Drawer,
+  Radio,
+  Tooltip,
+  InputNumber,
+  Button,
+  message,
+  notification,
+} from "antd";
 import {
   sortableContainer,
   sortableElement,
   sortableHandle,
 } from "react-sortable-hoc";
-import arrayMove from "array-move";
 import MyIcon from "../icon";
+import arrayMove from "array-move";
+import { getKey, setKey } from "@/utils";
 import "./index.less";
 
 const DragHandle = sortableHandle(() => (
@@ -14,7 +26,6 @@ const DragHandle = sortableHandle(() => (
 ));
 const SortableItem = sortableElement((props) => <tr {...props} />);
 const SortableContainer = sortableContainer((props) => <tbody {...props} />);
-
 const setColTitle = [
   {
     title: "列排序",
@@ -31,7 +42,7 @@ const setColTitle = [
   {
     title: "宽度",
     dataIndex: "width",
-    type: "slider",
+    type: "inputNumber",
   },
   {
     title: "固定",
@@ -86,7 +97,7 @@ const defaultCol = {
   hidden: "auto",
 };
 
-function UseTable(columns) {
+function UseTable(columns, saveKey) {
   const [showDrawer, setShowDrawer] = useState(false);
   const [col, setCol] = useState([]); // 显示表格
   const [tbTitle, setTitle] = useState([]); // 设置表格
@@ -104,9 +115,15 @@ function UseTable(columns) {
     const index = col.findIndex((x) => x.index === restProps["data-row-key"]);
     return <SortableItem index={index} {...restProps} />;
   };
+  useEffect(() => {
+    const data = getKey(true, saveKey);
+    if (saveKey && data) {
+      setCol(data);
+    }
+  }, [saveKey]);
   // 初始化表格设置
   useEffect(() => {
-    if (columns && columns.length && col.length === 0) {
+    if (columns && columns.length !== col.length) {
       const newCol = columns.map((c, index) => ({
         ...defaultCol,
         ...c,
@@ -119,13 +136,13 @@ function UseTable(columns) {
 
   // 表格设置渲染
   useEffect(() => {
-    if (col.length) {
+    if (col.length !== 0) {
       const newTb = setColTitle.map((c) => {
         if (c.type === "switch") {
           c.render = (...args) => switchRender(c, ...args);
         }
-        if (c.type === "slider") {
-          c.render = (...args) => sliderRender(c.dataIndex, ...args);
+        if (c.type === "inputNumber") {
+          c.render = (...args) => inuputRender(c.dataIndex, ...args);
         }
         return c;
       });
@@ -133,7 +150,6 @@ function UseTable(columns) {
     }
     // eslint-disable-next-line
   }, [col]);
-
   function switchRender(column, text, current) {
     return (
       <Radio.Group
@@ -166,7 +182,7 @@ function UseTable(columns) {
     setCol(newCol);
   }
 
-  function sliderRender(dataIndex, text, col) {
+  function inuputRender(dataIndex, text, col) {
     return (
       <Tooltip title="失去焦点触发" arrowPointAtCenter>
         <InputNumber
@@ -194,6 +210,17 @@ function UseTable(columns) {
       setCol(newData);
     }
   }
+  function saveTbSet() {
+    if (!saveKey) {
+      return notification.error({
+        type: "error",
+        description: "你未定义表格的savaKey属性，请定义后保存",
+        message: "保存失败",
+      });
+    }
+    setKey(true, saveKey, col);
+    message.success("保存设置成功!");
+  }
   return {
     col,
     showDrawer,
@@ -202,6 +229,7 @@ function UseTable(columns) {
     tbTitle,
     DraggableContainer,
     DraggableBodyRow,
+    saveTbSet,
   };
 }
 
@@ -211,6 +239,7 @@ function MyTable({
   loading = false,
   className,
   children,
+  saveKey,
   ...Props
 }) {
   const {
@@ -221,7 +250,8 @@ function MyTable({
     tbTitle,
     DraggableContainer,
     DraggableBodyRow,
-  } = UseTable(columns);
+    saveTbSet,
+  } = UseTable(columns, saveKey);
 
   return (
     <Spin spinning={loading}>
@@ -260,6 +290,11 @@ function MyTable({
           }}
           pagination={false}
         />
+        <Row justify="center" className="mt20">
+          <Button type="primary" onClick={saveTbSet}>
+            保存此表格设置，下次打开默认启用
+          </Button>
+        </Row>
       </Drawer>
     </Spin>
   );
