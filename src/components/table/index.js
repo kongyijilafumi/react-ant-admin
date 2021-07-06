@@ -100,7 +100,6 @@ function UseTable(columns, saveKey) {
   const [showDrawer, setShowDrawer] = useState(false);
   const [col, setCol] = useState([]); // 显示表格
   const [tbTitle, setTitle] = useState([]); // 设置表格
-
   const DraggableContainer = (props) => (
     <SortableContainer
       useDragHandle
@@ -118,16 +117,16 @@ function UseTable(columns, saveKey) {
     const data = getKey(true, saveKey);
     if (saveKey && data && columns && columns.length === data.length) {
       const merge = data.map((item) => ({
-        ...item,
         ...columns.find((i) => i.dataIndex === item.dataIndex),
-        render: item.render,
+        ...item,
       }));
       setCol(merge);
     }
   }, [saveKey, columns]);
   // 初始化表格设置
   useEffect(() => {
-    if (columns && columns.length !== col.length) {
+    const data = getKey(true, saveKey);
+    if (!data && columns && columns.length !== col.length) {
       const newCol = columns.map((c, index) => ({
         ...defaultCol,
         ...c,
@@ -136,7 +135,7 @@ function UseTable(columns, saveKey) {
       setCol(newCol);
     }
     // eslint-disable-next-line
-  }, [columns]);
+  }, [saveKey, columns]);
 
   // 表格设置渲染
   useEffect(() => {
