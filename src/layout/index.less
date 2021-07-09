@@ -6,9 +6,11 @@
     font-size: 24px;
   }
 }
-.fl{
+
+.fl {
   float: left;
 }
+
 .my-layout-body {
   min-height: 100vh;
 
@@ -17,7 +19,7 @@
       border-color: @border-color-split ;
 
       &.col {
-        height: 64px;
+        height  : 64px;
         overflow: unset;
       }
     }
@@ -60,8 +62,9 @@
   }
 
   .layout-silder-menu {
-    height    : calc(100vh - 64px);
-    overflow-y: auto;
+    height        : calc(100vh - 64px);
+    padding-bottom: 32px;
+    overflow-y    : auto;
   }
 
   .ant-affix .layout-silder-menu {
@@ -76,6 +79,7 @@
       width       : 100%;
       background  : inherit;
       border-right: 1px solid @border-color-split;
+      background-color: @body-background;
     }
 
     .ant-btn {

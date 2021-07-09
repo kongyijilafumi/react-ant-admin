@@ -58,7 +58,13 @@ function useMenu() {
             item.render = (text) => {
               return text.map((type) => {
                 const find = types.find((i) => i.type === type);
-                return find ? <Tag color="#2db7f5" key={type}>{find.name}</Tag> : type;
+                return find ? (
+                  <Tag color="#2db7f5" className="type-tag" key={type}>
+                    {find.name}
+                  </Tag>
+                ) : (
+                  type
+                );
               });
             };
           }
@@ -89,6 +95,9 @@ function useMenu() {
       }
     });
   };
+  const addMenu = () => {
+    openModal("add", {});
+  };
   return {
     selectInfo,
     menus,
@@ -97,6 +106,7 @@ function useMenu() {
     tabCol,
     setShowModal,
     getMenuList,
+    addMenu,
   };
 }
 
@@ -109,9 +119,13 @@ export default function Menu() {
     tabCol,
     setShowModal,
     getMenuList,
+    addMenu,
   } = useMenu();
   return (
     <div className="powermenu-container">
+      <Button type="primary" onClick={addMenu}>
+        新增菜单
+      </Button>
       <MyTable dataSource={menus} columns={tabCol} saveKey="menuTbale" />
       <MenuModal
         menus={menus}

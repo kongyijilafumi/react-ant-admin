@@ -191,6 +191,7 @@ function UseTable(columns, saveKey) {
         <InputNumber
           min={0}
           max={800}
+          onStep={(v)=>switchChange(dataIndex, v, col)}
           onBlur={(v) => switchChange(dataIndex, Number(v.target.value), col)}
           value={text}
         />

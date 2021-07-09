@@ -110,41 +110,49 @@ function saveLocalMenu(menu) {
 }
 
 function saveToken(token) {
-  let str = token || "";
-  localStorage.setItem("token", str);
+  setKey(true, "token", token);
 }
 
 function getToken() {
-  return localStorage.getItem("token");
+  return getKey(true, "token");
 }
 
 function getKey(isLocal, key) {
-  let storeage = getStorage(isLocal);
-  let data = storeage.getItem(key) || "null";
-  return JSON.parse(data);
+  return JSON.parse(getStorage(isLocal).getItem(key) || "null");
 }
 function getStorage(isLocal) {
   return isLocal ? window.localStorage : window.sessionStorage;
 }
 function setKey(isLocal, key, data) {
-  let storeage = getStorage(isLocal);
-  storeage.setItem(key, JSON.stringify(data || null));
+  getStorage(isLocal).setItem(key, JSON.stringify(data || null));
 }
 
 function rmKey(isLocal, key) {
-  let storeage = getStorage(isLocal);
-  storeage.removeItem(key);
+  getStorage(isLocal).removeItem(key);
 }
 
 function stopPropagation(e) {
   e.stopPropagation();
 }
+
 function getLayoutMode() {
   return getKey(true, "layout-mode");
 }
 function setLayoutMode(data) {
   setKey(true, "layout-mode", data);
 }
+
+/**
+ * 删除的一组本地数据
+ * @param {Array} keys 删除的一组本地数据的键值
+ */
+function clearLocalDatas(keys) {
+  keys.forEach((key) => {
+    rmKey(true, key);
+    rmKey(false, key);
+  });
+}
+
 export {
   getDefaultMenu,
   getSessionUser,
@@ -165,4 +173,5 @@ export {
   stopPropagation,
   getLayoutMode,
   setLayoutMode,
+  clearLocalDatas,
 };

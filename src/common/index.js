@@ -16,7 +16,7 @@ function getMenus() {
         }
       })
       .catch((err) => {
-        res([]);
+        res({ data: [] });
       });
   });
 }
