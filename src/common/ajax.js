@@ -88,9 +88,10 @@ instance.interceptors.response.use(
         }, 1000);
       }
     } else if (!response) {
+      clearLocalDatas(["token"]);
       notification.error({
-        description: "您的网络发生异常，无法连接服务器",
-        message: "网络异常",
+        description: "客户端异常或网络问题，请清除缓存！",
+        message: "状态异常",
       });
     }
     // 对响应错误做点什么
