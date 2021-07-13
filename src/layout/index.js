@@ -13,13 +13,7 @@ const { Content } = Layout;
 const LayoutBody = ({ layout }) => {
   return (
     <Layout className="my-layout-body">
-      {layout === LayoutTypes.TWO_COLUMN ? (
-        <Header />
-      ) : (
-        <Header>
-          <Menu />
-        </Header>
-      )}
+      <Header children={layout === LayoutTypes.TWO_COLUMN ? null : <Menu />} />
       <Layout>
         {layout === LayoutTypes.TWO_COLUMN ? <Menu /> : null}
         <Layout className="layout-content-wrap">

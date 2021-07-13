@@ -13,7 +13,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   userOut: (info) => {
     clearSessionUser();
-    info.isLogin = false;
+    if (info) {
+      info.isLogin = false;
+    }
     saveToken();
     setKey(true, "userInfo", info);
     dispatch(clearUser());
@@ -42,8 +44,9 @@ const LayoutHeader = ({ userInfo, userOut, children }) => {
         <span>react-ant-admin</span>
       </div>
       {children}
-      <div className="right" placement="bottomCenter">
+      <div className="right">
         <Dropdown
+          placement="bottomCenter"
           getPopupContainer={getPopupContainer}
           overlay={<RightMenu logout={() => userOut(userInfo)} />}
         >
