@@ -16,7 +16,7 @@ function getMenus() {
         }
       })
       .catch((err) => {
-        res({ data: [] });
+        res({ data: [], mapKey: [], type: [] });
       });
   });
 }

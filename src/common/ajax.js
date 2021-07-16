@@ -73,7 +73,7 @@ instance.interceptors.response.use(
     return response && response.data;
   },
   function (error) {
-    const { response } = error;
+    const { response, message } = error;
     if (response && response.status) {
       const errorText = codeMessage[response.status] || response.statusText;
       const { status, config } = response;
@@ -88,9 +88,13 @@ instance.interceptors.response.use(
         }, 1000);
       }
     } else if (!response) {
+      let description =
+        message === "Network Error"
+          ? "网络错误，请检查客户端是否存在网络故障或服务端无法响应"
+          : "客户端出现错误";
       clearLocalDatas(["token"]);
       notification.error({
-        description: "客户端异常或网络问题，请清除缓存！",
+        description,
         message: "状态异常",
       });
     }
