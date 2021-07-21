@@ -14,14 +14,23 @@
 .my-layout-body {
   min-height: 100vh;
 
+  &.twoflanks {
+    .layout-silder-menu {
+      height: 100vh;
+    }
+    .top-menu-wrapper{
+      margin:0 20px;
+    }
+  }
+
   .ant-menu {
     &.layout-silder-menu {
       border-color: @border-color-split ;
 
       &.col {
-        height  : 64px;
+        height        : 64px;
         padding-bottom: 0;
-        overflow: unset;
+        overflow      : unset;
       }
     }
 
@@ -50,9 +59,19 @@
     padding   : 0 24px 24px;
     margin    : 0;
     min-height: 200px;
+
+    &.reset-padding {
+      padding: 0;
+
+      .layout-content-body {
+        margin: 10px 20px 20px;
+      }
+
+    }
   }
 
   .layout-content-body {
+    margin-top: 10px;
 
     &>div {
       padding         : 20px;
@@ -74,12 +93,12 @@
 
   .fold-control {
     &.fixed {
-      position    : absolute;
-      bottom      : 0;
-      right       : 0;
-      width       : 100%;
-      background  : inherit;
-      border-right: 1px solid @border-color-split;
+      position        : absolute;
+      bottom          : 0;
+      right           : 0;
+      width           : 100%;
+      background      : inherit;
+      border-right    : 1px solid @border-color-split;
       background-color: @body-background;
     }
 
@@ -95,7 +114,7 @@
   }
 
   .top-menu {
-    margin    : 10px 0;
+    margin    : 10px 0 0;
     overflow-x: auto;
     background: @body-background;
   }

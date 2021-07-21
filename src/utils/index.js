@@ -1,5 +1,9 @@
 import { getMenus, RouterBasename } from "@/common";
 
+export const USER_INFO = "USER_INFO";
+export const TOKEN = "admin_token";
+export const MENU = "MENU";
+export const VISIBEL = "COMPONENTS_VISIBEL";
 // 获取默认页面
 async function getDefaultMenu() {
   let openKeys = [],
@@ -25,12 +29,12 @@ async function getDefaultMenu() {
 }
 
 function getSessionUser() {
-  return getKey(false, "userInfo");
+  return getKey(false, USER_INFO);
 }
 
 function saveUser(info) {
-  setKey(true, "userInfo", info);
-  setKey(false, "userInfo", info);
+  setKey(true, USER_INFO, info);
+  setKey(false, USER_INFO, info);
 }
 
 function sleep(seconed) {
@@ -40,11 +44,11 @@ function sleep(seconed) {
 }
 
 function clearSessionUser() {
-  rmKey(false, "userInfo");
+  rmKey(false, USER_INFO);
 }
 
 function getLocalUser() {
-  return getKey(true, "userInfo");
+  return getKey(true, USER_INFO);
 }
 
 // 获取当前url
@@ -102,19 +106,19 @@ function reduceMenuList(list) {
 }
 
 function getLocalMenu() {
-  return getKey(false, "menu");
+  return getKey(false, MENU);
 }
 
 function saveLocalMenu(menu) {
-  setKey(false, "menu", menu);
+  setKey(false, MENU, menu);
 }
 
 function saveToken(token) {
-  setKey(true, "token", token);
+  setKey(true, TOKEN, token);
 }
 
 function getToken() {
-  return getKey(true, "token");
+  return getKey(true, TOKEN);
 }
 
 function getKey(isLocal, key) {
@@ -152,7 +156,12 @@ function clearLocalDatas(keys) {
     rmKey(false, key);
   });
 }
-
+function getCompVisibel() {
+  return getKey(true, VISIBEL);
+}
+function setCompVisibel(val) {
+  return setKey(true, VISIBEL, val);
+}
 export {
   getDefaultMenu,
   getSessionUser,
@@ -174,4 +183,6 @@ export {
   getLayoutMode,
   setLayoutMode,
   clearLocalDatas,
+  getCompVisibel,
+  setCompVisibel
 };

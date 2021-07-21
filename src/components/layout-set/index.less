@@ -18,8 +18,13 @@
 
 .layoutset-drawer {
   .title {
+    margin     : 1em 0;
     font-size  : 16px;
     font-weight: bold;
+  }
+
+  .visibel-list {
+    margin: 10px 0;
   }
 
   .col {
@@ -27,7 +32,8 @@
     height       : 40px;
     border-radius: 4px;
     overflow     : hidden;
-    cursor: pointer;
+    cursor       : pointer;
+
     &.active {
       position  : relative;
       background: @primary-2;
@@ -35,14 +41,14 @@
       &::after {
         content      : '';
         position     : absolute;
-        right: 10px;
-        bottom: 5px;
+        right        : 10px;
+        bottom       : 5px;
         width        : 10px;
         height       : 20px;
-        border-right  : 4px solid @primary-4;
+        border-right : 4px solid @primary-4;
         border-bottom: 4px solid @primary-4;
         transform    : rotate(45deg);
-        
+
       }
     }
 
@@ -51,7 +57,8 @@
       height: auto;
     }
   }
-  .save{
+
+  .save {
     margin-top: 20px;
   }
 }

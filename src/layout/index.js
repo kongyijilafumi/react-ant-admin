@@ -1,32 +1,22 @@
-import React from "react";
-import { Layout } from "antd";
-import Header from "./header";
-import Menu from "./siderMenu";
-import TopMenu from "./topMenu";
-import Footer from "./footer";
-import Router from "@/router";
-import * as LayoutTypes from "../store/layout/actionTypes";
+import { SingleColumn, TowColumn, TwoFlanks } from "./mode";
 import { connect } from "react-redux";
+import * as ActionTypes from "../store/layout/actionTypes";
 import "./index.less";
-const { Content } = Layout;
+const mapStateToProps = (state) => ({
+  LayoutMode: state.layout,
+  visibel: state.componentsVisible,
+});
+function LayoutContainer({ LayoutMode, visibel }) {
+  switch (LayoutMode) {
+    case ActionTypes.SINGLE_COLUMN:
+      return <SingleColumn visibel={visibel} />;
+    case ActionTypes.TWO_COLUMN:
+      return <TowColumn visibel={visibel} />;
+    case ActionTypes.TWO_FLANKS:
+      return <TwoFlanks visibel={visibel} />;
+    default:
+      return null;
+  }
+}
 
-const LayoutBody = ({ layout }) => {
-  return (
-    <Layout className="my-layout-body">
-      <Header children={layout === LayoutTypes.TWO_COLUMN ? null : <Menu />} />
-      <Layout>
-        {layout === LayoutTypes.TWO_COLUMN ? <Menu /> : null}
-        <Layout className="layout-content-wrap">
-          <TopMenu />
-          <Content className="site-layout-background layout-content-body">
-            <Router />
-          </Content>
-          <Footer />
-        </Layout>
-      </Layout>
-    </Layout>
-  );
-};
-const mapStateToProps = (state) => ({ layout: state.layout });
-
-export default connect(mapStateToProps, null)(LayoutBody);
+export default connect(mapStateToProps, null)(LayoutContainer);
