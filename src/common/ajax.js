@@ -1,6 +1,6 @@
 import axios from "axios";
 import { message, notification } from "antd";
-import { getToken, clearLocalDatas } from "@/utils";
+import { getToken, clearLocalDatas, USER_INFO, TOKEN, MENU } from "@/utils";
 // 请求地址
 const BASE_URL =
   process.env.NODE_ENV === "development"
@@ -82,7 +82,7 @@ instance.interceptors.response.use(
         description: errorText,
       });
       if (response.status === 401 || response.status === 403) {
-        clearLocalDatas(["menu", "token", "userInfo"]);
+        clearLocalDatas([USER_INFO, TOKEN, MENU]);
         setTimeout(() => {
           window.location.reload();
         }, 1000);
