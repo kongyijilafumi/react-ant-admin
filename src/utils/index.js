@@ -43,9 +43,6 @@ function sleep(seconed) {
   });
 }
 
-function clearSessionUser() {
-  rmKey(false, USER_INFO);
-}
 
 function getLocalUser() {
   return getKey(true, USER_INFO);
@@ -81,18 +78,6 @@ async function getMenuParentKey(key) {
     return false;
   });
   return parentKey;
-}
-
-function filterMenuList(list, type) {
-  return list.filter((item) => {
-    if (item.children && Array.isArray(item.children) && item.children.length) {
-      item.children = filterMenuList(item.children, type);
-    }
-    if (item.type.includes(type)) {
-      return true;
-    }
-    return false;
-  });
 }
 
 function reduceMenuList(list) {
@@ -165,13 +150,11 @@ function setCompVisibel(val) {
 export {
   getDefaultMenu,
   getSessionUser,
-  clearSessionUser,
   saveUser,
   sleep,
   getLocalUser,
   getCurrentUrl,
   getMenuParentKey,
-  filterMenuList,
   reduceMenuList,
   getLocalMenu,
   saveLocalMenu,

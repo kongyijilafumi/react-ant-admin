@@ -5,7 +5,7 @@ import { Layout, Menu, Button, Affix, Col } from "antd";
 import MyIcon from "@/components/icon";
 import { getMenus } from "@/common";
 import { setOpenKey } from "@/store/menu/action";
-import { filterMenuList, stopPropagation } from "@/utils";
+import { stopPropagation } from "@/utils";
 import * as layoutTypes from "@/store/layout/actionTypes";
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -17,7 +17,6 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   openKeys: state.menu.openMenuKey,
   selectedKeys: state.menu.selectMenuKey,
-  userInfo: state.user,
   layout: state.layout,
 });
 const SliderContent = ({ children }) => {
@@ -29,11 +28,7 @@ const SliderContent = ({ children }) => {
   };
   return (
     <Affix>
-      <Sider
-        width={200}
-        collapsed={collapsed}
-        className=""
-      >
+      <Sider width={200} collapsed={collapsed} className="">
         {children}
         <div className="fold-control fixed">
           <Button onClick={toggleCollapsed}>
@@ -56,15 +51,15 @@ const SiderMenu = ({
   openKeys,
   selectedKeys,
   setOpenKeys,
-  userInfo,
   layout,
 }) => {
   const [menuList, setMenu] = useState([]);
   // 设置菜单
   useEffect(() => {
     getMenus().then((res) => {
-      let list = filterMenuList(res.data, userInfo.type);
-      setMenu(list);
+      if (res.data) {
+        setMenu(res.data);
+      }
     });
     // eslint-disable-next-line
   }, []);

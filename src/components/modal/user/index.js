@@ -12,12 +12,14 @@ export default function UserModal({ user_id, isShow, onCancel, onOk }) {
   const [form] = Form.useForm();
   const [powers, setPowers] = useState([]);
   useEffect(() => {
-    getPower().then((res) => {
-      if (res.status === 0) {
-        setPowers(res.data);
-      }
-    });
-  }, []);
+    if (isShow) {
+      getPower().then((res) => {
+        if (res.status === 0) {
+          setPowers(res.data);
+        }
+      });
+    }
+  }, [isShow]);
 
   useEffect(() => {
     if (user_id && form) {
@@ -70,10 +72,10 @@ export default function UserModal({ user_id, isShow, onCancel, onOk }) {
         <Form.Item name="pswd" rules={!user_id && paswdRule} label="登录密码">
           <Input type="password" placeholder="登录密码,若填写则表示修改" />
         </Form.Item>
-        <Form.Item rules={menuRule} name="type" label="菜单权限">
+        <Form.Item rules={menuRule} name="type_id" label="菜单权限">
           <Select placeholder="菜单权限">
             {powers.map((power) => (
-              <Option value={power.type} key={power.type}>
+              <Option value={power.type_id} key={power.type_id}>
                 {power.name}
               </Option>
             ))}

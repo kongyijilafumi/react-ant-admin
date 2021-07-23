@@ -5,7 +5,6 @@ import { getCurrentUrl, getMenuParentKey } from "@/utils";
 import Error from "@pages/err";
 const mapStateToProps = (state) => ({
   openMenus: state.menu.openedMenu,
-  userInfo: state.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -74,12 +73,14 @@ class Intercept extends React.Component {
       setOpenKeys,
       setSelectedKeys,
       addOpenedMenuFn,
-      type,
+      menuList,
       components: Components,
-      userInfo,
       ...itemProps
     } = this.props;
-    if (userInfo.type && type && !type.includes(userInfo.type)) {
+    const hasPath = !menuList.find(
+      (m) => (m.parentPath || "") + m.path === path
+    );
+    if (hasPath && path !== "/") {
       return (
         <Error
           {...itemProps}

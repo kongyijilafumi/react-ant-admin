@@ -81,7 +81,7 @@ function useMenu() {
   }, []);
 
   const openModal = (type, { key, parentKey }) => {
-    setSelectInfo({ key, isParent: Boolean(parentKey) });
+    setSelectInfo({ key, isParent: !Boolean(parentKey) });
     setModalType(type);
     setShowModal(true);
   };
@@ -126,7 +126,7 @@ export default function Menu() {
       <Button type="primary" onClick={addMenu}>
         新增菜单
       </Button>
-      <MyTable dataSource={menus} columns={tabCol} saveKey="menuTbale" />
+      <MyTable dataSource={menus} columns={tabCol} saveKey="MENUTABLE" />
       <MenuModal
         menus={menus}
         isShow={showModal}
