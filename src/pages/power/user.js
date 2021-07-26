@@ -22,7 +22,7 @@ export default function User() {
     }
     setShow(type);
   };
-  const activeCol = () => ({
+  const activeCol = {
     dataIndex: "active",
     key: "active",
     title: "操作",
@@ -32,7 +32,7 @@ export default function User() {
         编辑
       </Button>
     ),
-  });
+  };
   const renderTitle = () => (
     <Row justify="space-between" align="center" gutter={80}>
       <Col style={{ lineHeight: "32px" }}>用户信息列表</Col>
