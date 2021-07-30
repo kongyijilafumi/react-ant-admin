@@ -84,9 +84,9 @@ class Intercept extends React.Component {
       return (
         <Error
           {...itemProps}
-          status="403"
-          errTitle="权限不够"
-          subTitle="Sorry, you are not authorized to access this page."
+          status="404"
+          errTitle="页面不存在"
+          subTitle="Sorry, the page you visited does not exist."
         />
       );
     }
