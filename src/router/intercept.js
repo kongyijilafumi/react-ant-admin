@@ -80,13 +80,13 @@ class Intercept extends React.Component {
     const hasPath = !menuList.find(
       (m) => (m.parentPath || "") + m.path === path
     );
-    if (hasPath && path !== "/") {
+    if (hasPath && path !== "/" && path !== "*") {
       return (
         <Error
           {...itemProps}
-          status="404"
-          errTitle="页面不存在"
-          subTitle="Sorry, the page you visited does not exist."
+          status="403"
+          errTitle="权限不够"
+          subTitle="Sorry, you are not authorized to access this page."
         />
       );
     }
