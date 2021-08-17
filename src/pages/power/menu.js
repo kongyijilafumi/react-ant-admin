@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Row, Button, message, Popconfirm, Tag } from "antd";
-import { getMenu, delMenu } from "@/api";
+import { getMenuList as apiGetList, delMenu } from "@/api";
 import MenuModal from "@/components/modal/menu";
 import MyTable from "@/components/table";
 import MyIcon from "@/components/icon";
@@ -44,7 +44,7 @@ function useMenu() {
   };
 
   const getMenuList = () => {
-    getMenu().then((res) => {
+    apiGetList().then((res) => {
       if (res) {
         const types = res.type;
         res.mapKey.push(menuAction);

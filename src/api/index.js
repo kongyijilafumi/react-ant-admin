@@ -2,6 +2,7 @@ import ajax from "@/common/ajax";
 import mock from "../mock/index";
 const request = process.env.REACT_APP_MOCK ? mock : ajax;
 const getMenu = () => request.get("/getmenu");
+const getMenuList = () => request.get("/getmenulist");
 const login = (data) => request.post("/login", data);
 const addMenu = (data) => request.post("/addmenu", data);
 const addMsg = (data) => request.post("/addmessage", data);
@@ -36,4 +37,5 @@ export {
   editUser,
   editType,
   addType,
+  getMenuList
 };

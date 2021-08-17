@@ -1,21 +1,75 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Form, Input, Select, message } from "antd";
+import { Modal, Select, message } from "antd";
 import { getPower, addUser, getUser, editUser } from "@/api";
-
+import MyForm from "@/components/form";
 const { Option } = Select;
-const unRule = [{ required: true, message: "请填写用户名" }];
-const accountRule = [{ required: true, message: "请填写登录账号" }];
-const paswdRule = [{ required: true, message: "请填写登录密码" }];
-const menuRule = [{ required: true, message: "请选择菜单权限" }];
 
+const paswdRule = [{ required: true, message: "请填写登录密码" }];
+const initFormItems = [
+  {
+    itemType: "input",
+    itemProps: {
+      name: "username",
+      rules: [{ required: true, message: "请填写用户名" }],
+      label: "用户名",
+    },
+    childProps: {
+      placeholder: "用户名",
+    },
+  },
+  {
+    itemType: "input",
+    itemProps: {
+      name: "account",
+      rules: [{ required: true, message: "请填写登录账号" }],
+      label: "登录账号",
+    },
+    childProps: {
+      placeholder: "登录账号",
+    },
+  },
+  {
+    itemType: "input",
+    itemProps: {
+      name: "pswd",
+      label: "登录密码",
+    },
+    childProps: {
+      placeholder: "登录密码,若填写则表示修改",
+      type: "password",
+    },
+  },
+  {
+    itemType: "select",
+    itemProps: {
+      rules: [{ required: true, message: "请选择菜单权限" }],
+      name: "type_id",
+      label: "菜单权限",
+    },
+    childProps: {
+      placeholder: "菜单权限",
+    },
+  },
+];
 export default function UserModal({ user_id, isShow, onCancel, onOk }) {
-  const [form] = Form.useForm();
-  const [powers, setPowers] = useState([]);
+  const [form, setForm] = useState(null);
+  const [formItems, setItems] = useState([]);
   useEffect(() => {
     if (isShow) {
       getPower().then((res) => {
-        if (res.status === 0) {
-          setPowers(res.data);
+        const { data, status } = res;
+        if (status === 0) {
+          let items = initFormItems.map((i) => ({ ...i }));
+          items.forEach((i) => {
+            if (i.itemProps.name === "type_id") {
+              i.childProps.children = data.map((power) => (
+                <Option value={power.type_id} key={power.type_id}>
+                  {power.name}
+                </Option>
+              ));
+            }
+          });
+          setItems(items);
         }
       });
     }
@@ -28,9 +82,24 @@ export default function UserModal({ user_id, isShow, onCancel, onOk }) {
           form.setFieldsValue(res.data);
         }
       });
+      let items = initFormItems.map((i) => ({ ...i }));
+      items.forEach((i) => {
+        if (i.itemProps.name === "pswd") {
+          i.itemProps.rules = null;
+        }
+      });
+      setItems(items);
+    } else if (!user_id) {
+      // set formItem
+      let items = initFormItems.map((i) => ({ ...i }));
+      items.forEach((i) => {
+        if (i.itemProps.name === "pswd") {
+          i.itemProps.rules = paswdRule;
+        }
+      });
+      setItems(items);
     }
-    // eslint-disable-next-line
-  }, [user_id]);
+  }, [user_id, form]);
 
   const submit = () => {
     form.validateFields().then((values) => {
@@ -62,26 +131,7 @@ export default function UserModal({ user_id, isShow, onCancel, onOk }) {
       onCancel={close}
       onOk={submit}
     >
-      <Form form={form}>
-        <Form.Item name="username" rules={unRule} label="用户名">
-          <Input placeholder="用户名" />
-        </Form.Item>
-        <Form.Item name="account" rules={accountRule} label="登录账号">
-          <Input placeholder="登录账号" />
-        </Form.Item>
-        <Form.Item name="pswd" rules={!user_id && paswdRule} label="登录密码">
-          <Input type="password" placeholder="登录密码,若填写则表示修改" />
-        </Form.Item>
-        <Form.Item rules={menuRule} name="type_id" label="菜单权限">
-          <Select placeholder="菜单权限">
-            {powers.map((power) => (
-              <Option value={power.type_id} key={power.type_id}>
-                {power.name}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
-      </Form>
+      <MyForm handleInstance={setForm} items={formItems} />
     </Modal>
   );
 }

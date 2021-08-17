@@ -1,20 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Form, Input, message, Tree } from "antd";
+import { Modal, message, Tree } from "antd";
+import MyForm from "@/components/form";
 import { addType, editType } from "@/api";
-const NRule = [{ required: true, message: "请填写权限名称" }];
+const initFormItems = [
+  {
+    itemType: "input",
+    itemProps: {
+      rules: [{ required: true, message: "请填写权限名称" }],
+      label: "权限名称",
+      name: "name",
+    },
+    childProps: {
+      placeholder: "权限名称",
+    },
+  },
+  {
+    itemType: "input",
+    itemProps: {
+      name: "type_id",
+      hidden: true,
+    },
+  },
+];
 const ColorStyle = {
   color: "red",
 };
 export default function UserModal({ info, isShow, onCancel, onOk, menuList }) {
-  const [form] = Form.useForm();
+  const [form, setForm] = useState(null);
   const [menuId, setMenuId] = useState([]);
   useEffect(() => {
     if (info && form) {
       setMenuId(info.menu_id.split(",").map(Number));
       form.setFieldsValue(info);
     }
-    // eslint-disable-next-line
-  }, [info]);
+  }, [info, form]);
 
   const submit = () => {
     form.validateFields().then((values) => {
@@ -46,14 +65,7 @@ export default function UserModal({ info, isShow, onCancel, onOk, menuList }) {
       onCancel={close}
       onOk={submit}
     >
-      <Form form={form}>
-        <Form.Item name="name" rules={NRule} label="权限名称">
-          <Input placeholder="权限名称" />
-        </Form.Item>
-        <Form.Item hidden name="type_id">
-          <Input />
-        </Form.Item>
-      </Form>
+      <MyForm handleInstance={setForm} items={initFormItems} />
       <h3 style={ColorStyle}>选中子菜单未选中父菜单的将不会显示</h3>
       <Tree
         treeData={menuList}
