@@ -7,14 +7,14 @@
 yarn.lock
 package-lock.json
 /color.js*
-/src/assets/theme/*.json
+/src
 # testing
 /coverage
-/src/router/auto.js
+
 
 # production
 /react-ant-admin
-/public/color.less
+/public
 # misc
 .DS_Store
 .env.local
