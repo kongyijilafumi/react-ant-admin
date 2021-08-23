@@ -79,7 +79,8 @@
     "start mock": "node color && cross-env REACT_APP_MOCK=1 node scripts/start.js",
     "start mock color": "cross-env COLOR=true node color && cross-env REACT_APP_MOCK=1 COLOR=true node scripts/start.js",
     "build": "node color && node scripts/build.js",
-    "build color": "cross-env COLOR=true node color && cross-env COLOR=true node scripts/build.js"
+    "build color": "cross-env COLOR=true node color && cross-env COLOR=true node scripts/build.js",
+    "build github-pages": "cross-env COLOR=true node color && cross-env COLOR=true REACT_APP_API=https://azhengpersonalblog.top/api/react-ant-admin node scripts/build.js"
   },
   "eslintConfig": {
     "extends": [
