@@ -3,6 +3,8 @@ import { addOpenedMenu, setOpenKey, setSelectKey } from "@/store/menu/action";
 import { connect } from "react-redux";
 import { getCurrentUrl, getMenuParentKey } from "@/utils";
 import Error from "@pages/err";
+import { Spin } from "antd";
+
 const mapStateToProps = (state) => ({
   openMenus: state.menu.openedMenu,
 });
@@ -64,6 +66,14 @@ class Intercept extends React.Component {
     }
   };
 
+  fellbackStyle = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 500,
+    fontSize: 24,
+  };
+
   render() {
     const {
       path,
@@ -90,7 +100,12 @@ class Intercept extends React.Component {
         />
       );
     }
-    return <Components {...itemProps} />;
+    return (
+      <Components
+        {...itemProps}
+        fallback={<Spin style={this.fellbackStyle} tip="页面加载中...." />}
+      />
+    );
   }
 }
 
