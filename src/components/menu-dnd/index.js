@@ -13,7 +13,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-export default function Dnd({ rangeVal, onClose, currentKey }) {
+export default function MenuDnd({ rangeVal, onClose, currentKey }) {
   const [data, setData] = useState([]);
   // 根据 选中的菜单 往里添加拖拽选项
   useEffect(() => {

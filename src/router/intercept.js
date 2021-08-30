@@ -1,7 +1,7 @@
 import React from "react";
 import { addOpenedMenu, setOpenKey, setSelectKey } from "@/store/menu/action";
 import { connect } from "react-redux";
-import { getCurrentUrl, getMenuParentKey } from "@/utils";
+import { getMenuParentKey } from "@/utils";
 import Error from "@pages/err";
 import { Spin } from "antd";
 
@@ -28,13 +28,15 @@ class Intercept extends React.Component {
     this.scrollToTop();
   }
   setInfo = async () => {
-    const { title, pageKey, openMenus, setOpenKeys, setSelectedKeys } =
+    const { title, pageKey, openMenus, history, setOpenKeys, setSelectedKeys } =
       this.props;
     if (!title) {
       return;
     }
     document.title = title;
-    const pagePath = getCurrentUrl();
+    const pagePath =
+      history.location.pathname +
+      (history.location.hash || history.location.search);
     const findInfo = openMenus.find((i) => i.path === pagePath);
     setSelectedKeys([pageKey]);
     let openkey = await getMenuParentKey(pageKey);

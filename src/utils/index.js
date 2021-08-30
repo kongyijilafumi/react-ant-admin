@@ -1,4 +1,4 @@
-import { getMenus, RouterBasename } from "@/common";
+import { getMenus } from "@/common";
 
 export const USER_INFO = "USER_INFO";
 export const TOKEN = "admin_token";
@@ -43,19 +43,8 @@ function sleep(seconed) {
   });
 }
 
-
 function getLocalUser() {
   return getKey(true, USER_INFO);
-}
-
-// 获取当前url
-function getCurrentUrl() {
-  let path = window.location.pathname;
-  if (RouterBasename === "/") {
-    return path;
-  }
-  path = path.replace(RouterBasename, "");
-  return path;
 }
 
 async function getMenuParentKey(key) {
@@ -153,7 +142,6 @@ export {
   saveUser,
   sleep,
   getLocalUser,
-  getCurrentUrl,
   getMenuParentKey,
   reduceMenuList,
   getLocalMenu,
@@ -167,5 +155,5 @@ export {
   setLayoutMode,
   clearLocalDatas,
   getCompVisibel,
-  setCompVisibel
+  setCompVisibel,
 };

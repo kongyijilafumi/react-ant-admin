@@ -47,12 +47,31 @@ const FlexBox = ({ children }) => {
     </Col>
   );
 };
-const SiderMenu = ({
-  openKeys,
-  selectedKeys,
-  setOpenKeys,
-  layout,
-}) => {
+
+const renderMenuChild = (item) => (
+  <Menu.Item key={item.key} icon={<MyIcon type={item.icon} />}>
+    <Link to={(item.parentPath || "") + item.path}>{item.title}</Link>
+  </Menu.Item>
+);
+const renderMenu = (item) => {
+  if (item.isShowOnMenu === false) {
+    return null;
+  }
+  if (!item.children) {
+    return renderMenuChild(item);
+  }
+  return (
+    <SubMenu
+      key={item.key}
+      title={item.title}
+      icon={<MyIcon type={item.icon} />}
+    >
+      {item.children.map(renderMenuChild)}
+    </SubMenu>
+  );
+};
+
+const SiderMenu = ({ openKeys, selectedKeys, setOpenKeys, layout }) => {
   const [menuList, setMenu] = useState([]);
   // 设置菜单
   useEffect(() => {
@@ -61,64 +80,33 @@ const SiderMenu = ({
         setMenu(res.data);
       }
     });
-    // eslint-disable-next-line
   }, []);
-
+  const menuComponent = useMemo(() => menuList.map(renderMenu), [menuList]);
   // 菜单组折叠
   const onOpenChange = (keys) => {
     setOpenKeys(keys);
   };
 
-  // 菜单选项
-  const menu = useMemo(() => {
-    return menuList.map((item) => {
-      if (!item.children) {
-        return (
-          <Menu.Item key={item.key} icon={<MyIcon type={item.icon} />}>
-            <Link to={item.path}>{item.title}</Link>
-          </Menu.Item>
-        );
-      }
-      return (
-        <SubMenu
-          key={item.key}
-          title={item.title}
-          icon={<MyIcon type={item.icon} />}
-        >
-          {item.children.map((child) => {
-            return (
-              <Menu.Item key={child.key} icon={<MyIcon type={child.icon} />}>
-                <Link onClick={stopPropagation} to={item.path + child.path}>
-                  {child.title}
-                </Link>
-              </Menu.Item>
-            );
-          })}
-        </SubMenu>
-      );
-    });
-  }, [menuList]);
-  // 菜单点击
-  const MenuList = (
-    <Menu
-      mode={layout === layoutTypes.SINGLE_COLUMN ? "horizontal" : "inline"}
-      triggerSubMenuAction="click"
-      className={
-        layout === layoutTypes.SINGLE_COLUMN
-          ? "layout-silder-menu col"
-          : "layout-silder-menu hide-scrollbar"
-      }
-      onOpenChange={onOpenChange}
-      openKeys={openKeys}
-      selectedKeys={selectedKeys}
-    >
-      {menu}
-    </Menu>
-  );
-
   const WrapContainer =
     layout === layoutTypes.SINGLE_COLUMN ? FlexBox : SliderContent;
-  return <WrapContainer>{MenuList}</WrapContainer>;
+  return (
+    <WrapContainer>
+      <Menu
+        mode={layout === layoutTypes.SINGLE_COLUMN ? "horizontal" : "inline"}
+        triggerSubMenuAction="click"
+        className={
+          layout === layoutTypes.SINGLE_COLUMN
+            ? "layout-silder-menu col"
+            : "layout-silder-menu hide-scrollbar"
+        }
+        onOpenChange={onOpenChange}
+        openKeys={openKeys}
+        selectedKeys={selectedKeys}
+      >
+        {menuComponent}
+      </Menu>
+    </WrapContainer>
+  );
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiderMenu);

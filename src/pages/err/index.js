@@ -1,7 +1,7 @@
 import React from "react";
 import { Result, Button } from "antd";
 import { connect } from "react-redux";
-import { getDefaultMenu, getCurrentUrl } from "@/utils";
+import { getDefaultMenu } from "@/utils";
 import { filterOpenKey } from "@/store/menu/action";
 
 const mapStateToProps = (state) => ({
@@ -22,7 +22,9 @@ function useErrorPage(props) {
     subTitle = "Sorry, the page you visited does not exist.",
   } = props;
   const back = async () => {
-    const url = getCurrentUrl();
+    const url =
+      history.location.pathname +
+      (history.location.hash || history.location.search);
     // 顶部一个或以下被打开
     if (openMenus.length <= 1) {
       filterOpenKeyFn(url);

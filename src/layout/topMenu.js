@@ -4,7 +4,7 @@ import MenuDnd from "@/components/menu-dnd";
 import MyIcon from "@/components/icon";
 import { withRouter } from "react-router-dom";
 import { filterOpenKey } from "@/store/menu/action";
-import { getCurrentUrl, reduceMenuList } from "@/utils";
+import {  reduceMenuList } from "@/utils";
 import { message, Breadcrumb } from "antd";
 import { getMenus } from "@/common";
 
@@ -74,7 +74,10 @@ function TopMenu({ openedMenu, filterKey, history, childKey }) {
 
       <div className="top-menu">
         <MenuDnd
-          currentKey={getCurrentUrl()}
+          currentKey={
+            history.location.pathname +
+            (history.location.hash || history.location.search)
+          }
           rangeVal={openedMenu}
           onClose={closeTopMenu}
         />
