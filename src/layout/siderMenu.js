@@ -48,11 +48,16 @@ const FlexBox = ({ children }) => {
   );
 };
 
-const renderMenuChild = (item) => (
-  <Menu.Item key={item.key} icon={<MyIcon type={item.icon} />}>
-    <Link to={(item.parentPath || "") + item.path}>{item.title}</Link>
-  </Menu.Item>
-);
+const renderMenuChild = (item) => {
+  if (item.isShowOnMenu === false) {
+    return null;
+  }
+  return (
+    <Menu.Item key={item.key} icon={<MyIcon type={item.icon} />}>
+      <Link to={(item.parentPath || "") + item.path}>{item.title}</Link>
+    </Menu.Item>
+  );
+};
 const renderMenu = (item) => {
   if (item.isShowOnMenu === false) {
     return null;
