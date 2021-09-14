@@ -4,10 +4,11 @@ const initGlobalState = {
   openedMenu: [], // 保存已经打开的菜单栏 用于侧边栏
   openMenuKey: [], // 打开的菜单栏的key  用于顶部导航
   selectMenuKey: [], // 选中菜单栏的key  用户侧边栏
+  menuList: [], // 用户菜单列表
 };
 
 export default function reducer(state = initGlobalState, action) {
-  const { key, type, menuItem, keys } = action;
+  const { key, type, menuItem, keys, list } = action;
   switch (type) {
     case actionTypes.ADDOPENTMENU: {
       if (!state.openedMenu.find((i) => i.path === menuItem.path)) {
@@ -38,6 +39,9 @@ export default function reducer(state = initGlobalState, action) {
         return state;
       }
       return { ...state, openedMenu };
+    }
+    case actionTypes.SET_USERMENU: {
+      return { ...state, menuList: list };
     }
     default: {
       return state;

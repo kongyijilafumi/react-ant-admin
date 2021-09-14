@@ -19,3 +19,7 @@ export const filterOpenKey = (key) => ({
   type: ActionTypes.FILTER_OPENKEY,
   key,
 });
+export const setUserMenu = (list) => ({
+  type: ActionTypes.SET_USERMENU,
+  list,
+});

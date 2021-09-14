@@ -176,4 +176,4 @@ export default function Person() {
     </div>
   );
 }
-Person.route = { path: "/details/person" };
+Person.route = { path: "/details/person", isShowMenu: false };

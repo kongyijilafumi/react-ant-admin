@@ -1,39 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { CacheRoute, CacheSwitch } from "react-router-cache-route";
+import { connect } from "react-redux";
+import { setUserMenu } from "@/store/action";
 import routerList from "./list";
 import Intercept from "./intercept.js";
 import { getMenus } from "@/common";
-import { reduceMenuList } from "@/utils";
+import { reduceMenuList, mergeRouterMenuList } from "@/utils";
 
-function useRouter() {
-  const [list, setList] = useState([]);
+/**
+ *
+ * @param {Array} menuList 用户全局用户路由列表
+ * @param {Function} setMenuList 设置全局用户路由列表
+ * @returns {Array} 返回渲染的路由列表组件
+ */
+function useRouter(setMenuList) {
+  const [localRouteList, setLocalRouteList] = useState([]); // 本地 pages 路由 生成的路由列表
   const [routerBody, setRoute] = useState(null);
-  const [menuList, setMenu] = useState([]);
+  const [mergeRouterList, setMergeList] = useState([]);
   useEffect(() => {
-    getMenus().then((res) => {
-      let list = reduceMenuList(res.data);
-      let routers = routerList.map((router) => {
-        let find = list.find(
-          (i) => (i.parentPath || "") + i.path === router.path
-        );
-        if (find) {
-          router = { ...find, ...router };
-        } else {
-          router.key = router.path;
-        }
-        return router;
-      });
-      if (list && list.length) {
-        setList(routers);
-        setMenu(list);
-      }
-    });
-  }, []);
+    if (setMenuList && typeof setMenuList === "function") {
+      getMenus().then((res) => {
+        const userMenus = res.data;
+        let list = reduceMenuList(userMenus); // 把 children 数组 提出来 拉平
 
+        // 把请求的数据 和 本地pages页面暴露出的路由列表合并
+        let routers = routerList.map((router) => {
+          let find = list.find(
+            (i) => (i.parentPath || "") + i.path === router.path
+          );
+          if (find) {
+            router = { ...find, ...router };
+          } else {
+            router.key = router.path;
+          }
+          return router;
+        });
+        if (list && list.length) {
+          setMenuList(mergeRouterMenuList(routerList, userMenus));
+          setLocalRouteList(list);
+          setMergeList(routers);
+        }
+      });
+    }
+  }, [setMenuList]);
+  // 监听 本地路由列表 和 合并后的用户菜单列表 同时存在长度大于1时 渲染路由组件
   useEffect(() => {
-    if (list.length && menuList.length) {
-      const dom = list.map((item) => {
+    if (localRouteList.length && mergeRouterList.length) {
+      const dom = mergeRouterList.map((item) => {
         let { key, path } = item;
         const RenderRoute = item.keepAlive === "true" ? CacheRoute : Route;
         return (
@@ -45,7 +59,7 @@ function useRouter() {
               <Intercept
                 {...allProps}
                 {...item}
-                menuList={menuList}
+                menuList={localRouteList}
                 pageKey={key}
               />
             )}
@@ -54,14 +68,17 @@ function useRouter() {
       });
       setRoute(dom);
     }
-  }, [list, menuList]);
+  }, [localRouteList, mergeRouterList]);
 
   return { routerBody };
 }
 
-const Router = () => {
-  const { routerBody } = useRouter();
+const Router = ({ setMenuList }) => {
+  const { routerBody } = useRouter(setMenuList);
   return <CacheSwitch>{routerBody}</CacheSwitch>;
 };
 
-export default Router;
+const mapDispatchToProps = (dispatch) => ({
+  setMenuList: (list) => dispatch(setUserMenu(list)),
+});
+export default connect(null, mapDispatchToProps)(Router);

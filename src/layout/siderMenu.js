@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Button, Affix, Col } from "antd";
 import MyIcon from "@/components/icon";
-import { getMenus } from "@/common";
-import { setOpenKey } from "@/store/menu/action";
+import { setOpenKey } from "@/store/action";
 import { stopPropagation } from "@/utils";
 import * as layoutTypes from "@/store/layout/actionTypes";
 const { Sider } = Layout;
@@ -18,6 +17,7 @@ const mapStateToProps = (state) => ({
   openKeys: state.menu.openMenuKey,
   selectedKeys: state.menu.selectMenuKey,
   layout: state.layout,
+  menuList: state.menu.menuList,
 });
 const SliderContent = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
@@ -71,17 +71,17 @@ const renderMenu = (item) => {
   );
 };
 
-const SiderMenu = ({ openKeys, selectedKeys, setOpenKeys, layout }) => {
-  const [menuList, setMenu] = useState([]);
-  // 设置菜单
-  useEffect(() => {
-    getMenus().then((res) => {
-      if (res.data) {
-        setMenu(res.data);
-      }
-    });
-  }, []);
-  const menuComponent = useMemo(() => menuList.map(renderMenu), [menuList]);
+const SiderMenu = ({
+  openKeys,
+  selectedKeys,
+  setOpenKeys,
+  layout,
+  menuList,
+}) => {
+  const menuComponent = useMemo(
+    () => menuList && menuList.map(renderMenu),
+    [menuList]
+  );
   // 菜单组折叠
   const onOpenChange = (keys) => {
     setOpenKeys(keys);

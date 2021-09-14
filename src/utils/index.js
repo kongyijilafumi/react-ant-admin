@@ -71,12 +71,53 @@ async function getMenuParentKey(key) {
 
 function reduceMenuList(list) {
   return list.reduce((a, c) => {
-    a.push(c);
-    if (c.children) {
+    const { children, ...item } = c;
+    a.push(item);
+    if (children) {
       a.push(...c.children);
     }
     return a;
   }, []);
+}
+function mergeRouterMenuList(routerlist, menulist) {
+  if (routerlist.length && menulist.length) {
+    let praentList = [],
+      childList = [];
+    let list = reduceMenuList(menulist);
+    list = list.map((item) => {
+      const find = routerlist.find(
+        (i) => i.path === (item.parentPath || "") + item.path
+      );
+      if (!find) {
+        return item;
+      }
+      const { components, ...any } = find;
+      return { ...any, ...item };
+    });
+    list.forEach((item) => {
+      if (!item.menu_id) {
+        return;
+      }
+      if (item.parentKey) {
+        childList.push(item);
+        return;
+      }
+      praentList.push(item);
+    });
+    childList.forEach((item) => {
+      let find = praentList.find((p) => p.key === item.parentKey);
+      if (!find) {
+        return praentList.push(item);
+      }
+      item.parentPath = find.path;
+      if (find.children) {
+        return find.children.push(item);
+      }
+      find.children = [item];
+    });
+    return praentList;
+  }
+  return [];
 }
 
 function getLocalMenu() {
@@ -156,4 +197,5 @@ export {
   clearLocalDatas,
   getCompVisibel,
   setCompVisibel,
+  mergeRouterMenuList,
 };
