@@ -68,12 +68,14 @@ export default function FeedBack() {
           mapKey.forEach((item) => {
             if (item.dataIndex === "f_back" || item.dataIndex === "f_context") {
               item.render = (text) =>
-                (
+                text ? (
                   <div
                     className="text"
                     dangerouslySetInnerHTML={{ __html: text }}
                   ></div>
-                ) || "暂未回复~";
+                ) : (
+                  "暂未回复~"
+                );
             }
           });
           mapKey.push(menuAction);
