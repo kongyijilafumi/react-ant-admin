@@ -13,6 +13,8 @@ function getChild(type) {
       return Switch;
     case "inputNumber":
       return InputNumber;
+    case "inputText":
+      return Input.TextArea
     default:
       return null;
   }
@@ -27,7 +29,7 @@ function renderItem({ itemType, childProps, itemProps }) {
   );
 }
 
-export default function MyForm({ items, handleInstance, ...props }) {
+export default function MyForm({ items, handleInstance, children, ...props }) {
   const [formInstance] = Form.useForm();
   const [formBody, setFormBody] = useState(null);
   useEffect(() => {
@@ -44,6 +46,7 @@ export default function MyForm({ items, handleInstance, ...props }) {
   return (
     <Form className="myForm" form={formInstance} {...props}>
       {formBody}
+      {children}
     </Form>
   );
 }

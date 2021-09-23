@@ -51,9 +51,13 @@ export default function SearchPage() {
   };
 
   // 顶部搜索
-  const search = () => {
+  const search = (isSearch) => {
     let data = searchForm.getFieldsValue();
-    getDataList({ ...pageData, ...data });
+    let params = { ...data };
+    if (!isSearch) {
+      params = { ...params, ...pageData };
+    }
+    getDataList(params);
   };
 
   // 页码改版

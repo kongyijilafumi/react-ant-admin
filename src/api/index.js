@@ -19,6 +19,8 @@ const getUser = (data) => request.post("/getuserinfo", data);
 const editUser = (data) => request.post("/edituserinfo", data);
 const editType = (data) => request.post("/edittype", data);
 const addType = (data) => request.post("/addtype", data);
+const getFeedBack = (data) => request.post("/getfeedback", data);
+const reply = (data) => request.post("/reply", data);
 export {
   getMenu,
   login,
@@ -37,5 +39,7 @@ export {
   editUser,
   editType,
   addType,
-  getMenuList
+  getMenuList,
+  getFeedBack,
+  reply,
 };
