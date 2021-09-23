@@ -61,32 +61,38 @@ export default function FeedBack() {
   // 获取列表
   const getDataList = (data, isInit = true) => {
     setLoad(true);
-    getFeedBack(data).then((res) => {
-      const { data, status, mapKey, total } = res;
-      if (status === 0) {
-        if (isInit) {
-          mapKey.forEach((item) => {
-            if (item.dataIndex === "f_back" || item.dataIndex === "f_context") {
-              item.render = (text) =>
-                text ? (
-                  <div
-                    className="text"
-                    dangerouslySetInnerHTML={{ __html: text }}
-                  ></div>
-                ) : (
-                  "暂未回复~"
-                );
-            }
-          });
-          mapKey.push(menuAction);
-          setCol(mapKey);
-        }
+    getFeedBack(data)
+      .then((res) => {
+        const { data, status, mapKey, total } = res;
+        if (status === 0) {
+          if (isInit) {
+            mapKey.forEach((item) => {
+              if (
+                item.dataIndex === "f_back" ||
+                item.dataIndex === "f_context"
+              ) {
+                item.render = (text) =>
+                  text ? (
+                    <div
+                      className="text"
+                      dangerouslySetInnerHTML={{ __html: text }}
+                    ></div>
+                  ) : (
+                    "暂未回复~"
+                  );
+              }
+            });
+            mapKey.push(menuAction);
+            setCol(mapKey);
+          }
 
-        setTotal(total);
-        setData(data.map((i) => ({ ...i, key: i.m_id })));
+          setTotal(total);
+          setData(data.map((i) => ({ ...i, key: i.m_id })));
+        }
+      })
+      .finally(() => {
         setLoad(false);
-      }
-    });
+      });
   };
 
   // 顶部表单搜索
