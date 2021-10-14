@@ -6,7 +6,7 @@ import { setUserMenu } from "@/store/action";
 import routerList from "./list";
 import Intercept from "./intercept.js";
 import { getMenus } from "@/common";
-import { reduceMenuList, mergeRouterMenuList } from "@/utils";
+import { reduceMenuList } from "@/utils";
 
 /**
  *
@@ -37,7 +37,7 @@ function useRouter(setMenuList) {
           return router;
         });
         if (list && list.length) {
-          setMenuList(mergeRouterMenuList(routerList, userMenus));
+          setMenuList(userMenus);
           setLocalRouteList(list);
           setMergeList(routers);
         }

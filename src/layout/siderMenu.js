@@ -48,22 +48,16 @@ const FlexBox = ({ children }) => {
   );
 };
 
-const renderMenuChild = (item) => {
-  if (item.isShowOnMenu === false) {
-    return null;
-  }
-  return (
-    <Menu.Item key={item.key} icon={<MyIcon type={item.icon} />}>
-      <Link to={(item.parentPath || "") + item.path}>{item.title}</Link>
-    </Menu.Item>
-  );
-};
-const renderMenu = (item) => {
+const renderMenu = (item, path = "") => {
   if (item.isShowOnMenu === false) {
     return null;
   }
   if (!item.children) {
-    return renderMenuChild(item);
+    return (
+      <Menu.Item key={item.key} icon={<MyIcon type={item.icon} />}>
+        <Link to={(path || "") + item.path}>{item.title}</Link>
+      </Menu.Item>
+    );
   }
   return (
     <SubMenu
@@ -71,7 +65,7 @@ const renderMenu = (item) => {
       title={item.title}
       icon={<MyIcon type={item.icon} />}
     >
-      {item.children.map(renderMenuChild)}
+      {item.children.map((i) => renderMenu(i, path + item.path))}
     </SubMenu>
   );
 };
@@ -84,7 +78,7 @@ const SiderMenu = ({
   menuList,
 }) => {
   const menuComponent = useMemo(
-    () => menuList && menuList.map(renderMenu),
+    () => menuList && menuList.map((i) => renderMenu(i, "")),
     [menuList]
   );
   // 菜单组折叠

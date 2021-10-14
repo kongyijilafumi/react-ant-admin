@@ -23,11 +23,9 @@ function useMenu() {
           <Button type="link" onClick={() => openModal("edit", record)}>
             编辑
           </Button>
-          {!record.parentKey && (
-            <Button type="link" onClick={() => openModal("addChild", record)}>
-              添加子菜单
-            </Button>
-          )}
+          <Button type="link" onClick={() => openModal("addChild", record)}>
+            添加子菜单
+          </Button>
           <Popconfirm
             onConfirm={() => deleteMenu(record)}
             okText="确认"

@@ -40,7 +40,6 @@ class Intercept extends React.Component {
     const findInfo = openMenus.find((i) => i.path === pagePath);
     setSelectedKeys([pageKey]);
     let openkey = await getMenuParentKey(pageKey);
-    openkey = openkey ? [openkey] : [];
     setOpenKeys(openkey);
     this.addMenus(findInfo, pageKey, pagePath, title);
   };
