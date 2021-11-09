@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Drawer, Col, Row, message, Button, Radio } from "antd";
 import MyIcon from "@/components/icon";
 import Color from "@/components/color";
-import { getKey, setKey } from "@/utils";
+import { getKey, setKey, rmKey } from "@/utils";
 import "./index.less";
 
 const darkTheme = process.env.showColorSet
@@ -39,8 +39,10 @@ function setObjVal(list, obj) {
 const getColor = (color) => ({
   background: color,
 });
-const THEME_NAME = getKey(true, "theme-name");
-const THEME = getKey(true, "theme");
+const THEMENAMEKEY = "theme-name";
+const THEMDATAKEY = "theme-data";
+const THEME_NAME = getKey(true, THEMENAMEKEY);
+const THEME = getKey(true, THEMDATAKEY);
 function SetTheme() {
   const [visible, setVisible] = useState(false);
   const [selectInfo, setInfo] = useState({});
@@ -133,8 +135,8 @@ function SetTheme() {
       a[c.key] = c.value;
       return a;
     }, themeObj);
-    setKey(true, "theme-name", themeStyle);
-    setKey(true, "theme", themeObj);
+    setKey(true, THEMENAMEKEY, themeStyle);
+    setKey(true, THEMDATAKEY, themeObj);
     message.success("主题成功保存到本地！");
   }, [themeStyle, colorList]);
 
@@ -151,6 +153,24 @@ function SetTheme() {
     },
     [colorList, setTheme]
   );
+  const delTheme = () => {
+    let initColorObj = { ...Themes[0].colorList };
+    process.env.varColors.forEach((item) => {
+      initColorObj[item.key] = item.value;
+    });
+    window.less
+      .modifyVars(initColorObj)
+      .then((res) => {
+        message.success("修改主题色成功");
+        rmKey(true, THEMDATAKEY);
+        rmKey(true, THEMENAMEKEY);
+        setColor(process.env.varColors);
+        setStyle(Themes[0].value);
+      })
+      .catch((err) => {
+        message.error("修改失败");
+      });
+  };
   return (
     <div className="set-theme">
       <div className="icon" onClick={showDrawer}>
@@ -176,7 +196,7 @@ function SetTheme() {
         <Row className="color-row primary">自定义Less变量:</Row>
         {colorList.map((i) => (
           <Row className="color-row" justify="space-between" key={i.key}>
-            <Col>{i.title}:</Col>
+            <Col style={{ color: i.value }}>{i.title}:</Col>
             <Col
               className="color-btn"
               onClick={(e) => {
@@ -191,6 +211,9 @@ function SetTheme() {
         <Row justify="center">
           <Button type="primary" onClick={saveLocalTheme}>
             保存本地
+          </Button>
+          <Button type="ghost" className="del" danger onClick={delTheme}>
+            删除本地颜色主题配置
           </Button>
         </Row>
         <Color

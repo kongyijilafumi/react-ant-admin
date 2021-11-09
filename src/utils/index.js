@@ -54,7 +54,7 @@ async function getMenuParentKey(key) {
   const info = list.find((item) => item.key === key);
   let parentKey = info?.parentKey;
   if (parentKey) {
-    const data = await getMenuParentKey(parentKey)
+    const data = await getMenuParentKey(parentKey);
     keys.push(...data);
     keys.push(parentKey);
   }
@@ -146,6 +146,7 @@ export {
   getToken,
   getKey,
   setKey,
+  rmKey,
   stopPropagation,
   getLayoutMode,
   setLayoutMode,

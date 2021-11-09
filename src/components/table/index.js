@@ -17,7 +17,7 @@ import {
 } from "react-sortable-hoc";
 import MyIcon from "../icon";
 import arrayMove from "array-move";
-import { getKey, setKey } from "@/utils";
+import { getKey, setKey, rmKey } from "@/utils";
 import "./index.less";
 
 const DragHandle = sortableHandle(() => (
@@ -116,23 +116,16 @@ function UseTable(columns, saveKey) {
   useEffect(() => {
     const data = getKey(true, saveKey);
     if (saveKey && data && columns && columns.length === data.length) {
+      // 如果当前表格头数据 与 缓存设置的数组长度一样，就优先使用缓存的
       const merge = data.map((item) => ({
+        ...defaultCol,
         ...columns.find((i) => i.dataIndex === item.dataIndex),
         ...item,
       }));
       setCol(merge);
-    }
-  }, [saveKey, columns]);
-  // 初始化表格设置
-  useEffect(() => {
-    const data = getKey(true, saveKey);
-    if (!data && columns && columns.length !== col.length) {
-      const newCol = columns.map((c, index) => ({
-        ...defaultCol,
-        ...c,
-        index,
-      }));
-      setCol(newCol);
+    } else if (!data && columns && columns.length !== col.length) {
+      // 如果表格头数量不对 就初始化 默认配置
+      initDefaultCol();
     }
     // eslint-disable-next-line
   }, [saveKey, columns]);
@@ -153,6 +146,7 @@ function UseTable(columns, saveKey) {
     }
     // eslint-disable-next-line
   }, [col]);
+  // 抽屉 选项 组件显示
   function switchRender(column, text, current) {
     return (
       <Radio.Group
@@ -173,7 +167,7 @@ function UseTable(columns, saveKey) {
       </Radio.Group>
     );
   }
-
+  // table里的选项触发改变 重新设置表格头显示
   function switchChange(key, val, current) {
     const dataIndex = current.dataIndex;
     const newCol = col.map((item) => {
@@ -184,14 +178,14 @@ function UseTable(columns, saveKey) {
     });
     setCol(newCol);
   }
-
+  // 渲染 input
   function inuputRender(dataIndex, text, col) {
     return (
       <Tooltip title="失去焦点触发" arrowPointAtCenter>
         <InputNumber
           min={0}
           max={800}
-          onStep={(v)=>switchChange(dataIndex, v, col)}
+          onStep={(v) => switchChange(dataIndex, v, col)}
           onBlur={(v) => switchChange(dataIndex, Number(v.target.value), col)}
           value={text}
         />
@@ -205,7 +199,7 @@ function UseTable(columns, saveKey) {
   function show() {
     setShowDrawer(true);
   }
-
+  // 抽屉组件排序
   function onSortEnd({ oldIndex, newIndex }) {
     if (oldIndex !== newIndex) {
       const newData = arrayMove([].concat(col), oldIndex, newIndex).filter(
@@ -214,6 +208,7 @@ function UseTable(columns, saveKey) {
       setCol(newData);
     }
   }
+  // 点击保存配置的表格显示
   function saveTbSet() {
     if (!saveKey) {
       return notification.error({
@@ -225,12 +220,35 @@ function UseTable(columns, saveKey) {
     setKey(true, saveKey, col);
     message.success("保存设置成功!");
   }
+  // 删除 保存的表格显示
+  const delTbSet = () => {
+    if (!saveKey) {
+      return notification.error({
+        type: "error",
+        description: "你未定义表格的savaKey属性，请定义后在点击删除",
+        message: "删除失败",
+      });
+    }
+    rmKey(true, saveKey);
+    initDefaultCol();
+    message.success("删除成功!");
+  };
+  // 初始化设置表格默认格式
+  function initDefaultCol() {
+    const newCol = columns.map((c, index) => ({
+      ...defaultCol,
+      ...c,
+      index,
+    }));
+    setCol(newCol);
+  }
   return {
     col,
     showDrawer,
     show,
     hiddin,
     tbTitle,
+    delTbSet,
     DraggableContainer,
     DraggableBodyRow,
     saveTbSet,
@@ -251,6 +269,7 @@ function MyTable({
     hiddin,
     col,
     tbTitle,
+    delTbSet,
     DraggableContainer,
     DraggableBodyRow,
     saveTbSet,
@@ -296,6 +315,9 @@ function MyTable({
         <Row justify="center" className="mt20">
           <Button type="primary" onClick={saveTbSet}>
             保存此表格设置，下次打开默认启用
+          </Button>
+          <Button danger type="ghost" className="del" onClick={delTbSet}>
+            删除已保存的设置
           </Button>
         </Row>
       </Drawer>
