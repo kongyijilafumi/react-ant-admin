@@ -9,6 +9,8 @@
 TypeScript 版[GitHub(国外地址)](https://github.com/kongyijilafumi/react-ant-admin-ts) |
 TypeScript 版[码云(国内镜像)](https://gitee.com/kong_yiji_and_lavmi/react-ant-admin-ts)
 
+JavaScript 版[GitHub(国外地址)](https://github.com/kongyijilafumi/react-ant-admin) |
+JavaScript 版[码云(国内镜像)](https://gitee.com/kong_yiji_and_lavmi/react-ant-admin)
 
 此框架使用与二次开发，前端框架使用react，UI框架使用ant-design，全局数据状态管理使用redux，ajax使用库为axios。用于快速搭建中后台页面。欢迎各位提[issue](https://github.com/kongyijilafumi/react-ant-admin/issues)
 * [react](https://react.docschina.org/)
