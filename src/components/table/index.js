@@ -116,13 +116,24 @@ function UseTable(columns, saveKey) {
   useEffect(() => {
     const data = getKey(true, saveKey);
     if (saveKey && data && columns && columns.length === data.length) {
-      // 如果当前表格头数据 与 缓存设置的数组长度一样，就优先使用缓存的
-      const merge = data.map((item) => ({
-        ...defaultCol,
-        ...columns.find((i) => i.dataIndex === item.dataIndex),
-        ...item,
-      }));
-      setCol(merge);
+      const columnInfo = {},
+        dataInfo = {};
+      columns.forEach((item) => (columnInfo[item.dataIndex] = item));
+      data.forEach((item) => (dataInfo[item.dataIndex] = item));
+      const isSameKey = Array.isArray(data)
+        ? data.every((i) => i.dataIndex === columnInfo[i.dataIndex]?.dataIndex)
+        : false;
+      if (isSameKey) {
+        // 如果当前表格头数据 与 缓存设置的数组长度一样，就优先使用缓存的
+        const merge = data.map((item) => ({
+          ...defaultCol,
+          ...columnInfo[item.dataIndex],
+          ...item,
+        }));
+        setCol(merge);
+      } else {
+        initDefaultCol();
+      }
     } else if (!data && columns && columns.length !== col.length) {
       // 如果表格头数量不对 就初始化 默认配置
       initDefaultCol();
