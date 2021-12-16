@@ -12,7 +12,7 @@ export default function User() {
   const [total, setTotal] = useState(0);
   const [showModal, setShow] = useState(false);
   const [chooseId, setId] = useState(null);
-  const [pageData, setPage] = useState(null);
+  const [pageData, setPage] = useState({ page: 1 });
   // 显示弹窗
   const showInfoModal = (id, type) => {
     if (id) {
@@ -71,6 +71,7 @@ export default function User() {
       />
       <MyPagination
         total={total}
+        page={pageData.page}
         immediately={getUserData}
         change={getUserData}
       />

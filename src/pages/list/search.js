@@ -8,7 +8,7 @@ import "./index.less";
 export default function SearchPage() {
   const [form] = Form.useForm();
   const [searchForm] = Form.useForm();
-  const [pageData, setPageData] = useState(undefined);
+  const [pageData, setPageData] = useState({ page: 1 });
   const [tableData, setData] = useState([]);
   const [tableCol, setCol] = useState([]);
   const [load, setLoad] = useState(true);
@@ -52,6 +52,7 @@ export default function SearchPage() {
 
   // 顶部搜索
   const search = (isSearch) => {
+    setPageData({ page: 1 });
     let data = searchForm.getFieldsValue();
     let params = { ...data };
     if (!isSearch) {
@@ -110,6 +111,7 @@ export default function SearchPage() {
           rowKey="m_id"
         />
         <MyPagination
+          page={pageData.page}
           immediately={getDataList}
           change={pageChange}
           total={total}

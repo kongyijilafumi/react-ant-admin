@@ -31,7 +31,7 @@ const initFormItems = [
 ];
 export default function FeedBack() {
   const [form, setForm] = useState(null);
-  const [pageData, setPageData] = useState(undefined);
+  const [pageData, setPageData] = useState({ page: 1 });
   const [tableData, setData] = useState([]);
   const [tableCol, setCol] = useState([]);
   const [load, setLoad] = useState(false);
@@ -96,12 +96,10 @@ export default function FeedBack() {
   };
 
   // 顶部表单搜索
-  const search = (isSearch) => {
+  const search = () => {
     const formData = form.getFieldsValue();
     let params = formData;
-    if (!isSearch) {
-      params = { ...params, ...pageData };
-    }
+    setPageData({ page: 1 });
     getDataList(params, false);
   };
   // 顶部搜索表单重置
@@ -122,7 +120,7 @@ export default function FeedBack() {
       if (status === 0) {
         message.success(msg);
         show(null, false);
-        search(false);
+        search();
       }
     });
   };
@@ -145,6 +143,7 @@ export default function FeedBack() {
           saveKey="feedbackTable"
         />
         <MyPagination
+          page={pageData.page}
           immediately={getDataList}
           change={pageChange}
           total={total}
