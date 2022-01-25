@@ -188,6 +188,10 @@
     "react-sortable-hoc": "^2.0.0",
     "sass": "^1.32.8",
     "style-resources-loader": "^1.4.1",
-    "webpack-router-generator": "^1.0.9"
+    "webpack-router-generator": "^1.0.9",
+    "react-error-overlay": "6.0.9"
+  },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
   }
 }
