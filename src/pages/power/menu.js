@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Button, message, Popconfirm, Tag } from "antd";
+import { Row, Button, message, Popconfirm } from "antd";
 import { getMenuList as apiGetList, delMenu } from "@/api";
 import MenuModal from "@/components/modal/menu";
 import MyTable from "@/components/table";
@@ -44,7 +44,7 @@ function useMenu() {
   const getMenuList = () => {
     apiGetList().then((res) => {
       if (res) {
-        const types = res.type;
+        console.log(res);
         res.mapKey.push(menuAction);
         res.mapKey.forEach((item) => {
           if (item.dataIndex === "icon") {
@@ -52,19 +52,6 @@ function useMenu() {
               text ? <MyIcon className="preview" type={text} /> : "暂未设置";
           } else if (item.dataIndex === "keepAlive") {
             item.render = (text) => (text === "true" ? "保持" : "关闭销毁");
-          } else if (item.dataIndex === "type") {
-            item.render = (text) => {
-              return text.map((type) => {
-                const find = types.find((i) => i.type === type);
-                return find ? (
-                  <Tag color="#2db7f5" className="type-tag" key={type}>
-                    {find.name}
-                  </Tag>
-                ) : (
-                  type
-                );
-              });
-            };
           }
         });
         setCol(res.mapKey);

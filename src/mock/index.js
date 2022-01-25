@@ -338,12 +338,18 @@ function get(url) {
           MockData[url].data = formatMenu(menuList);
         }
         res(MockData[url]);
-
         return;
       }
       res(MockData[url]);
     }, 500);
-  }).then((res) => (res ? res : message.error("接口暂未配置")));
+  }).then((res) => {
+    if (res) {
+      return res
+    } else {
+      message.error("接口暂未配置")
+      return Promise.reject("接口暂未配置")
+    }
+  });
 }
 
 function post(url, data) {
@@ -410,36 +416,57 @@ function post(url, data) {
         }
       }
     }, 100);
-  }).then((res) => (res.status === 0 ? res : message.error("接口暂未配置")));
+  }).then((res) => {
+    if (res.status === 0) {
+      return res
+    } else {
+      message.error("接口暂未配置")
+      return Promise.reject("接口暂未配置")
+    }
+  });
 }
 
 function formatMenu(list) {
-  list.sort((a, b) => a.order - b.order);
-  let data = list.map((i) => ({ ...i }));
-  if (Array.isArray(list)) {
-    let praentList = [],
-      childList = [];
-    data.forEach((item) => {
-      if (item.parentKey) {
-        childList.push(item);
-        return;
+  const newList = list.map(item => ({ ...item }))
+  const menuMap = {};
+  const parentMenu = [];
+  newList.forEach((item) => {
+    // 当前 菜单的key
+    const currentKey = item['key'];
+    // 当前 菜单的父菜单key
+    const currentParentKey = item['parentKey'];
+    // 如果 映射表还没有值 就把当前项 赋值进去
+    if (!menuMap[currentKey]) {
+      menuMap[currentKey] = item;
+    } else {
+      // 有值 说明 有子项 保留子项 把当前值 赋值进去
+      item["children"] = menuMap[currentKey]["children"];
+      menuMap[currentKey] = item;
+    }
+    // 如果当前项 有父级
+    if (currentParentKey) {
+      // 父级还没有在映射表上
+      if (!menuMap[currentParentKey]) {
+        // 那就把映射上去 只有子集属性<Array>类型
+        menuMap[currentParentKey] = {
+          "children": [item],
+        };
+      } else if (
+        menuMap[currentParentKey] &&
+        !menuMap[currentParentKey]["children"]
+      ) {
+        // 父级在映射表上 不过 没子集
+        menuMap[currentParentKey]["children"] = [item];
+      } else {
+        // 父级有 子集合也有
+        menuMap[currentParentKey]["children"].push(item);
       }
-      praentList.push(item);
-    });
-    childList.forEach((item) => {
-      let find = praentList.find((p) => p.key === item.parentKey);
-      if (!find) {
-        return praentList.push(item);
-      }
-      item.parentPath = find.path;
-      if (find.children) {
-        return find.children.push(item);
-      }
-      find.children = [item];
-    });
-    return praentList;
-  }
-  return [];
+    } else {
+      // 当前项是没有父级 那当前项就是父级项
+      parentMenu.push(item);
+    }
+  });
+  return parentMenu;
 }
 const mock = { get, post };
 
