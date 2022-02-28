@@ -114,14 +114,14 @@ export default class Test extends React.Component {
 
 // 1.被捕获 export default 原型上的route
 Test.route={
-  tile : "test页面",
+  title : "test页面",
   key : "test",
   path: "/test"
 }
 
 // 2.被捕获 暴露的route信息  优先级比上面高
 export const route = {
-  tile : "test页面",
+  title : "test页面",
   key : "test",
   path: "/test"
 }
