@@ -27,7 +27,7 @@ function useErrorPage(props) {
       (history.location.hash || history.location.search);
     // 顶部一个或以下被打开
     if (openMenus.length <= 1) {
-      filterOpenKeyFn(url);
+      filterOpenKeyFn([url]);
       const defaultMenu = await getDefaultMenu();
       if (defaultMenu.openedMenu.length === 0) return history.replace("/");
       let { parentPath, path } = defaultMenu.openedMenu[0];
@@ -36,7 +36,7 @@ function useErrorPage(props) {
     }
     // 从顶部打开的路径，再去跳转
     const menuList = openMenus.filter((i) => i.path !== url);
-    filterOpenKeyFn(url);
+    filterOpenKeyFn([url]);
     const next = menuList[menuList.length - 1];
     history.replace(next.path);
   };

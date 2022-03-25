@@ -1,5 +1,5 @@
 import React from "react";
-import { addOpenedMenu, setOpenKey, setSelectKey } from "@/store/menu/action";
+import { addOpenedMenu, setOpenKey, setSelectKey, setCurrentPath } from "@/store/menu/action";
 import { connect } from "react-redux";
 import { getMenuParentKey } from "@/utils";
 import Error from "@pages/err";
@@ -13,6 +13,7 @@ const mapDispatchToProps = (dispatch) => ({
   addOpenedMenuFn: (val) => dispatch(addOpenedMenu(val)),
   setSelectedKeys: (val) => dispatch(setSelectKey(val)),
   setOpenKeys: (val) => dispatch(setOpenKey(val)),
+  setPath: (path) => dispatch(setCurrentPath(path))
 });
 
 class Intercept extends React.Component {
@@ -28,16 +29,16 @@ class Intercept extends React.Component {
     this.scrollToTop();
   }
   setInfo = async () => {
-    const { title, pageKey, openMenus, history, setOpenKeys, setSelectedKeys } =
+    const { title, pageKey, openMenus, history, setOpenKeys, setSelectedKeys, setPath } =
       this.props;
     if (!title) {
       return;
     }
+    const { pathname, hash, search } = history.location
     document.title = title;
-    const pagePath =
-      history.location.pathname +
-      (history.location.hash || history.location.search);
+    const pagePath = pathname + (hash || search);
     const findInfo = openMenus.find((i) => i.path === pagePath);
+    setPath(pagePath)
     setSelectedKeys([pageKey]);
     let openkey = await getMenuParentKey(pageKey);
     setOpenKeys(openkey);

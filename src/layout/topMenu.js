@@ -1,20 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import MenuDnd from "@/components/menu-dnd";
 import MyIcon from "@/components/icon";
 import { withRouter } from "react-router-dom";
-import { filterOpenKey } from "@/store/menu/action";
-import {  reduceMenuList } from "@/utils";
-import { message, Breadcrumb } from "antd";
+import { reduceMenuList } from "@/utils";
+import { Breadcrumb } from "antd";
 import { getMenus } from "@/common";
 
 const mapStateToProps = (state) => ({
-  openedMenu: state.menu.openedMenu,
   childKey: state.menu.selectMenuKey,
 });
-const mapDispatchToProps = (dispatch) => ({
-  filterKey: (key) => dispatch(filterOpenKey(key)),
-});
+
 function getParent(list, parentKey) {
   return list.find((i) => i.key === parentKey);
 }
@@ -34,7 +30,7 @@ async function getBreadArray(ckey) {
   return arr;
 }
 
-function TopMenu({ openedMenu, filterKey, history, childKey }) {
+function TopMenu({ childKey }) {
   const [breadArr, setBread] = useState([]);
 
   useEffect(() => {
@@ -44,20 +40,6 @@ function TopMenu({ openedMenu, filterKey, history, childKey }) {
     }
     get();
   }, [childKey]);
-
-  const closeTopMenu = useCallback(
-    (path, nextItem, isCurrent) => {
-      if (nextItem) {
-        filterKey(path);
-      } else {
-        message.error("最后一个选项菜单不可关闭");
-      }
-      if (nextItem && isCurrent) {
-        history.replace(nextItem.path);
-      }
-    },
-    [history, filterKey]
-  );
 
   return (
     <div className="top-menu-wrapper">
@@ -73,20 +55,10 @@ function TopMenu({ openedMenu, filterKey, history, childKey }) {
       )}
 
       <div className="top-menu">
-        <MenuDnd
-          currentKey={
-            history.location.pathname +
-            (history.location.hash || history.location.search)
-          }
-          rangeVal={openedMenu}
-          onClose={closeTopMenu}
-        />
+        <MenuDnd />
       </div>
     </div>
   );
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(TopMenu));
+export default connect(mapStateToProps, null)(withRouter(TopMenu));

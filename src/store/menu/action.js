@@ -23,3 +23,8 @@ export const setUserMenu = (list) => ({
   type: ActionTypes.SET_USERMENU,
   list,
 });
+
+export const setCurrentPath = (path) => ({
+  type: ActionTypes.SETCURRENTPATH,
+  path
+})

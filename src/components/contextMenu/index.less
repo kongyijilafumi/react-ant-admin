@@ -1,0 +1,45 @@
+.centext-menu {
+  // display : none;
+  position: fixed;
+  top     : 0;
+  left    : 0;
+  right   : 0;
+  bottom  : 0;
+  z-index : 999;
+  overflow: hidden;
+  // border          : 1px solid @primary-color ;
+
+  ul {
+    position        : absolute;
+    width           : 120px;
+    padding         : 0;
+    margin          : 0;
+    background-color: @body-background;
+    overflow        : hidden;
+    border-radius   :  @border-radius-base;
+    box-shadow      : 2px 0 8px @shadow-color;
+    z-index         : 1000;
+    border          : 1px solid @border-color-base;
+  }
+
+  li {
+    height       : 38px;
+    line-height  : 38px;
+    font-size    : 14px;
+    text-align   : center;
+    border-bottom: 1px solid @border-color-split;
+    list-style   : none;
+    color        : @text-color;
+    cursor       : pointer;
+    transition   : all @ease-base-in;
+
+    &:last-child {
+      border: none;
+    }
+
+    &:hover {
+      background-color: @item-hover-bg;
+      color           : @link-hover-color;
+    }
+  }
+}
