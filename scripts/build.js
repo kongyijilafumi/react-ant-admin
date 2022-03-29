@@ -3,8 +3,6 @@
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 process.env.GENERATE_SOURCEMAP = "false"
-// 这是打包文件夹名称 切勿改成 ./ 否则会删除当前项目根目录所有文件
-process.env.BUILD_PATH = "react-ant-admin";
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.

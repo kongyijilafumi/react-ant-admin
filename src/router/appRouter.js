@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import { Spin } from "antd";
 import Layout from "@/layout";
 import Login from "@pages/login";
 import { connect } from "react-redux";
-import { RouterBasename } from "@/common";
 import { setUserInfoAction } from "@/store/user/action";
 import { getLocalUser } from "@/utils";
 
+const Router = process.env.REACT_APP_API_BASEURL === "1" ? HashRouter : BrowserRouter
+const RouterBasename = process.env.REACT_APP_ROUTERBASE || "/"
 const mapStateToProps = (state) => ({
   userInfo: state.user,
 });

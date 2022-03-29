@@ -1,7 +1,6 @@
 {
   "name": "react-ant-admin",
   "version": "0.1.0",
-  "homepage": "/react-ant-admin",
   "dependencies": {
     "@babel/core": "7.12.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
@@ -74,13 +73,13 @@
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
-    "start": "node color && node scripts/start.js",
-    "start color": "cross-env COLOR=true node color && cross-env COLOR=true node scripts/start.js",
-    "start mock": "node color && cross-env REACT_APP_MOCK=1 node scripts/start.js",
-    "start mock color": "cross-env COLOR=true node color && cross-env REACT_APP_MOCK=1 COLOR=true node scripts/start.js",
-    "build": "node color && node scripts/build.js",
-    "build color": "cross-env COLOR=true node color && cross-env COLOR=true node scripts/build.js",
-    "build github-pages": "cross-env COLOR=true node color && cross-env COLOR=true REACT_APP_API=https://azhengpersonalblog.top/api/react-ant-admin node scripts/build.js"
+    "start": "node color && env-cmd --verbose -e development node scripts/start.js",
+    "start:color": "env-cmd --verbose -e development_color node color && env-cmd --verbose -e development_color node scripts/start.js",
+    "start:mock": "node color && env-cmd --verbose -e development_mock node scripts/start.js",
+    "start:mock_color": "env-cmd --verbose -e development_color_mock node color && env-cmd --verbose -e development_color_mock node scripts/start.js",
+    "build": "node color && env-cmd --verbose -e production node scripts/build.js",
+    "build:color": "env-cmd --verbose -e production_color node color && env-cmd --verbose -e production_color node scripts/build.js",
+    "build:github-pages": "env-cmd --verbose -e production_github node color && env-cmd --verbose -e production_github node scripts/build.js"
   },
   "eslintConfig": {
     "extends": [
@@ -172,10 +171,10 @@
     "@loadable/component": "^5.14.1",
     "ant-theme-generator": "^1.0.0",
     "array-move": "^3.0.1",
-    "cross-env": "^7.0.3",
     "dayjs": "^1.10.4",
     "echarts": "^5.0.2",
     "echarts-for-react": "^3.0.1",
+    "env-cmd": "^10.1.0",
     "http-proxy-middleware": "^2.0.0",
     "less": "^4.1.1",
     "less-loader": "^5.0.0",
@@ -183,13 +182,13 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-color": "^2.19.3",
     "react-draggable-tags": "^1.0.2",
+    "react-error-overlay": "6.0.9",
     "react-router-cache-route": "^1.11.0",
     "react-router-dom": "^5.2.0",
     "react-sortable-hoc": "^2.0.0",
     "sass": "^1.32.8",
     "style-resources-loader": "^1.4.1",
-    "webpack-router-generator": "^1.0.9",
-    "react-error-overlay": "6.0.9"
+    "webpack-router-generator": "^1.0.9"
   },
   "resolutions": {
     "react-error-overlay": "6.0.9"

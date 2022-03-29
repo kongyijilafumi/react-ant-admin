@@ -3,10 +3,7 @@ import { message, notification } from "antd";
 import { getToken, clearLocalDatas, USER_INFO, TOKEN, MENU } from "@/utils";
 import qs from "qs";
 // 请求地址
-const BASE_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://127.0.0.1:8081/api/react-ant-admin"
-    : "/api/react-ant-admin";
+const BASE_URL = process.env.REACT_APP_API_BASEURL || "/api/react-ant-admin";
 
 // 错误信息
 const codeMessage = {

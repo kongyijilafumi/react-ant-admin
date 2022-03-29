@@ -1,6 +1,5 @@
 import { getLocalMenu, saveLocalMenu } from "../utils";
 import { getMenu } from "@/api";
-const RouterBasename = "/react-ant-admin";
 
 function getMenus() {
   return new Promise((res, rej) => {
@@ -21,4 +20,4 @@ function getMenus() {
   });
 }
 
-export { getMenus, RouterBasename };
+export { getMenus };
