@@ -39,7 +39,7 @@ nodejs后台web服务:[react-ant-admin-server](https://gitee.com/kong_yiji_and_l
 
 [qq交流群:532948540](https://qm.qq.com/cgi-bin/qm/qr?k=Wo_kXUOA-mTBviZ6gF4H912AKdE5vTML&jump_from=webapi)
 
-![qrcode](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/qq.jpg)
+![qrcode](https://raw.githubusercontent.com/kongyijilafumi/my-image/master/qq.jpg)
 
 欢迎各位提出建议与问题!
 
@@ -212,29 +212,29 @@ let menu = [
 使用[vscode编辑器](https://code.visualstudio.com/)[下载地址](https://blog.csdn.net/bielaiwuyang1999/article/details/117814237)
 
 把此项目文件夹拖入`vscode编辑器`,找到左下角`npm 脚本栏目`选择快速启动，免命令。
-![免命令示例图](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/run.png)
+![免命令示例图](https://raw.githubusercontent.com/kongyijilafumi/my-image/master/run.png)
 
 ## 项目截图
 
 * 登录
 
-![登录](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-doc01.png)
+![登录](https://raw.githubusercontent.com/kongyijilafumi/my-image/master/react-ant-admin-doc01.png)
 
 * 详情页
 
-![详情页](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-detail.png)
+![详情页](https://raw.githubusercontent.com/kongyijilafumi/my-image/master/react-ant-admin-detail.png)
 
 * 列表
 
-![表格](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-list.png)
+![表格](https://raw.githubusercontent.com/kongyijilafumi/my-image/master/react-ant-admin-list.png)
 
 * 权限管理
 
-![权限管理](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-power.png)
+![权限管理](https://raw.githubusercontent.com/kongyijilafumi/my-image/master/react-ant-admin-power.png)
 
 * 结果页
 
-![结果页](https://gitee.com/kong_yiji_and_lavmi/my-image/raw/master/react-ant-admin-result1.png)
+![结果页](https://raw.githubusercontent.com/kongyijilafumi/my-image/master/react-ant-admin-result1.png)
 
 
 
