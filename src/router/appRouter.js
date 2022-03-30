@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { setUserInfoAction } from "@/store/user/action";
 import { getLocalUser } from "@/utils";
 
-const Router = process.env.REACT_APP_API_BASEURL === "1" ? HashRouter : BrowserRouter
+const Router = process.env.REACT_APP_ROUTER_ISHASH === "1" ? HashRouter : BrowserRouter
 const RouterBasename = process.env.REACT_APP_ROUTERBASE || "/"
 const mapStateToProps = (state) => ({
   userInfo: state.user,

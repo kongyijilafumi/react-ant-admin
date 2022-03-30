@@ -60,5 +60,6 @@ module.exports = Promise.resolve({
     COLOR: "true",
     REACT_APP_API_BASEURL: "https://azhengpersonalblog.top/api/react-ant-admin",
     REACT_APP_ROUTER_ISHASH: "1", // 启用哈希模式 
+    REACT_APP_ROUTERBASE: "/"
   }
 })

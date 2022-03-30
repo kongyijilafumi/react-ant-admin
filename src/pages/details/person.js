@@ -101,7 +101,7 @@ export default function Person() {
             cover={
               <img
                 alt="example"
-                src="https://portrait.gitee.com/uploads/avatars/user/1887/5661033_kong_yiji_and_lavmi_1586497494.png!avatar200"
+                src="https://avatars.githubusercontent.com/u/56569970?v=4"
               />
             }
           >
