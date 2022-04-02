@@ -85,7 +85,19 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "globals": {
+      "MENU_PATH": true,
+      "MENU_SHOW": true,
+      "MENU_KEEPALIVE": true,
+      "MENU_KEY": true,
+      "MENU_ICON": true,
+      "MENU_TITLE": true,
+      "MENU_CHILDREN": true,
+      "MENU_PARENTKEY": true,
+      "MENU_ALLPATH": true,
+      "MENU_PARENTPATH": true
+    }
   },
   "browserslist": {
     "production": [
@@ -192,5 +204,17 @@
   },
   "resolutions": {
     "react-error-overlay": "6.0.9"
+  },
+  "MENUDATA": {
+    "MENU_PATH": "url",
+    "MENU_SHOW": "isShowOnMenu",
+    "MENU_KEEPALIVE": "keepAlive",
+    "MENU_KEY": "id",
+    "MENU_ICON": "icon",
+    "MENU_TITLE": "title",
+    "MENU_CHILDREN": "children",
+    "MENU_PARENTKEY": "parentId",
+    "MENU_ALLPATH": "allPath",
+    "MENU_PARENTPATH": "parentPath"
   }
 }

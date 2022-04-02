@@ -1,9 +1,5 @@
-import { getMenus } from "@/common";
+import { getMenus, USER_INFO, MENU, LAYOUT_MODE, COMPONENTS_VISIBEL, TOKEN } from "@/common";
 
-export const USER_INFO = "USER_INFO";
-export const TOKEN = "admin_token";
-export const MENU = "MENU";
-export const VISIBEL = "COMPONENTS_VISIBEL";
 // 获取默认页面
 async function getDefaultMenu() {
   let openKeys = [],
@@ -110,10 +106,10 @@ function stopPropagation(e) {
 }
 
 function getLayoutMode() {
-  return getKey(true, "layout-mode");
+  return getKey(true, LAYOUT_MODE);
 }
 function setLayoutMode(data) {
-  setKey(true, "layout-mode", data);
+  setKey(true, LAYOUT_MODE, data);
 }
 
 /**
@@ -127,10 +123,10 @@ function clearLocalDatas(keys) {
   });
 }
 function getCompVisibel() {
-  return getKey(true, VISIBEL);
+  return getKey(true, COMPONENTS_VISIBEL);
 }
 function setCompVisibel(val) {
-  return setKey(true, VISIBEL, val);
+  return setKey(true, COMPONENTS_VISIBEL, val);
 }
 export {
   getDefaultMenu,

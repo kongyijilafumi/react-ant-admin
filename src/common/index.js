@@ -21,3 +21,5 @@ function getMenus() {
 }
 
 export { getMenus };
+export * from "./var"
+export { default as ajax } from "./ajax"

@@ -4,14 +4,8 @@ import logo from "@/assets/images/logo.svg";
 import MyIcon from "@/components/icon/";
 import { connect } from "react-redux";
 import { clearUser } from "@/store/user/action";
-import {
-  setKey,
-  saveToken,
-  clearLocalDatas,
-  USER_INFO,
-  TOKEN,
-  MENU,
-} from "@/utils";
+import { setKey, saveToken, clearLocalDatas, } from "@/utils";
+import { USER_INFO, TOKEN, MENU, } from "@/common"
 const { Header } = Layout;
 const mapStateToProps = (state) => ({
   userInfo: state.user,
