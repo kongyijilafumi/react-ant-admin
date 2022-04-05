@@ -7,10 +7,10 @@ async function getDefaultMenu() {
     openedMenu = [];
   const res = await getMenus();
   res.data.some((list) => {
-    const child = list.children;
+    const child = list[MENU_TITLE];
     if (child && child.length) {
-      openKeys = [list.key];
-      selectKey = [child[0]["key"]];
+      openKeys = [list[MENU_KEY]];
+      selectKey = [child[0][MENU_KEY]];
       openedMenu = [child[0]];
       return true;
     }
@@ -47,8 +47,8 @@ async function getMenuParentKey(key) {
   const keys = [];
   const res = await getMenus();
   const list = reduceMenuList(res.data);
-  const info = list.find((item) => item.key === key);
-  let parentKey = info?.parentKey;
+  const info = list.find((item) => item[MENU_KEY] === key);
+  let parentKey = info ? info[MENU_PARENTKEY] : info;
   if (parentKey) {
     const data = await getMenuParentKey(parentKey);
     keys.push(...data);
@@ -60,10 +60,10 @@ async function getMenuParentKey(key) {
 function reduceMenuList(list, path = "") {
   const data = [];
   list.forEach((i) => {
-    const { children, ...item } = i;
-    item.parentPath = path;
+    const { [MENU_CHILDREN]: children, ...item } = i;
+    item[MENU_PARENTPATH] = path;
     if (children) {
-      const childList = reduceMenuList(children, path + i.path);
+      const childList = reduceMenuList(children, path + i[MENU_PATH]);
       data.push(...childList);
     }
     data.push(item);

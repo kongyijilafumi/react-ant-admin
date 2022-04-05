@@ -12,20 +12,20 @@ const mapStateToProps = (state) => ({
 });
 
 function getParent(list, parentKey) {
-  return list.find((i) => i.key === parentKey);
+  return list.find((i) => i[MENU_KEY] === parentKey);
 }
 async function getBreadArray(ckey) {
   let res = await getMenus();
   let list = reduceMenuList(res.data);
   let arr = [];
-  let currentInfo = list.find((i) => i.key === ckey);
+  let currentInfo = list.find((i) => i[MENU_KEY] === ckey);
   if (!currentInfo) return [];
   arr.unshift(currentInfo);
-  let parentKey = currentInfo.parentKey;
-  while (getParent(list, parentKey)) {
-    let info = getParent(list, parentKey);
-    arr.unshift(info);
-    parentKey = info.parentKey;
+  let parentKey = currentInfo[MENU_PARENTKEY], parentInfo;
+  // eslint-disable-next-line 
+  while (parentInfo = getParent(list, parentKey)) {
+    arr.unshift(parentInfo);
+    parentKey = parentInfo[MENU_PARENTKEY];
   }
   return arr;
 }
@@ -46,9 +46,9 @@ function TopMenu({ childKey }) {
       {breadArr.length > 0 && (
         <Breadcrumb className="top-breadcrumb">
           {breadArr.map((i) => (
-            <Breadcrumb.Item key={i.key}>
-              <MyIcon type={i.icon} />
-              <span className="title">{i.title}</span>
+            <Breadcrumb.Item key={i[MENU_KEY]}>
+              <MyIcon type={i[MENU_ICON]} />
+              <span className="title">{i[MENU_TITLE]}</span>
             </Breadcrumb.Item>
           ))}
         </Breadcrumb>

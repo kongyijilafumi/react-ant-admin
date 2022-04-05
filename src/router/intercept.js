@@ -29,7 +29,7 @@ class Intercept extends React.Component {
     this.scrollToTop();
   }
   setInfo = async () => {
-    const { title, pageKey, openMenus, history, setOpenKeys, setSelectedKeys, setPath } =
+    const { [MENU_TITLE]: title, pageKey, openMenus, history, setOpenKeys, setSelectedKeys, setPath } =
       this.props;
     if (!title) {
       return;
@@ -79,7 +79,7 @@ class Intercept extends React.Component {
   render() {
     const {
       path,
-      title,
+      [MENU_TITLE]: title,
       pageKey,
       openMenus,
       setOpenKeys,
@@ -90,7 +90,7 @@ class Intercept extends React.Component {
       ...itemProps
     } = this.props;
     const hasPath = !menuList.find(
-      (m) => (m.parentPath || "") + m.path === path
+      (m) => (m[MENU_PARENTPATH] || "") + m[MENU_PATH] === path
     );
     if (hasPath && path !== "/" && path !== "*") {
       return (

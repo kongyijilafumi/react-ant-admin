@@ -381,17 +381,17 @@ function post(url, data) {
           return res(MockData[url]);
         }
         case "/delmenu": {
-          let newMenu = menu.filter((i) => i.key !== data.key);
-          menu = newMenu.filter((i) => i.parentKey !== data.key);
+          let newMenu = menu.filter((i) => i[MENU_KEY] !== data[MENU_KEY]);
+          menu = newMenu.filter((i) => i[MENU_PARENTKEY] !== data[MENU_KEY]);
           return res(MockData[url]);
         }
         case "/getmenuinfo": {
-          MockData[url].data = menu.find((i) => i.key === data.key);
+          MockData[url].data = menu.find((i) => i[MENU_KEY] === data[MENU_KEY]);
           return res(MockData[url]);
         }
         case "/editmenuinfo": {
           menu = menu.map((item) => {
-            if (item.key === data.key) {
+            if (item[MENU_KEY] === data[MENU_KEY]) {
               return { ...item, ...data };
             }
             return item;

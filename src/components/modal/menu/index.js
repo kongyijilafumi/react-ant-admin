@@ -136,10 +136,10 @@ export default function MenuModal({
           i.childProps.disabled =
             modalType === "addChild" || (modalType === "edit" && info.isParent);
           i.childProps.children = menus.map((menu) => (
-            <Option value={menu.key} key={menu.key}>
+            <Option value={menu[MENU_KEY]} key={menu[MENU_KEY]}>
               <div className="icons">
-                <MyIcon type={menu.icon} />
-                <span className="title"> {menu.title}</span>
+                <MyIcon type={menu[MENU_ICON]} />
+                <span className="title"> {menu[MENU_TITLE]}</span>
               </div>
             </Option>
           ));
@@ -155,14 +155,14 @@ export default function MenuModal({
 
   useEffect(() => {
     if (modalType === "edit" && isShow && form) {
-      getMenuInfo({ key: info.key }).then((res) => {
+      getMenuInfo({ key: info[MENU_KEY] }).then((res) => {
         if (res.status === 0 && res.data) {
           form.setFieldsValue(res.data);
         }
       });
     } else if (modalType === "addChild" && isShow && form) {
       form.setFieldsValue({
-        parentKey: info.key,
+        parentKey: info[MENU_KEY],
       });
     }
   }, [modalType, isShow, info, form]);

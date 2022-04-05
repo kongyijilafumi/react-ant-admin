@@ -3,10 +3,11 @@
 const fs = require("fs");
 const path = require("path");
 const paths = require("./paths");
+const appPackageJson = require(paths.appPackageJson)
 const showColorSet = process.env.COLOR === "true";
 try {
   var varColors = require("../color.json.js");
-} catch (error) {}
+} catch (error) { }
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve("./paths")];
 
@@ -82,11 +83,16 @@ function getClientEnvironment(publicUrl) {
         showColorSet,
       }
     );
+  const menuStringified = Object.keys(appPackageJson.MENUDATA).reduce((a, key) => {
+    a[key] = JSON.stringify(appPackageJson.MENUDATA[key])
+    return a
+  }, {})
   const stringified = {
     "process.env": Object.keys(raw).reduce((env, key) => {
       env[key] = JSON.stringify(raw[key]);
       return env;
     }, {}),
+    ...menuStringified
   };
 
   return { raw, stringified };

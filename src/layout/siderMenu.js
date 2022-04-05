@@ -49,23 +49,23 @@ const FlexBox = ({ children }) => {
 };
 
 const renderMenu = (item, path = "") => {
-  if (item.isShowOnMenu === false) {
+  if (item[MENU_SHOW] === false) {
     return null;
   }
-  if (!item.children) {
+  if (!item[MENU_CHILDREN]) {
     return (
-      <Menu.Item key={item.key} icon={<MyIcon type={item.icon} />}>
-        <Link to={(path || "") + item.path}>{item.title}</Link>
+      <Menu.Item key={item[MENU_KEY]} icon={<MyIcon type={item[MENU_ICON]} />}>
+        <Link to={(path || "") + item[MENU_PATH]}>{item[MENU_TITLE]}</Link>
       </Menu.Item>
     );
   }
   return (
     <SubMenu
-      key={item.key}
-      title={item.title}
-      icon={<MyIcon type={item.icon} />}
+      key={item[MENU_KEY]}
+      title={item[MENU_TITLE]}
+      icon={<MyIcon type={item[MENU_ICON]} />}
     >
-      {item.children.map((i) => renderMenu(i, path + item.path))}
+      {item[MENU_CHILDREN].map((i) => renderMenu(i, path + item[MENU_PATH]))}
     </SubMenu>
   );
 };

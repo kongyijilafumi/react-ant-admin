@@ -206,14 +206,14 @@
     "react-error-overlay": "6.0.9"
   },
   "MENUDATA": {
-    "MENU_PATH": "url",
+    "MENU_PATH": "path",
     "MENU_SHOW": "isShowOnMenu",
     "MENU_KEEPALIVE": "keepAlive",
-    "MENU_KEY": "id",
+    "MENU_KEY": "key",
     "MENU_ICON": "icon",
     "MENU_TITLE": "title",
     "MENU_CHILDREN": "children",
-    "MENU_PARENTKEY": "parentId",
+    "MENU_PARENTKEY": "parentKey",
     "MENU_ALLPATH": "allPath",
     "MENU_PARENTPATH": "parentPath"
   }

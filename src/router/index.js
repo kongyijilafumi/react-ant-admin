@@ -27,12 +27,12 @@ function useRouter(setMenuList) {
         // 把请求的数据 和 本地pages页面暴露出的路由列表合并
         let routers = routerList.map((router) => {
           let find = list.find(
-            (i) => (i.parentPath || "") + i.path === router.path
+            (i) => (i[MENU_PARENTPATH] || "") + i[MENU_PATH] === router[MENU_PATH]
           );
           if (find) {
             router = { ...find, ...router };
           } else {
-            router.key = router.path;
+            router[MENU_KEY] = router[MENU_PATH];
           }
           return router;
         });
@@ -48,8 +48,8 @@ function useRouter(setMenuList) {
   useEffect(() => {
     if (localRouteList.length && mergeRouterList.length) {
       const dom = mergeRouterList.map((item) => {
-        let { key, path } = item;
-        const RenderRoute = item.keepAlive === "true" ? CacheRoute : Route;
+        let { [MENU_KEY]: key, [MENU_PATH]: path } = item;
+        const RenderRoute = item[MENU_KEEPALIVE] === "true" ? CacheRoute : Route;
         return (
           <RenderRoute
             key={key}
