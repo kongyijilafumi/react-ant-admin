@@ -28,8 +28,8 @@ class Intercept extends React.Component {
     this.setInfo();
     this.scrollToTop();
   }
-  setInfo = async () => {
-    const { [MENU_TITLE]: title, pageKey, openMenus, history, setOpenKeys, setSelectedKeys, setPath } =
+  setInfo = () => {
+    const { [MENU_TITLE]: title, pageKey, openMenus, history, setOpenKeys, setSelectedKeys, setPath, menuList } =
       this.props;
     if (!title) {
       return;
@@ -39,8 +39,8 @@ class Intercept extends React.Component {
     const pagePath = pathname + (hash || search);
     const findInfo = openMenus.find((i) => i.path === pagePath);
     setPath(pagePath)
-    setSelectedKeys([pageKey]);
-    let openkey = await getMenuParentKey(pageKey);
+    setSelectedKeys([String(pageKey)]);
+    let openkey = getMenuParentKey(menuList, pageKey);
     setOpenKeys(openkey);
     this.addMenus(findInfo, pageKey, pagePath, title);
   };

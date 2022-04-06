@@ -43,16 +43,14 @@ function getLocalUser() {
   return getKey(true, USER_INFO);
 }
 
-async function getMenuParentKey(key) {
+function getMenuParentKey(list, key) {
   const keys = [];
-  const res = await getMenus();
-  const list = reduceMenuList(res.data);
   const info = list.find((item) => item[MENU_KEY] === key);
   let parentKey = info ? info[MENU_PARENTKEY] : info;
   if (parentKey) {
-    const data = await getMenuParentKey(parentKey);
+    const data = getMenuParentKey(list, parentKey);
     keys.push(...data);
-    keys.push(parentKey);
+    keys.push(String(parentKey));
   }
   return keys;
 }

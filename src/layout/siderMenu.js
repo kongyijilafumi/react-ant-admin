@@ -54,14 +54,14 @@ const renderMenu = (item, path = "") => {
   }
   if (!item[MENU_CHILDREN]) {
     return (
-      <Menu.Item key={item[MENU_KEY]} icon={<MyIcon type={item[MENU_ICON]} />}>
+      <Menu.Item key={String(item[MENU_KEY])} icon={<MyIcon type={item[MENU_ICON]} />}>
         <Link to={(path || "") + item[MENU_PATH]}>{item[MENU_TITLE]}</Link>
       </Menu.Item>
     );
   }
   return (
     <SubMenu
-      key={item[MENU_KEY]}
+      key={String(item[MENU_KEY])}
       title={item[MENU_TITLE]}
       icon={<MyIcon type={item[MENU_ICON]} />}
     >
