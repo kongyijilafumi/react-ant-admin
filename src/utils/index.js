@@ -92,7 +92,7 @@ export function formatMenu(list) {
       if (!menuMap[currentParentKey]) {
         // 那就把映射上去 只有子集属性<Array>类型
         menuMap[currentParentKey] = {
-          MENU_CHILDREN: [item],
+          [MENU_CHILDREN]: [item],
         };
       } else if (
         menuMap[currentParentKey] &&
