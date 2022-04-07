@@ -34,7 +34,7 @@ function useRouter(setStateMenuList) {
         });
         if (list && list.length) {
           setStateMenuList(formatList);
-          setAjaxUserMenuList(list);
+          setAjaxUserMenuList(userMenus);
           setMergeLRouterList(routers);
         }
       });
