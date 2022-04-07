@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Modal, message, Tree } from "antd";
 import MyForm from "@/components/form";
 import { addType, editType } from "@/api";
+import { reduceMenuList } from "@/utils"
 const initFormItems = [
   {
     itemType: "input",
@@ -22,23 +23,67 @@ const initFormItems = [
     },
   },
 ];
-const ColorStyle = {
-  color: "red",
-};
+
+function pushParentId(checkList, list, id) {
+  const info = list.find(item => item.key === id)
+  const parentId = info.parentId
+  if (parentId && !checkList.includes(parentId)) {
+    checkList.push(parentId)
+    pushParentId(checkList, list, parentId)
+  }
+}
+function filterParentId(parent, list, id) {
+  const find = list.find(item => item.key === id)
+  const pid = find.parentId
+  if (pid) {
+    if (!parent.includes(pid)) {
+      parent.push(pid)
+    }
+    filterParentId(parent, list, pid)
+  }
+}
+
 export default function UserModal({ info, isShow, onCancel, onOk, menuList }) {
   const [form, setForm] = useState(null);
   const [menuId, setMenuId] = useState([]);
-  useEffect(() => {
-    if (info && form) {
-      setMenuId(info.menu_id.split(",").map(Number));
-      form.setFieldsValue(info);
+
+  const reducerList = useMemo(() => {
+    if (menuList) {
+      return reduceMenuList(menuList)
     }
-  }, [info, form]);
+    return []
+  }, [menuList])
+
+  useEffect(() => {
+    if (info && form && reducerList) {
+      const parentId = [], childId = []
+      const checkId = info.menu_id.split(",").map(Number)
+      checkId.forEach(id => {
+        filterParentId(parentId, reducerList, id)
+        if (!parentId.includes(id) && !childId.includes(id)) {
+          childId.push(id)
+        }
+      })
+      setMenuId(childId);
+      form.setFieldsValue(info);
+    } else {
+      setMenuId([])
+    }
+  }, [info, form, reducerList]);
 
   const submit = () => {
     form.validateFields().then((values) => {
       let fn = Boolean(info) ? editType : addType;
-      fn({ ...values, menu_id: menuId }).then((res) => {
+      let checkMenuId = []
+
+      menuId.forEach(id => {
+        if (!checkMenuId.includes(id)) {
+          checkMenuId.push(id)
+        }
+        pushParentId(checkMenuId, reducerList, id)
+      })
+      console.log(checkMenuId);
+      fn({ ...values, menu_id: checkMenuId }).then((res) => {
         if (res.status === 0) {
           message.success(res.msg);
           close();
@@ -47,7 +92,7 @@ export default function UserModal({ info, isShow, onCancel, onOk, menuList }) {
       });
     });
   };
-  const onCheck = ({ checked }) => {
+  const onCheck = (checked) => {
     setMenuId(checked);
   };
   const close = () => {
@@ -66,12 +111,10 @@ export default function UserModal({ info, isShow, onCancel, onOk, menuList }) {
       onOk={submit}
     >
       <MyForm handleInstance={setForm} items={initFormItems} />
-      <h3 style={ColorStyle}>选中子菜单未选中父菜单的将不会显示</h3>
       <Tree
         treeData={menuList}
         checkable
         defaultExpandAll={true}
-        checkStrictly={true}
         checkedKeys={menuId}
         selectable={false}
         onCheck={onCheck}

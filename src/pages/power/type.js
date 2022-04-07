@@ -5,11 +5,12 @@ import { getPower } from "@/api";
 import MyTable from "@/components/table";
 import "./index.less";
 
-function formatMenuKey(list) {
+function formatMenuKey(list, parentId = null) {
   return list.map((item) => {
+    item.parentId = parentId
     item.key = item.menu_id;
     if (item.children) {
-      item.children = formatMenuKey(item.children);
+      item.children = formatMenuKey(item.children, item.menu_id);
     }
     return item;
   });
