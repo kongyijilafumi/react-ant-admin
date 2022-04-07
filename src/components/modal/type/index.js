@@ -26,6 +26,10 @@ const initFormItems = [
 
 function pushParentId(checkList, list, id) {
   const info = list.find(item => item.key === id)
+  if (!info) {
+    return
+  }
+
   const parentId = info.parentId
   if (parentId && !checkList.includes(parentId)) {
     checkList.push(parentId)
@@ -34,6 +38,9 @@ function pushParentId(checkList, list, id) {
 }
 function filterParentId(parent, list, id) {
   const find = list.find(item => item.key === id)
+  if (!find) {
+    return
+  }
   const pid = find.parentId
   if (pid) {
     if (!parent.includes(pid)) {
