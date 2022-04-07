@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Button, Affix, Col } from "antd";
@@ -70,34 +70,43 @@ const renderMenu = (item, path = "") => {
   );
 };
 
-const SiderMenu = ({
-  openKeys,
-  selectedKeys,
-  setOpenKeys,
-  layout,
-  menuList,
-}) => {
+const SiderMenu = ({ openKeys, selectedKeys, setOpenKeys, layout, menuList }) => {
+
   const menuComponent = useMemo(
     () => menuList && menuList.map((i) => renderMenu(i, "")),
     [menuList]
   );
   // 菜单组折叠
-  const onOpenChange = (keys) => {
+  const onOpenChange = useCallback((keys) => {
     setOpenKeys(keys);
-  };
+  }, [setOpenKeys]);
+  // classname
+  const clsName = useMemo(() => {
+    if (layout !== layoutTypes.SINGLE_COLUMN) {
+      return "layout-silder-menu hide-scrollbar"
+    }
+    return "layout-silder-menu col"
+  }, [layout])
 
-  const WrapContainer =
-    layout === layoutTypes.SINGLE_COLUMN ? FlexBox : SliderContent;
+  const WrapContainer = useMemo(() => {
+    if (layout === layoutTypes.SINGLE_COLUMN) {
+      return FlexBox
+    }
+    return SliderContent
+  }, [layout])
+
+  const mode = useMemo(() => {
+    if (layout === layoutTypes.SINGLE_COLUMN) {
+      return "horizontal"
+    }
+    return "inline"
+  }, [layout])
   return (
     <WrapContainer>
       <Menu
-        mode={layout === layoutTypes.SINGLE_COLUMN ? "horizontal" : "inline"}
+        mode={mode}
         triggerSubMenuAction="click"
-        className={
-          layout === layoutTypes.SINGLE_COLUMN
-            ? "layout-silder-menu col"
-            : "layout-silder-menu hide-scrollbar"
-        }
+        className={clsName}
         onOpenChange={onOpenChange}
         openKeys={openKeys}
         selectedKeys={selectedKeys}

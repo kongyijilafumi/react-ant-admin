@@ -5,9 +5,9 @@ async function getDefaultMenu() {
   let openKeys = [],
     selectKey = [],
     openedMenu = [];
-  const res = await getMenus();
-  res.data.some((list) => {
-    const child = list[MENU_TITLE];
+  const menu = await getMenus();
+  menu.some((list) => {
+    const child = list[MENU_CHILDREN];
     if (child && child.length) {
       openKeys = [list[MENU_KEY]];
       selectKey = [child[0][MENU_KEY]];
@@ -67,6 +67,49 @@ function reduceMenuList(list, path = "") {
     data.push(item);
   });
   return data;
+}
+
+export function formatMenu(list) {
+  const newList = list.map(item => ({ ...item }))
+  const menuMap = {};
+  const parentMenu = [];
+  newList.forEach((item) => {
+    // 当前 菜单的key
+    const currentKey = item[MENU_KEY];
+    // 当前 菜单的父菜单key
+    const currentParentKey = item[MENU_PARENTKEY];
+    // 如果 映射表还没有值 就把当前项 赋值进去
+    if (!menuMap[currentKey]) {
+      menuMap[currentKey] = item;
+    } else {
+      // 有值 说明 有子项 保留子项 把当前值 赋值进去
+      item[MENU_CHILDREN] = menuMap[currentKey][MENU_CHILDREN];
+      menuMap[currentKey] = item;
+    }
+    // 如果当前项 有父级
+    if (currentParentKey) {
+      // 父级还没有在映射表上
+      if (!menuMap[currentParentKey]) {
+        // 那就把映射上去 只有子集属性<Array>类型
+        menuMap[currentParentKey] = {
+          MENU_CHILDREN: [item],
+        };
+      } else if (
+        menuMap[currentParentKey] &&
+        !menuMap[currentParentKey][MENU_CHILDREN]
+      ) {
+        // 父级在映射表上 不过 没子集
+        menuMap[currentParentKey][MENU_CHILDREN] = [item];
+      } else {
+        // 父级有 子集合也有
+        menuMap[currentParentKey][MENU_CHILDREN].push(item);
+      }
+    } else {
+      // 当前项是没有父级 那当前项就是父级项
+      parentMenu.push(item);
+    }
+  });
+  return parentMenu;
 }
 
 function getLocalMenu() {
