@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { message } from "antd";
+import { formatMenu } from "@/utils"
 let currentUser = {};
 const userInfoList = [
   {
@@ -41,182 +42,182 @@ const userInfoList = [
 let menu = [
   {
     menu_id: 9,
-    title: "列表页",
-    path: "/list",
-    key: "list",
-    parentKey: "",
-    icon: "icon_list",
-    keepAlive: "false",
+    [MENU_TITLE]: "列表页",
+    [MENU_PATH]: "/list",
+    [MENU_KEY]: "list",
+    [MENU_PARENTKEY]: "",
+    [MENU_ICON]: "icon_list",
+    [MENU_KEEPALIVE]: "false",
     order: 1,
   },
   {
     menu_id: 10,
-    title: "卡片列表",
-    path: "/card",
-    key: "listCard",
-    parentKey: "list",
-    icon: "",
-    keepAlive: "false",
+    [MENU_TITLE]: "卡片列表",
+    [MENU_PATH]: "/card",
+    [MENU_KEY]: "listCard",
+    [MENU_PARENTKEY]: "list",
+    [MENU_ICON]: "",
+    [MENU_KEEPALIVE]: "false",
     order: 5485,
   },
   {
     menu_id: 11,
-    title: "查询列表",
-    path: "/search",
-    key: "listSearch",
-    parentKey: "list",
-    icon: "",
-    keepAlive: "false",
+    [MENU_TITLE]: "查询列表",
+    [MENU_PATH]: "/search",
+    [MENU_KEY]: "listSearch",
+    [MENU_PARENTKEY]: "list",
+    [MENU_ICON]: "",
+    [MENU_KEEPALIVE]: "false",
     order: 9588,
   },
   {
     menu_id: 7,
-    title: "表单页",
-    path: "/form",
-    key: "from",
-    parentKey: "",
-    icon: "icon_form",
-    keepAlive: "false",
+    [MENU_TITLE]: "表单页",
+    [MENU_PATH]: "/form",
+    [MENU_KEY]: "from",
+    [MENU_PARENTKEY]: "",
+    [MENU_ICON]: "icon_form",
+    [MENU_KEEPALIVE]: "false",
     order: 3,
   },
   {
     menu_id: 6,
-    title: "基础表单",
-    path: "/index",
-    key: "formIndex",
-    parentKey: "from",
-    icon: "",
-    keepAlive: "false",
+    [MENU_TITLE]: "基础表单",
+    [MENU_PATH]: "/index",
+    [MENU_KEY]: "formIndex",
+    [MENU_PARENTKEY]: "from",
+    [MENU_ICON]: "",
+    [MENU_KEEPALIVE]: "false",
     order: 9654,
   },
   {
     menu_id: 1,
-    title: "详情页",
-    path: "/details",
-    key: "details",
-    parentKey: "",
-    icon: "icon_edit",
-    keepAlive: "false",
+    [MENU_TITLE]: "详情页",
+    [MENU_PATH]: "/details",
+    [MENU_KEY]: "details",
+    [MENU_PARENTKEY]: "",
+    [MENU_ICON]: "icon_edit",
+    [MENU_KEEPALIVE]: "false",
     order: 3,
   },
   {
     menu_id: 2,
-    title: "个人中心",
-    path: "/person",
-    key: "detailsPerson",
-    parentKey: "details",
-    icon: "icon_infopersonal",
-    keepAlive: "false",
+    [MENU_TITLE]: "个人中心",
+    [MENU_PATH]: "/person",
+    [MENU_KEY]: "detailsPerson",
+    [MENU_PARENTKEY]: "details",
+    [MENU_ICON]: "icon_infopersonal",
+    [MENU_KEEPALIVE]: "false",
     order: 9998,
   },
   {
     menu_id: 16,
-    title: "结果页",
-    path: "/result",
-    key: "result",
-    parentKey: "",
-    icon: "icon_voiceprint",
-    keepAlive: "false",
+    [MENU_TITLE]: "结果页",
+    [MENU_PATH]: "/result",
+    [MENU_KEY]: "result",
+    [MENU_PARENTKEY]: "",
+    [MENU_ICON]: "icon_voiceprint",
+    [MENU_KEEPALIVE]: "false",
     order: 4,
   },
   {
     menu_id: 3,
-    title: "403",
-    path: "/403",
-    key: "error403",
-    parentKey: "result",
-    icon: "icon_locking",
-    keepAlive: "false",
+    [MENU_TITLE]: "403",
+    [MENU_PATH]: "/403",
+    [MENU_KEY]: "error403",
+    [MENU_PARENTKEY]: "result",
+    [MENU_ICON]: "icon_locking",
+    [MENU_KEEPALIVE]: "false",
     order: 0,
   },
   {
     menu_id: 4,
-    title: "404",
-    path: "/404",
-    key: "error404",
-    parentKey: "result",
-    icon: "icon_close",
-    keepAlive: "false",
+    [MENU_TITLE]: "404",
+    [MENU_PATH]: "/404",
+    [MENU_KEY]: "error404",
+    [MENU_PARENTKEY]: "result",
+    [MENU_ICON]: "icon_close",
+    [MENU_KEEPALIVE]: "false",
     order: 1,
   },
   {
     menu_id: 5,
-    title: "500",
-    path: "/500",
-    key: "error500",
-    parentKey: "result",
-    icon: "icon_privacy_closed",
-    keepAlive: "false",
+    [MENU_TITLE]: "500",
+    [MENU_PATH]: "/500",
+    [MENU_KEY]: "error500",
+    [MENU_PARENTKEY]: "result",
+    [MENU_ICON]: "icon_privacy_closed",
+    [MENU_KEEPALIVE]: "false",
     order: 4568,
   },
   {
     menu_id: 17,
-    title: "统计",
-    path: "/statistics",
-    key: "statistics",
-    parentKey: "",
-    icon: "icon_MTR",
-    keepAlive: "true",
+    [MENU_TITLE]: "统计",
+    [MENU_PATH]: "/statistics",
+    [MENU_KEY]: "statistics",
+    [MENU_PARENTKEY]: "",
+    [MENU_ICON]: "icon_MTR",
+    [MENU_KEEPALIVE]: "true",
     order: 5,
   },
   {
     menu_id: 18,
-    title: "访客统计",
-    path: "/visitor",
-    key: "visitor",
-    parentKey: "statistics",
-    icon: "icon_addresslist",
-    keepAlive: "true",
+    [MENU_TITLE]: "访客统计",
+    [MENU_PATH]: "/visitor",
+    [MENU_KEY]: "visitor",
+    [MENU_PARENTKEY]: "statistics",
+    [MENU_ICON]: "icon_addresslist",
+    [MENU_KEEPALIVE]: "true",
     order: 1,
   },
   {
     menu_id: 12,
-    title: "权限管理",
-    path: "/power",
-    key: "power",
-    parentKey: "",
-    icon: "icon_set",
-    keepAlive: "false",
+    [MENU_TITLE]: "权限管理",
+    [MENU_PATH]: "/power",
+    [MENU_KEY]: "power",
+    [MENU_PARENTKEY]: "",
+    [MENU_ICON]: "icon_set",
+    [MENU_KEEPALIVE]: "false",
     order: 9,
   },
   {
     menu_id: 14,
-    title: "权限类别",
-    path: "/type",
-    key: "powerType",
-    parentKey: "power",
-    icon: "icon_safety",
-    keepAlive: "true",
+    [MENU_TITLE]: "权限类别",
+    [MENU_PATH]: "/type",
+    [MENU_KEY]: "powerType",
+    [MENU_PARENTKEY]: "power",
+    [MENU_ICON]: "icon_safety",
+    [MENU_KEEPALIVE]: "true",
     order: 12,
   },
   {
     menu_id: 13,
-    title: "菜单管理",
-    path: "/menu",
-    key: "powerMenu",
-    parentKey: "power",
-    icon: "icon_menu",
-    keepAlive: "true",
+    [MENU_TITLE]: "菜单管理",
+    [MENU_PATH]: "/menu",
+    [MENU_KEY]: "powerMenu",
+    [MENU_PARENTKEY]: "power",
+    [MENU_ICON]: "icon_menu",
+    [MENU_KEEPALIVE]: "true",
     order: 1475,
   },
   {
     menu_id: 15,
-    title: "用户管理",
-    path: "/user",
-    key: "powerUser",
-    parentKey: "power",
-    icon: "icon_infopersonal",
-    keepAlive: "true",
+    [MENU_TITLE]: "用户管理",
+    [MENU_PATH]: "/user",
+    [MENU_KEY]: "powerUser",
+    [MENU_PARENTKEY]: "power",
+    [MENU_ICON]: "icon_infopersonal",
+    [MENU_KEEPALIVE]: "true",
     order: 1593,
   },
   {
     menu_id: 8,
-    title: "图标库",
-    path: "/icons",
-    key: "icons",
-    parentKey: "",
-    icon: "icon_pen",
-    keepAlive: "true",
+    [MENU_TITLE]: "图标库",
+    [MENU_PATH]: "/icons",
+    [MENU_KEY]: "icons",
+    [MENU_PARENTKEY]: "",
+    [MENU_ICON]: "icon_pen",
+    [MENU_KEEPALIVE]: "true",
     order: 10,
   },
 ];
@@ -300,21 +301,9 @@ const msg = {
   msg: "",
 };
 const delMenu = { msg: "操作成功", status: 0 };
-const menuMapKey = [
-  { title: "菜单id", dataIndex: "menu_id", key: "menu_id" },
-  { title: "菜单名称", dataIndex: "title", key: "title" },
-  { title: "菜单路由", dataIndex: "path", key: "path" },
-  { title: "菜单唯一key", dataIndex: "key", key: "key" },
-  { title: "菜单父级key", dataIndex: "parentKey", key: "parentKey" },
-  { title: "菜单图标", dataIndex: "icon", key: "icon" },
-  { title: "页面是否保持状态", dataIndex: "keepAlive", key: "keepAlive" },
-  { title: "菜单排序", dataIndex: "order", key: "order" },
-];
+
 const MockData = {
-  "/getmenu": {
-    data: formatMenu(menu),
-    mapKey: menuMapKey,
-  },
+  "/getmenu": menu,
   "/getpower": power,
   "/login": userInfo,
   "/addmenu": addMenu,
@@ -335,7 +324,8 @@ function get(url) {
           let action = typeList.find((i) => i.type_id === typeId)?.menu_id;
           action = action ? action.split(",").map(Number) : [];
           let menuList = menu.filter((i) => action.includes(i.menu_id));
-          MockData[url].data = formatMenu(menuList);
+          console.log(menuList);
+          MockData[url] = menuList;
         }
         res(MockData[url]);
         return;
@@ -426,48 +416,7 @@ function post(url, data) {
   });
 }
 
-function formatMenu(list) {
-  const newList = list.map(item => ({ ...item }))
-  const menuMap = {};
-  const parentMenu = [];
-  newList.forEach((item) => {
-    // 当前 菜单的key
-    const currentKey = item['key'];
-    // 当前 菜单的父菜单key
-    const currentParentKey = item['parentKey'];
-    // 如果 映射表还没有值 就把当前项 赋值进去
-    if (!menuMap[currentKey]) {
-      menuMap[currentKey] = item;
-    } else {
-      // 有值 说明 有子项 保留子项 把当前值 赋值进去
-      item["children"] = menuMap[currentKey]["children"];
-      menuMap[currentKey] = item;
-    }
-    // 如果当前项 有父级
-    if (currentParentKey) {
-      // 父级还没有在映射表上
-      if (!menuMap[currentParentKey]) {
-        // 那就把映射上去 只有子集属性<Array>类型
-        menuMap[currentParentKey] = {
-          "children": [item],
-        };
-      } else if (
-        menuMap[currentParentKey] &&
-        !menuMap[currentParentKey]["children"]
-      ) {
-        // 父级在映射表上 不过 没子集
-        menuMap[currentParentKey]["children"] = [item];
-      } else {
-        // 父级有 子集合也有
-        menuMap[currentParentKey]["children"].push(item);
-      }
-    } else {
-      // 当前项是没有父级 那当前项就是父级项
-      parentMenu.push(item);
-    }
-  });
-  return parentMenu;
-}
+
 const mock = { get, post };
 
 export default mock;
