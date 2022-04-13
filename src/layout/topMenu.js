@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import MenuDnd from "@/components/menu-dnd";
 import MyIcon from "@/components/icon";
-import { withRouter } from "react-router-dom";
 import { reduceMenuList } from "@/utils";
 import { Breadcrumb } from "antd";
 import { getMenus } from "@/common";
@@ -60,4 +59,4 @@ function TopMenu({ childKey }) {
   );
 }
 
-export default connect(mapStateToProps, null)(withRouter(TopMenu));
+export default connect(mapStateToProps, null)(TopMenu);

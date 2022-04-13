@@ -205,6 +205,7 @@
   "resolutions": {
     "react-error-overlay": "6.0.9"
   },
+  "sideEffects": false,
   "MENUDATA": {
     "MENU_PATH": "path",
     "MENU_SHOW": "isShowOnMenu",

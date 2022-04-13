@@ -102,8 +102,8 @@ instance.interceptors.response.use(
   }
 );
 const rewirteGet = instance.get;
-instance.get = function (url, data) {
+instance.get = function (url, data, ...any) {
   let query = qs.stringify(data, { addQueryPrefix: true });
-  return rewirteGet(url + query);
+  return rewirteGet(url + query, ...any);
 };
 export default instance;

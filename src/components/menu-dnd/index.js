@@ -200,9 +200,7 @@ function MenuDnd({ openedMenu, history, filterOpenMenu, currentPath }) {
       visible={contextMenuVisible}
       setVisible={setVisible}
     />
-  </>
-
-  );
+  </>);
 }
 const mapStateToProps = (state) => ({
   openedMenu: state.menu.openedMenu,
