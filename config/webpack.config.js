@@ -494,6 +494,7 @@ module.exports = function (webpackEnv) {
         new MiniCssExtractPlugin({
           filename: "static/css/[name].[contenthash:8].css",
           chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
+          ignoreOrder: true
         }),
       new ManifestPlugin({
         fileName: "asset-manifest.json",
