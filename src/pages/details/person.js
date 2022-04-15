@@ -11,7 +11,7 @@ const tagInitVal = [
   { value: "跑步", color: "volcano" },
   { value: "web前端", color: "orange" },
   { value: "90后", color: "gold" },
-  { value: "workflows", color: "orange" },
+  { value: "workflows", color: "magenta" },
 ];
 function getRandomColor() {
   return "#" + Math.random().toString(16).slice(2, 8);
