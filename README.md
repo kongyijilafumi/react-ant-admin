@@ -44,6 +44,8 @@ nodejs 后台 web 服务:[react-ant-admin-server](https://gitee.com/kong_yiji_an
 
 欢迎各位提出建议与问题!
 
+## [接口文档地址](https://www.apifox.cn/apidoc/shared-9f3c246d-7ca8-4ef9-be4a-2802b68b93bb)
+
 ## 特性
 
 - 菜单配置:扁平化数据组织,方便编写,存库,页面菜单,标题,侧边栏,顶部导航栏同步
