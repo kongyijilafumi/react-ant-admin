@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import styleImport from 'vite-plugin-style-import';
 import ReactRouterGenerator from "vite-plugin-react-router-generator"
-
+import { resolve } from "path"
 function AntdLibImport() {
   return {
     libraryName: "antd",
@@ -14,11 +14,9 @@ function AntdLibImport() {
 }
 // https://vitejs.dev/config/
 export default defineConfig({
-  define: {
-  },
   plugins: [
     ReactRouterGenerator({
-      outputFile: "./src/router/auto.js",
+      outputFile: resolve(".", "./src/auto.jsx"),
       isLazy: false
     }),
     react(),
@@ -32,7 +30,7 @@ export default defineConfig({
     }
   },
   server: {
-    port: 3000,
-    open: true,
+    port: 3666,
+    // open: true,
   },
 })
