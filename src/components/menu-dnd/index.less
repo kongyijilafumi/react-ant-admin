@@ -1,0 +1,55 @@
+.dnd-body {
+  height     : 35px;
+  box-sizing : content-box;
+  white-space: nowrap;
+  overflow-x : scroll;
+  overflow-y : hidden;
+  font-size  : 0;
+
+  .dnd-items {
+    position        : relative;
+    display         : inline-block;
+    padding         : 10px 40px 5px 10px;
+    font-size       : 12px;
+    margin-right    : 2px;
+    background-color: @body-background;
+    box-sizing      : border-box;
+    cursor          : pointer !important;
+    color           : @text-color-secondary;
+    vertical-align  : text-bottom;
+    height          : 35px;
+
+    &.active {
+      background-color: @background-color-base;
+      color           : @text-color;
+
+      .anticon-close {
+        background-color: @error-color;
+      }
+
+      .anticon-close svg {
+        color: @heading-color;
+      }
+    }
+
+    &:focus {
+      outline: unset;
+    }
+
+
+    .anticon-close {
+      position     : absolute;
+      top          : 5px;
+      right        : 5px;
+      width        : 15px;
+      height       : 15px;
+      border-radius: 50%;
+
+      svg {
+        width : inherit;
+        height: inherit;
+        color : @text-color-secondary;
+      }
+    }
+  }
+}

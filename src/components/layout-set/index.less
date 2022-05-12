@@ -1,0 +1,64 @@
+.layoutset-container {
+  position: fixed;
+  right   : 0;
+  top     : 20%;
+
+  svg {
+    width           : 40px;
+    height          : 40px;
+    cursor          : pointer;
+    background-color: @primary-3;
+    transition      : background-color .3s;
+
+    &:hover {
+      background-color: @primary-4;
+    }
+  }
+}
+
+.layoutset-drawer {
+  .title {
+    margin     : 1em 0;
+    font-size  : 16px;
+    font-weight: bold;
+  }
+
+  .visibel-list {
+    margin: 10px 0;
+  }
+
+  .col {
+    width        : 50px;
+    height       : 40px;
+    border-radius: 4px;
+    overflow     : hidden;
+    cursor       : pointer;
+
+    &.active {
+      position  : relative;
+      background: @primary-2;
+
+      &::after {
+        content      : '';
+        position     : absolute;
+        right        : 10px;
+        bottom       : 5px;
+        width        : 10px;
+        height       : 20px;
+        border-right : 4px solid @primary-4;
+        border-bottom: 4px solid @primary-4;
+        transform    : rotate(45deg);
+
+      }
+    }
+
+    img {
+      width : 100%;
+      height: auto;
+    }
+  }
+
+  .save {
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,73 @@
+.set {
+  padding: 10px;
+
+
+
+  .anticon svg {
+    width           : 30px;
+    height          : 30px;
+    color           : @text-color;
+    background-color: @primary-color;
+
+    transition: all .3s;
+    cursor    : pointer;
+
+    &:hover {
+      background-color: @primary-4;
+      color           : @text-color-secondary;
+    }
+  }
+
+}
+
+.table-show-container {
+  .hidden {
+    display: none !important;
+  }
+}
+
+.table-drawer {
+
+
+  .drag-sort svg {
+    width : 25px;
+    height: 25px;
+  }
+
+  .mt20 {
+    margin-top: 20px;
+  }
+
+  .mt10 {
+    margin-top: 5px;
+
+    svg {
+      width : 15px;
+      height: 15px;
+    }
+  }
+
+  .del {
+    margin-left: 20px;
+  }
+}
+
+.row-dragging {
+  background: #fafafa;
+  border    : 1px solid #ccc;
+  z-index   : 10001;
+
+  .drag-visible {
+    visibility: visible;
+  }
+
+  td {
+    padding   : 16px;
+    visibility: hidden;
+
+    .drag-sort svg {
+      width : 25px;
+      height: 25px;
+    }
+  }
+}

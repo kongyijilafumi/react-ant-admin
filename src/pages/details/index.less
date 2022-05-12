@@ -1,0 +1,63 @@
+.person-container {
+  background-color: unset !important;
+  padding         : 0 !important;
+
+  .ant-card-cover {
+    text-align: center;
+
+    img {
+      border-radius: 50%;
+      width        : 50%;
+      margin       : 20px auto 0;
+    }
+  }
+
+  .ant-card-meta-detail {
+    text-align: center;
+  }
+
+  .info {
+    margin-top    : 20px;
+    padding-bottom: 20px;
+    border-bottom : 1px dashed @border-color-base;
+    text-align    : center;
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    .icon {
+      vertical-align: bottom;
+      padding-right : 10px;
+
+      svg {
+        width : 25px;
+        height: 25px;
+      }
+
+    }
+  }
+
+  .tags {
+    padding-top: 15px;
+
+    .wrapper {
+      margin-top: 10px;
+
+      &>* {
+        margin-bottom: 10px;
+      }
+    }
+
+    .ipt {
+      height : 22px;
+      width  : 60px;
+      padding: 2px 5px;
+    }
+  }
+
+  .tabs {
+    padding         : 0 20px;
+    background-color: @body-background;
+  }
+}

@@ -1,5 +1,13 @@
+import { Provider } from "react-redux";
+import store from "./store";
+import LayoutSet from "./components/layout-set";
+import AppRouter from "./router/appRouter";
 function App() {
-  return (<div>app</div>)
+  return (
+    <Provider store={store}>
+      <AppRouter />
+      <LayoutSet />
+    </Provider >
+  );
 }
-
-export default App
+export default App;

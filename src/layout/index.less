@@ -1,0 +1,191 @@
+
+.ant-menu-item {
+  align-items: center;
+  display    : flex;
+
+  .anticon {
+    font-size: 24px;
+  }
+}
+
+.fl {
+  float: left;
+}
+
+.my-layout-body {
+  min-height: 100vh;
+
+  &.twoflanks {
+    .layout-silder-menu {
+      height: 100vh;
+    }
+    .top-menu-wrapper{
+      margin:0 20px;
+    }
+  }
+
+  .ant-menu {
+    &.layout-silder-menu {
+      border-color: @border-color-split ;
+
+      &.col {
+        height        : 64px;
+        padding-bottom: 0;
+        overflow      : unset;
+      }
+    }
+
+    .ant-menu-submenu .ant-menu-submenu-title .anticon {
+      font-size     : 24px;
+      vertical-align: middle;
+
+    }
+
+    .ant-menu-item {
+      align-items: center;
+      display    : flex;
+
+      .anticon {
+        font-size: 24px;
+      }
+    }
+  }
+
+  .ant-layout-sider-children {
+    position: relative;
+    height  : auto;
+  }
+
+  .layout-content-wrap {
+    padding   : 0 24px 24px;
+    margin    : 0;
+    min-height: 200px;
+
+    &.reset-padding {
+      padding: 0;
+
+      .layout-content-body {
+        margin: 10px 20px 20px;
+      }
+
+    }
+  }
+
+  .layout-content-body {
+    margin-top: 10px;
+
+    &>div {
+      padding         : 20px;
+      min-height      : 100%;
+      background-color: @body-background;
+      border          : 1px solid @border-color-split;
+    }
+  }
+
+  .layout-silder-menu {
+    height        : calc(100vh - 64px);
+    padding-bottom: 32px;
+    overflow-y    : auto;
+  }
+
+  .ant-affix .layout-silder-menu {
+    height: 100vh;
+  }
+
+  .fold-control {
+    &.fixed {
+      position        : absolute;
+      bottom          : 0;
+      right           : 0;
+      width           : 100%;
+      background      : inherit;
+      border-right    : 1px solid @border-color-split;
+      background-color: @body-background;
+    }
+
+    .ant-btn {
+      width     : 100%;
+      background: unset;
+      color     : @text-color ;
+      border    : 0;
+      outline   : none;
+      transition: none;
+
+    }
+  }
+
+  .top-menu {
+    margin    : 10px 0 0;
+    overflow-x: auto;
+    background: @body-background;
+  }
+
+  .top-breadcrumb {
+    background-color: @body-background;
+    margin-top      : 10px;
+    padding         : 10px;
+    font-size       : 16px;
+    display         : flex;
+    align-items     : center;
+
+    svg {
+      width : 20px;
+      height: 20px;
+    }
+
+    &>span {
+
+      .anticon,
+      .title {
+        vertical-align: middle;
+        margin        : 0;
+      }
+
+      & .ant-breadcrumb-separator {
+        vertical-align: bottom;
+      }
+
+      &>span {
+        display: inline-block;
+      }
+    }
+  }
+
+  .header {
+    color           : @text-color ;
+    background-color: @body-background;
+    border-bottom   : 1px solid @border-color-base;
+
+    .logo {
+      float: left;
+
+
+      span {
+        vertical-align: middle;
+        padding       : 0 10px;
+        font-size     : 16px;
+      }
+
+      img {
+        width : 40px;
+        height: 40px;
+      }
+    }
+
+    .right {
+      float: right;
+    }
+
+    .right-down {
+      background-color: @border-color-split;
+    }
+  }
+
+  .footer {
+    text-align: center;
+
+    p {
+      margin-bottom: 5px;
+    }
+  }
+}

@@ -1,0 +1,32 @@
+.icons-container {
+  padding: 20px;
+  .mt10 {
+    margin-top: 10px;
+  }
+
+  .pd10 {
+    padding: 10px;
+  }
+
+  .icon-item {
+    padding        : 30px 0;
+    display        : flex;
+    justify-content: center;
+    flex-direction : column;
+    text-align     : center;
+    transition     : all .3s;
+
+    &:hover {
+      background-color: rgb(181, 222, 247);
+
+      svg {
+        transform: scale(1.2);
+      }
+    }
+    svg {
+      transition: all .3s;
+      width     : 50px;
+      height    : 50px;
+    }
+  }
+}

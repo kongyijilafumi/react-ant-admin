@@ -1,0 +1,51 @@
+.login-container {
+  background     : url("@/assets/images/bg.svg");
+  background-size: cover;
+  height         : 100vh;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+
+  .wrapper {
+    text-align: center;
+
+    .title {
+      font-size  : 28px;
+      font-weight: bold;
+    }
+
+    .welcome {
+      margin-top: 20px;
+    }
+
+    .login-form {
+      width : 300px;
+      margin: 50px auto;
+    }
+
+
+
+    .btns {
+      display        : flex;
+      justify-content: space-around;
+
+      .ant-form-item-control-input-content {
+        display        : flex;
+        justify-content: space-between;
+      }
+
+      .ant-btn {
+        // width: 100%;
+        width: 40%;
+      }
+    }
+
+    .ant-form label {
+      float: left;
+    }
+
+    .ant-form-item-explain-error {
+      text-align: left;
+    }
+  }
+}
