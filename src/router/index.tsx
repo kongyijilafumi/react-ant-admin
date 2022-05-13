@@ -54,7 +54,7 @@ const Router = ({ setStateMenuList }: RouterProps) => {
         return (
           <Route
             key={key}
-            path={ path}
+            path={path}
             element={<Intercept
               {...item}
               menuList={ajaxUserMenuList}

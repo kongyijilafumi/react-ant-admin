@@ -15,6 +15,9 @@ function AntdLibImport() {
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "/react-ant-admin",
+  build: {
+    outDir: "react-ant-admin"
+  },
   define: {
     MENU_PATH: `"path"`,
     MENU_SHOW: `"isShowOnMenu"`,
@@ -30,7 +33,7 @@ export default defineConfig({
   plugins: [
     ReactRouterGenerator({
       outputFile: resolve(".", "./src/router/auto.jsx"),
-      isLazy: false,
+      isLazy: true,
       comKey: "components"
     }),
     react(),

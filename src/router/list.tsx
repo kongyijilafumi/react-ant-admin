@@ -1,7 +1,8 @@
 import auto from "./auto";
 import { Navigate } from "react-router-dom";
 import Error from "@/pages/err"
-
+import loadable from "@loadable/component"
+import { Spin } from "antd";
 export interface RouterInfo {
   components: React.ReactNode
   [MENU_PATH]: string
@@ -36,8 +37,21 @@ const defaultArr: RouterInfo[] = [
     components: <Error />,
   },
 ];
-
-const list: RouterInfo[] = [...auto, ...defaultArr]
+const autoList: RouterInfo[] = []
+const fellbackStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  minHeight: 500,
+  fontSize: 24,
+};
+auto.forEach(item => {
+  const { components, ...anyProps } = item
+  const Com = loadable(item.components, { fallback: <Spin style={fellbackStyle} tip="页面加载中...." /> })
+  const info = { ...anyProps, components: <Com /> }
+  autoList.push(info)
+})
+const list: RouterInfo[] = [...autoList, ...defaultArr]
 
 
 export default list;

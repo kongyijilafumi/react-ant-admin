@@ -49,17 +49,17 @@ function Intercepts(props: Props) {
   }, [addOpenedMenuFn])
 
   const init = useCallback(() => {
-    if (title) {
-      document.title = title;
+    if (!title) {
+      return 
     }
+    document.title = title;
     const pagePath = location.pathname + (location.hash || location.search);
     const findInfo = openMenus.find((i) => i.path === pagePath);
     setPath(pagePath)
     setSelectedKeys([String(pageKey)]);
     let openkey = getMenuParentKey(menuList, pageKey);
     setOpenKeys(openkey);
-    console.log(findInfo);
-    
+
     addTopMenu(findInfo, pageKey, pagePath, title)
     window.scrollTo({
       top: 0,
