@@ -10,7 +10,7 @@ package-lock.json
 /src/assets/theme/*.json
 # testing
 /coverage
-/src/router/auto.js
+/src/router/auto*
 
 # production
 /react-ant-admin

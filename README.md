@@ -65,6 +65,26 @@ nodejs 后台 web 服务:[react-ant-admin-server](https://gitee.com/kong_yiji_an
 - 权限管理
 - 结果页
 
+## 切换 Vite 版本
+
+1. 切换分支
+
+```bash
+D:\react-ant-admin>git checkout vite
+```
+
+2. 安装依赖
+
+```bash
+D:\react-ant-admin>cnpm i
+```
+
+3. 启动
+
+```bash
+D:\react-ant-admin>npm run dev
+```
+
 ## 快速使用
 
 1. 下载本项目到本地
