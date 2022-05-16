@@ -95,21 +95,12 @@ npm run dev # 默认走代理请求线上接口 https://azhengpersonalblog.top
 
 ## 创建一个新的页面
 
-1. 在 src/pages 文件夹下创建一个 test.js 文件,代码如下
+1. 在 src/pages 文件夹下创建一个 test.tsx 文件,代码如下
 
 ```js
 // 函数组件
-import React from "react";
-
 export default function Test() {
   return <div>test页面</div>;
-}
-
-// 类组件
-export default class Test extends React.Component {
-  render() {
-    return <div>test页面</div>;
-  }
 }
 
 /**
