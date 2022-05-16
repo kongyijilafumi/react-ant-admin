@@ -1,6 +1,5 @@
 {
-  "name": "vite-blog",
-  "private": true,
+  "name": "react-ant-admin",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --mode dev",
