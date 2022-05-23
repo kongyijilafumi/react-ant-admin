@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import MyIcon from "@/components/icon";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Link, withRouter } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./index.less";
 import ContextMenu from "../contextMenu";
 import { connect } from "react-redux";
@@ -17,7 +17,8 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-function MenuDnd({ openedMenu, history, filterOpenMenu, currentPath }) {
+function MenuDnd({ openedMenu, filterOpenMenu, currentPath }) {
+  const history = useHistory();
   const [data, setData] = useState([]);
   const [contextMenuVisible, setVisible] = useState(false)
   const [currentItem, setCurrentItem] = useState(null)
@@ -212,4 +213,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(MenuDnd));
+)(MenuDnd);
