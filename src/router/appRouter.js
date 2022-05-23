@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, HashRouter } from "react-router-dom";
 import { Spin } from "antd";
 import Layout from "@/layout";
 import Login from "@pages/login";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserInfoAction } from "@/store/user/action";
 import { getLocalUser } from "@/utils";
+import { getStateUser } from "@/store/getters";
 
 const Router = process.env.REACT_APP_ROUTER_ISHASH === "1" ? HashRouter : BrowserRouter
 const RouterBasename = process.env.REACT_APP_ROUTERBASE || "/"
-const mapStateToProps = (state) => ({
-  userInfo: state.user,
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  setUser: (info) => dispatch(setUserInfoAction(info)),
-});
-
-function AppRouter({ userInfo, setUser }) {
+function AppRouter() {
   const [loading, setLoad] = useState(true);
+  const userInfo = useSelector(getStateUser)
+
+  const dispatch = useDispatch()
+  const setUser = useCallback((info) => dispatch(setUserInfoAction(info)), [dispatch])
   useEffect(() => {
     if (!userInfo) {
       let localInfo = getLocalUser();
@@ -44,4 +42,4 @@ function AppRouter({ userInfo, setUser }) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);
+export default AppRouter;

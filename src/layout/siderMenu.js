@@ -1,24 +1,15 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Button, Affix, Col } from "antd";
 import MyIcon from "@/components/icon";
 import { setOpenKey } from "@/store/action";
 import { stopPropagation } from "@/utils";
 import * as layoutTypes from "@/store/layout/actionTypes";
+import { getLayoutMode, getMenuList, getOpenMenuKey, getSelectMenuKey } from "@/store/getters";
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-const mapDispatchToProps = (dispatch) => ({
-  setOpenKeys: (val) => dispatch(setOpenKey(val)),
-});
-
-const mapStateToProps = (state) => ({
-  openKeys: state.menu.openMenuKey,
-  selectedKeys: state.menu.selectMenuKey,
-  layout: state.layout,
-  menuList: state.menu.menuList,
-});
 const SliderContent = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   // 折叠菜单
@@ -70,16 +61,16 @@ const renderMenu = (item, path = "") => {
   );
 };
 
-const SiderMenu = ({ openKeys, selectedKeys, setOpenKeys, layout, menuList }) => {
+const SiderMenu = () => {
+  const openMenuKey = useSelector(getOpenMenuKey)
+  const menuList = useSelector(getMenuList)
+  const layout = useSelector(getLayoutMode)
+  const selectMenuKey = useSelector(getSelectMenuKey)
+  const menuComponent = useMemo(() => menuList && menuList.map((i) => renderMenu(i, "")), [menuList]);
+  const dispatch = useDispatch()
 
-  const menuComponent = useMemo(
-    () => menuList && menuList.map((i) => renderMenu(i, "")),
-    [menuList]
-  );
   // 菜单组折叠
-  const onOpenChange = useCallback((keys) => {
-    setOpenKeys(keys);
-  }, [setOpenKeys]);
+  const onOpenChange = useCallback((keys) => dispatch(setOpenKey(keys)), [dispatch]);
   // classname
   const clsName = useMemo(() => {
     if (layout !== layoutTypes.SINGLE_COLUMN) {
@@ -108,13 +99,12 @@ const SiderMenu = ({ openKeys, selectedKeys, setOpenKeys, layout, menuList }) =>
         triggerSubMenuAction="click"
         className={clsName}
         onOpenChange={onOpenChange}
-        openKeys={openKeys}
-        selectedKeys={selectedKeys}
-      >
-        {menuComponent}
-      </Menu>
+        openKeys={openMenuKey}
+        selectedKeys={selectMenuKey}
+        children={menuComponent}
+      />
     </WrapContainer>
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SiderMenu);
+export default SiderMenu

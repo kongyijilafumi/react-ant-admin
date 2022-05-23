@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { Route } from "react-router-dom";
 import { CacheRoute, CacheSwitch } from "react-router-cache-route";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserMenu } from "@/store/action";
 import routerList from "./list";
 import Intercept from "./intercept.js";
@@ -69,12 +69,11 @@ function useRouter(setStateMenuList) {
   return { routerBody };
 }
 
-const Router = ({ setStateMenuList }) => {
+const Router = () => {
+  const dispatch = useDispatch()
+  const setStateMenuList = useCallback((list) => dispatch(setUserMenu(list)), [dispatch])
   const { routerBody } = useRouter(setStateMenuList);
   return <CacheSwitch>{routerBody}</CacheSwitch>;
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  setStateMenuList: (list) => dispatch(setUserMenu(list)),
-});
-export default connect(null, mapDispatchToProps)(Router);
+export default Router;

@@ -1,0 +1,1 @@
+export const getComponentsVisible = (state) => state.componentsVisible

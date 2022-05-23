@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import MenuDnd from "@/components/menu-dnd";
 import MyIcon from "@/components/icon";
 import { reduceMenuList } from "@/utils";
 import { Breadcrumb } from "antd";
 import { getMenus } from "@/common";
-
-const mapStateToProps = (state) => ({
-  childKey: state.menu.selectMenuKey,
-});
+import { getSelectMenuKey } from "@/store/getters";
 
 function getParent(list, parentKey) {
   return list.find((i) => i[MENU_KEY] === parentKey);
@@ -28,16 +25,16 @@ async function getBreadArray(ckey) {
   return arr;
 }
 
-function TopMenu({ childKey }) {
+function TopMenu() {
   const [breadArr, setBread] = useState([]);
-
+  const selectMenuKey = useSelector(getSelectMenuKey)
   useEffect(() => {
     async function get() {
-      let data = await getBreadArray(childKey[0]);
+      let data = await getBreadArray(selectMenuKey[0]);
       setBread(data);
     }
     get();
-  }, [childKey]);
+  }, [selectMenuKey]);
 
   return (
     <div className="top-menu-wrapper">
@@ -59,4 +56,4 @@ function TopMenu({ childKey }) {
   );
 }
 
-export default connect(mapStateToProps, null)(TopMenu);
+export default TopMenu

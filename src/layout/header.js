@@ -1,21 +1,13 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Layout, Menu, Dropdown } from "antd";
 import logo from "@/assets/images/logo.svg";
 import MyIcon from "@/components/icon/";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getStateUser } from "@/store/getters";
 import { clearUser } from "@/store/user/action";
-import { setKey, saveToken, clearLocalDatas, } from "@/utils";
+import { clearLocalDatas } from "@/utils";
 import { USER_INFO, TOKEN, MENU, } from "@/common"
 const { Header } = Layout;
-const mapStateToProps = (state) => ({
-  userInfo: state.user,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  clearStateUser: () => {
-    dispatch(clearUser());
-  },
-});
 
 const RightMenu = ({ logout }) => (
   <Menu className="right-down">
@@ -31,16 +23,15 @@ const RightMenu = ({ logout }) => (
 
 const getPopupContainer = (HTMLElement) => HTMLElement;
 
-const LayoutHeader = ({ userInfo, clearStateUser, children }) => {
-  const logout = () => {
+const LayoutHeader = ({ children }) => {
+  const userInfo = useSelector(getStateUser)
+  const dispatch = useDispatch()
+  const clearStateUser = useCallback(() => dispatch(clearUser()), [dispatch])
+  const logout = useCallback(() => {
     clearLocalDatas([USER_INFO, TOKEN, MENU]);
-    if (userInfo) {
-      setKey(true, USER_INFO, { ...userInfo, isLogin: false });
-    }
-    saveToken();
     window.location.reload();
-    clearStateUser(userInfo);
-  };
+    clearStateUser();
+  }, [clearStateUser]);
   return (
     <Header className="header">
       <div className="logo">
@@ -60,4 +51,4 @@ const LayoutHeader = ({ userInfo, clearStateUser, children }) => {
     </Header>
   );
 };
-export default connect(mapStateToProps, mapDispatchToProps)(LayoutHeader);
+export default LayoutHeader

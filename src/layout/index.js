@@ -1,12 +1,12 @@
 import { SingleColumn, TowColumn, TwoFlanks } from "./mode";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import * as ActionTypes from "../store/layout/actionTypes";
+import { getComponentsVisible, getLayoutMode } from "@/store/getters";
 import "./index.less";
-const mapStateToProps = (state) => ({
-  LayoutMode: state.layout,
-  visibel: state.componentsVisible,
-});
-function LayoutContainer({ LayoutMode, visibel }) {
+
+export default function LayoutContainer() {
+  const LayoutMode = useSelector(getLayoutMode)
+  const visibel = useSelector(getComponentsVisible)
   switch (LayoutMode) {
     case ActionTypes.SINGLE_COLUMN:
       return <SingleColumn visibel={visibel} />;
@@ -18,5 +18,3 @@ function LayoutContainer({ LayoutMode, visibel }) {
       return null;
   }
 }
-
-export default connect(mapStateToProps, null)(LayoutContainer);

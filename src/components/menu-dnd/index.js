@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import MyIcon from "@/components/icon";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Link, useHistory } from "react-router-dom";
-import "./index.less";
-import ContextMenu from "../contextMenu";
-import { connect } from "react-redux";
-import { filterOpenKey } from "@/store/action";
 import { message } from "antd";
+import { Link, useHistory } from "react-router-dom";
+import ContextMenu from "../contextMenu";
+import { useDispatch, useSelector } from "react-redux";
+import { filterOpenKey } from "@/store/action";
+import { getCurrentPath, getOpenedMenu } from "@/store/getters";
+import "./index.less";
+
 // 重新记录数组顺序
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -17,13 +19,17 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-function MenuDnd({ openedMenu, filterOpenMenu, currentPath }) {
+export default function MenuDnd() {
   const history = useHistory();
   const [data, setData] = useState([]);
   const [contextMenuVisible, setVisible] = useState(false)
   const [currentItem, setCurrentItem] = useState(null)
   const [point, setPoint] = useState({ x: 0, y: 0 })
-
+  // state
+  const dispatch = useDispatch()
+  const openedMenu = useSelector(getOpenedMenu)
+  const currentPath = useSelector(getCurrentPath)
+  const filterOpenMenu = useCallback((key) => dispatch(filterOpenKey(key)), [dispatch])
 
   // 根据 选中的菜单 往里添加拖拽选项
   useEffect(() => {
@@ -203,14 +209,3 @@ function MenuDnd({ openedMenu, filterOpenMenu, currentPath }) {
     />
   </>);
 }
-const mapStateToProps = (state) => ({
-  openedMenu: state.menu.openedMenu,
-  currentPath: state.menu.currentPath
-})
-const mapDispatchToProps = (dispatch) => ({
-  filterOpenMenu: (key) => dispatch(filterOpenKey(key)),
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MenuDnd);
