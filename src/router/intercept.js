@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { addOpenedMenu, setOpenKey, setSelectKey, setCurrentPath } from "@/store/menu/action";
 import { useDispatch, useSelector } from "react-redux";
 import { getMenuParentKey } from "@/utils";
@@ -22,7 +22,7 @@ function Intercept({ menuList, components: Components, history, [MENU_TITLE]: ti
   const setOpenKeys = useCallback((val) => dispatch(setOpenKey(val)), [dispatch])
   const setSelectedKeys = useCallback((val) => dispatch(setSelectKey(val)), [dispatch])
   const addOpenedMenuFn = useCallback((val) => dispatch(addOpenedMenu(val)), [dispatch])
-
+  const [pageInit, setPageInit] = useState(false)
   const pushMenu = useCallback((info, key, path, title) => {
     if (!info) {
       addOpenedMenuFn({ key, path, title })
@@ -57,7 +57,12 @@ function Intercept({ menuList, components: Components, history, [MENU_TITLE]: ti
     scrollPage()
   }, [setInfo, scrollPage])
 
-  useEffect(init, [init])
+  useEffect(() => {
+    if (!pageInit) {
+      init()
+      setPageInit(true)
+    }
+  }, [init, pageInit])
 
   useDidRecover(init, [init])
 
