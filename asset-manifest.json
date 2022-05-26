@@ -14,10 +14,10 @@
     "static/css/6.fe2013ef.chunk.css": "/react-ant-admin/static/css/6.fe2013ef.chunk.css",
     "static/js/6.4a2a8869.chunk.js": "/react-ant-admin/static/js/6.4a2a8869.chunk.js",
     "main.css": "/react-ant-admin/static/css/main.da713014.chunk.css",
-    "main.js": "/react-ant-admin/static/js/main.21c2742f.chunk.js",
-    "runtime-main.js": "/react-ant-admin/static/js/runtime-main.cfd8f3fa.js",
+    "main.js": "/react-ant-admin/static/js/main.f64c308a.chunk.js",
+    "runtime-main.js": "/react-ant-admin/static/js/runtime-main.7be70100.js",
     "static/css/9.5babf99e.chunk.css": "/react-ant-admin/static/css/9.5babf99e.chunk.css",
-    "static/js/9.e8431f74.chunk.js": "/react-ant-admin/static/js/9.e8431f74.chunk.js",
+    "static/js/9.7b10a3a7.chunk.js": "/react-ant-admin/static/js/9.7b10a3a7.chunk.js",
     "static/css/10.6639152b.chunk.css": "/react-ant-admin/static/css/10.6639152b.chunk.css",
     "static/js/10.cef50e3f.chunk.js": "/react-ant-admin/static/js/10.cef50e3f.chunk.js",
     "static/css/11.8ec74a91.chunk.css": "/react-ant-admin/static/css/11.8ec74a91.chunk.css",
@@ -37,7 +37,7 @@
     "static/css/18.017b2570.chunk.css": "/react-ant-admin/static/css/18.017b2570.chunk.css",
     "static/js/18.822b2282.chunk.js": "/react-ant-admin/static/js/18.822b2282.chunk.js",
     "static/css/19.dba3c9f9.chunk.css": "/react-ant-admin/static/css/19.dba3c9f9.chunk.css",
-    "static/js/19.faa68801.chunk.js": "/react-ant-admin/static/js/19.faa68801.chunk.js",
+    "static/js/19.63657b31.chunk.js": "/react-ant-admin/static/js/19.63657b31.chunk.js",
     "static/css/20.e1ffd4f7.chunk.css": "/react-ant-admin/static/css/20.e1ffd4f7.chunk.css",
     "static/js/20.b96eea13.chunk.js": "/react-ant-admin/static/js/20.b96eea13.chunk.js",
     "static/js/21.925085a8.chunk.js": "/react-ant-admin/static/js/21.925085a8.chunk.js",
@@ -55,15 +55,15 @@
     "index.html": "/react-ant-admin/index.html",
     "static/js/10.cef50e3f.chunk.js.LICENSE.txt": "/react-ant-admin/static/js/10.cef50e3f.chunk.js.LICENSE.txt",
     "static/js/4.2fe70b65.chunk.js.LICENSE.txt": "/react-ant-admin/static/js/4.2fe70b65.chunk.js.LICENSE.txt",
-    "static/js/9.e8431f74.chunk.js.LICENSE.txt": "/react-ant-admin/static/js/9.e8431f74.chunk.js.LICENSE.txt",
+    "static/js/9.7b10a3a7.chunk.js.LICENSE.txt": "/react-ant-admin/static/js/9.7b10a3a7.chunk.js.LICENSE.txt",
     "static/media/index.less": "/react-ant-admin/static/media/bg.ebcb9160.svg",
     "static/media/logo.9bc8753a.svg": "/react-ant-admin/static/media/logo.9bc8753a.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.cfd8f3fa.js",
+    "static/js/runtime-main.7be70100.js",
     "static/css/9.5babf99e.chunk.css",
-    "static/js/9.e8431f74.chunk.js",
+    "static/js/9.7b10a3a7.chunk.js",
     "static/css/main.da713014.chunk.css",
-    "static/js/main.21c2742f.chunk.js"
+    "static/js/main.f64c308a.chunk.js"
   ]
 }
