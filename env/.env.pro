@@ -1,3 +1,0 @@
-REACT_APP_ROUTERBASE=/react-ant-admin
-REACT_APP_API_BASEURL=/api
-REACT_APP_MODE=production

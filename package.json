@@ -2,9 +2,10 @@
   "name": "react-ant-admin",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --mode dev",
-    "dev:mock": "vite --mode devMock",
-    "build": "vite --mode pro build",
+    "dev": "env-cmd --verbose -e dev vite",
+    "dev:mock": "env-cmd --verbose -e dev_mock vite",
+    "dev:color": "env-cmd --verbose -e dev_color node ./color.js && env-cmd --verbose -e dev_color vite",
+    "build": "env-cmd --verbose -e build vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "dayjs": "^1.10.5",
     "echarts": "^5.1.2",
     "echarts-for-react": "^3.0.1",
+    "env-cmd": "^10.1.0",
     "less": "^4.1.2",
     "less-loader": "^10.2.0",
     "qs": "^6.10.3",
