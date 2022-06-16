@@ -1,0 +1,25 @@
+// 全局样式
+.hide-scrollbar {
+  scrollbar-width   : none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+#root {
+  position: relative;
+}
+
+.loading-page {
+  width  : 100%;
+  height : 100vh;
+  z-index: 1;
+
+  .ant-spin-text {
+    margin-top: 20px;
+    font-size : 15px;
+    color     : #000;
+  }
+}
