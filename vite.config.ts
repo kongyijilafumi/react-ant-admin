@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react'
 import styleImport from 'vite-plugin-style-import';
 import ReactRouterGenerator from "vite-plugin-react-router-generator"
 import { resolve } from "path"
+import { createHtmlPlugin } from 'vite-plugin-html'
+
 function AntdLibImport() {
   return {
     libraryName: "antd",
@@ -37,11 +39,19 @@ export default defineConfig({
       comKey: "components"
     }),
     react(),
-    styleImport({ libs: [AntdLibImport()] })
+    styleImport({ libs: [AntdLibImport()] }),
+    createHtmlPlugin({
+      inject: {
+        data: {
+          isShowColor: process.env.REACT_APP_COLOR === "1"
+        }
+      }
+    })
   ],
   resolve: {
     alias: {
-      "@": resolve(".", "./src")
+      "@": resolve(".", "./src"),
+      "~": resolve(".","./node_modules")
     },
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', ".less"]
   },
@@ -50,13 +60,13 @@ export default defineConfig({
       less: {
         javascriptEnabled: true,
         charset: false,
-        additionalData: `@import "${resolve(".", "./src/assets/theme/var.less")}";`,
+        additionalData: `@import "${resolve(".", "./theme/var.less")}";`,
       },
     }
   },
   server: {
     port: 3000,
-    open: true,
+    open: false,
     host: true,
     proxy: {
       '^/api': {
@@ -69,5 +79,4 @@ export default defineConfig({
     },
   },
   envPrefix: "REACT_APP_",
-  envDir: "./env"
 })

@@ -2,10 +2,11 @@
   "name": "react-ant-admin",
   "version": "0.0.0",
   "scripts": {
-    "dev": "env-cmd --verbose -e dev vite",
-    "dev:mock": "env-cmd --verbose -e dev_mock vite",
+    "dev": "env-cmd --verbose -e dev node ./color.js && env-cmd --verbose -e dev vite",
+    "dev:mock": "env-cmd --verbose -e dev_mock node ./color.js && env-cmd --verbose -e dev_mock vite",
     "dev:color": "env-cmd --verbose -e dev_color node ./color.js && env-cmd --verbose -e dev_color vite",
-    "build": "env-cmd --verbose -e build vite build",
+    "build": "env-cmd --verbose -e build node ./color.js && env-cmd --verbose -e build vite build",
+    "build:color": "env-cmd --verbose -e build_color node ./color.js && env-cmd --verbose -e build_color vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -19,8 +20,10 @@
     "@types/qs": "^6.9.7",
     "@types/react": "^18.0.0",
     "@types/react-beautiful-dnd": "^13.1.2",
+    "@types/react-color": "^3.0.6",
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^1.3.0",
+    "ant-theme-generator": "^1.0.4",
     "antd": "4.16.13",
     "array-move": "^3.0.1",
     "axios": "^0.21.1",
@@ -32,12 +35,14 @@
     "less-loader": "^10.2.0",
     "qs": "^6.10.3",
     "react-beautiful-dnd": "^13.1.0",
+    "react-color": "^2.19.3",
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
     "react-sortable-hoc": "^2.0.0",
     "redux": "^4.2.0",
     "typescript": "^4.6.3",
     "vite": "^2.9.2",
+    "vite-plugin-html": "^3.2.0",
     "vite-plugin-react-router-generator": "^1.0.4",
     "vite-plugin-style-import": "1.1.1"
   }

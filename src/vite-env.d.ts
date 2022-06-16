@@ -20,6 +20,7 @@ declare namespace NodeJS {
 }
 interface Window {
   __REDUX_DEVTOOLS_EXTENSION__?: () => any
+  less: any
 }
 
 
@@ -28,6 +29,7 @@ interface ImportMetaEnv {
   readonly REACT_APP_ROUTERBASE: string
   readonly REACT_APP_API_BASEURL: string
   readonly REACT_APP_MOCK: string
+  readonly REACT_APP_COLOR: string
 }
 
 interface ImportMeta {

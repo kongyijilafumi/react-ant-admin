@@ -1,0 +1,54 @@
+.set-theme {
+
+  .icon {
+    position        : fixed;
+    display         : flex;
+    flex-direction  : column;
+    justify-content : center;
+    right           : 20px;
+    bottom          : 50px;
+    width           : 45px;
+    height          : 45px;
+    background-color: #fff;
+    box-shadow      : 0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05);
+    border-radius   : 50%;
+    cursor          : pointer;
+
+    svg {
+      width : 45px;
+      height: 45px;
+    }
+  }
+
+
+
+}
+
+.drawer {
+  .ant-drawer-content {
+    background-color: @body-background;
+  }
+
+  .del {
+    margin-left: 15px;
+  }
+}
+
+.color-row {
+  padding    : 10px;
+  align-items: center;
+  color      : @heading-color;
+
+  &.primary {
+    color  : @primary-color;
+    padding: 20px 10px 0;
+  }
+
+  .color-btn {
+    margin-left  : 5px;
+    width        : 100px;
+    height       : 30px;
+    border       : 5px solid @border-color-base ;
+    border-radius: 5px;
+  }
+}

@@ -48,7 +48,7 @@ nodejs 后台 web 服务:[react-ant-admin-server](https://gitee.com/kong_yiji_an
 - 页面懒加载:使用[@loadable/component](https://loadable-components.com/docs/getting-started/)来解决首次打开页面过慢的问题.
 - Ajax 请求：restful 规范，自动错误提示，提示可配置；自动打断未完成的请求；
 - 权限控制: 根据不用角色的功能类型显示菜单,路由页面拦截.
-- ~~自定义主题，可以自己定义界面颜色。~~
+- 自定义主题，可以自己定义界面颜色。
 - 代理转发，解决前端请求跨域问题。
 - 路由自动生成，去中心化。
 

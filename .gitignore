@@ -6,16 +6,18 @@
 .pnp.js
 yarn.lock
 package-lock.json
-/color.js*
-/src/assets/theme/*.json
 # testing
 /coverage
-/src/router/auto.*
 
-# production
-/react-ant-admin
+
+# gen file
+/theme/**
+!/theme/var.less
 /public/color.less
-/public/index.html
+/react-ant-admin
+/src/router/auto.**
+# production
+
 # misc
 .DS_Store
 .env.local
