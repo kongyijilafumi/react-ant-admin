@@ -1,7 +1,8 @@
 import { createFromIconfontCN } from "@ant-design/icons";
 import * as React from 'react';
+import iconfont from "/public/iconfont.js?url"
 const MyIcon = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_2467607_sf5ou36jx9q.js", // 在 iconfont.cn 上生成
+  scriptUrl: iconfont, // 在 iconfont.cn 上生成
 });
 
 interface IconProps extends React.HTMLProps<HTMLSpanElement> {
