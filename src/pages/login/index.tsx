@@ -1,20 +1,14 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Form, Input, Button, Checkbox, message } from "antd";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import MyIcon from "@/components/icon";
 import { saveUser, getLocalUser, saveToken } from "@/utils";
 import { setUserInfoAction } from "@/store/user/action";
 import { login } from "@/api";
-import { UserInfo, Dispatch } from "@/types"
+import { UserInfo } from "@/types"
 import "./index.less";
 
-interface LoginProps {
-  setUserInfo: (info: UserInfo) => void
-}
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setUserInfo: (info: UserInfo) => dispatch(setUserInfoAction(info)),
-});
 
 const IPT_RULE_USERNAME = [
   {
@@ -30,16 +24,18 @@ const IPT_RULE_PASSWORD = [
   },
 ];
 
-function useLogin(setUserInfo: LoginProps["setUserInfo"]) {
+function Login() {
   const [btnLoad, setBtnLoad] = useState(false);
-  const onFinish = (values: any) => {
+  const dispatch = useDispatch()
+  const setUserInfo = useCallback((info: UserInfo) => dispatch(setUserInfoAction(info)), [dispatch])
+  const onFinish = useCallback((values: any) => {
     setBtnLoad(true);
     login(values)
       .then((res) => {
         const { data, msg, status, token } = res;
         setBtnLoad(false);
         if (status === 1 && !data) return;
-        const info = Object.assign(data, { isLogin: true })
+        const info = Object.assign({ isLogin: true }, data)
         saveToken(token);
         message.success(msg);
         if (values.remember) {
@@ -50,12 +46,7 @@ function useLogin(setUserInfo: LoginProps["setUserInfo"]) {
       .catch(() => {
         setBtnLoad(false);
       });
-  };
-  return { btnLoad, onFinish };
-}
-
-function Login({ setUserInfo }: LoginProps) {
-  const { btnLoad, onFinish } = useLogin(setUserInfo);
+  }, [setUserInfo]);
   return (
     <div className="login-container">
       <div className="wrapper">
@@ -105,4 +96,4 @@ function Login({ setUserInfo }: LoginProps) {
   );
 }
 
-export default connect(null, mapDispatchToProps)(Login);
+export default Login;

@@ -1,19 +1,13 @@
 import { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import MenuDnd from "@/components/menu-dnd";
 import MyIcon from "@/components/icon";
 import { reduceMenuList } from "@/utils";
 import { Breadcrumb } from "antd";
 import { getMenus } from "@/common";
-import { State, MenuItem, MenuList } from "@/types"
+import { MenuItem, MenuList } from "@/types"
+import { useSelector } from "react-redux";
+import { getStateSelectMenuKey } from "@/store/getter";
 
-type Props = {
-  childKey: string
-}
-
-const mapStateToProps = (state: State) => ({
-  childKey: state.menu.selectMenuKey,
-});
 
 function getParent(list: MenuList, parentKey: string): MenuItem | undefined {
   return list.find((i) => i.key === parentKey);
@@ -36,16 +30,16 @@ async function getBreadArray(ckey: string) {
 
 const InitData: MenuItem[] = []
 
-function TopMenu({ childKey }: Props | any) {
+function TopMenu() {
   const [breadArr, setBread] = useState(InitData);
-
+  const selectMenuKey = useSelector(getStateSelectMenuKey)
   useEffect(() => {
     async function get() {
-      let data = await getBreadArray(childKey[0]);
+      let data = await getBreadArray(selectMenuKey[0]);
       setBread(data);
     }
     get();
-  }, [childKey]);
+  }, [selectMenuKey]);
 
 
 
@@ -69,4 +63,4 @@ function TopMenu({ childKey }: Props | any) {
   );
 }
 
-export default connect(mapStateToProps, null)(TopMenu);
+export default TopMenu;

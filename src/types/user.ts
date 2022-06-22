@@ -4,7 +4,7 @@ export type UserInfo = {
   type: string
   user_id: number
   username: string
-  isLogin: boolean
+  isLogin?: boolean
 } | null
 
 export type UserAction = {

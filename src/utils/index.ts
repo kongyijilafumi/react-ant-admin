@@ -3,7 +3,7 @@ import { MenuItem, MenuList, UserInfo, LayoutMode, MenuResponse, State, MenuMap 
 export const USER_INFO = "USER_INFO";
 export const TOKEN = "REACT_ADMIN_TOKEN";
 export const MENU = "MENU";
-export const VISIBEL = "COMPONENTS_VISIBEL";
+export const VISIBLE = "COMPONENTS_VISIBLE";
 export const LAYOUT_MODE = "LAYOUT_MODE";
 
 interface MenuOpenData {
@@ -173,11 +173,11 @@ function clearLocalDatas(keys: string[]) {
     rmKey(false, key);
   });
 }
-function getCompVisibel(): State["componentsVisible"] | null {
-  return getKey(true, VISIBEL);
+function getCompVisible(): State["componentsVisible"] | null {
+  return getKey(true, VISIBLE);
 }
-function setCompVisibel(val: State["componentsVisible"]) {
-  return setKey(true, VISIBEL, val);
+function setCompVisible(val: State["componentsVisible"]) {
+  return setKey(true, VISIBLE, val);
 }
 
 export {
@@ -199,6 +199,6 @@ export {
   getLayoutMode,
   setLayoutMode,
   clearLocalDatas,
-  getCompVisibel,
-  setCompVisibel,
+  getCompVisible,
+  setCompVisible,
 };

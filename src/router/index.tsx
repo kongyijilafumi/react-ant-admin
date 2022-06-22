@@ -1,23 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { connect } from "react-redux";
 import { setUserMenu } from "@/store/action";
 import routerList, { RouterInfo } from "./list";
 import Intercept from "./intercept";
 import { getMenus } from "@/common";
 import { formatMenu, reduceMenuList } from "@/utils";
-import { MenuList, Dispatch } from "@/types"
+import { MenuList } from "@/types"
+import { useDispatch } from "react-redux";
 
-type setStateMenuListFn = (list: MenuList) => void
-interface RouterProps {
-  setStateMenuList: setStateMenuListFn
-}
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setStateMenuList: (list: MenuList) => dispatch(setUserMenu(list)),
-});
-
-const Router = ({ setStateMenuList }: RouterProps) => {
+const Router = () => {
+  const dispatch = useDispatch()
+  const setStateMenuList = useCallback((list: MenuList) => dispatch(setUserMenu(list)), [dispatch])
   const [mergeRouterList, setMergeList] = useState<RouterInfo[]>([]);// 本地 和 接口返回的路由列表 合并的结果
   const [ajaxUserMenuList, setAjaxUserMenuList] = useState<MenuList>([]); // 网络请求回来的 路由列表
 
@@ -69,4 +63,4 @@ const Router = ({ setStateMenuList }: RouterProps) => {
   return <Routes>{routerBody}</Routes>;
 };
 
-export default connect(null, mapDispatchToProps)(Router);
+export default Router;

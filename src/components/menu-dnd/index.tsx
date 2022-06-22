@@ -3,11 +3,12 @@ import MyIcon from "@/components/icon";
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { Link, useNavigate } from "react-router-dom";
 import "./index.less";
-import { OpenedMenu, State, Dispatch } from "@/types"
-import { connect } from "react-redux";
+import { OpenedMenu } from "@/types"
+import { useDispatch, useSelector } from "react-redux";
 import { filterOpenKey } from "@/store/action";
 import { message } from "antd";
 import ContextMenu, { CloseType } from "../contextMenu";
+import { getStateCurrentPath, getStateOpenMenu } from "@/store/getter";
 // 重新记录数组顺序
 const reorder = (list: OpenedMenu[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
@@ -17,18 +18,17 @@ const reorder = (list: OpenedMenu[], startIndex: number, endIndex: number) => {
   result.splice(endIndex, 0, removed);
   return result;
 };
-interface DndProps {
-  openedMenu: OpenedMenu[]
-  filterOpenMenu: (m: string[]) => void
-  currentPath: string
-}
 
-function MenuDnd({ openedMenu, filterOpenMenu, currentPath }: DndProps) {
+function MenuDnd() {
   const [data, setData] = useState<OpenedMenu[]>([]);
   const [contextMenuVisible, setVisible] = useState(false)
   const [currentItem, setCurrentItem] = useState<OpenedMenu | null>(null)
   const [point, setPoint] = useState({ x: 0, y: 0 })
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const openedMenu = useSelector(getStateOpenMenu)
+  const currentPath = useSelector(getStateCurrentPath)
+  const filterOpenMenu = useCallback((key: string[]) => dispatch(filterOpenKey(key)), [dispatch])
   // 根据 选中的菜单 往里添加拖拽选项
   useEffect(() => {
     if (data.length !== openedMenu.length) {
@@ -208,11 +208,4 @@ function MenuDnd({ openedMenu, filterOpenMenu, currentPath }: DndProps) {
   </>);
 }
 
-const mapStateToProps = (state: State) => ({
-  openedMenu: state.menu.openedMenu,
-  currentPath: state.menu.currentPath
-})
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  filterOpenMenu: (key: string[]) => dispatch(filterOpenKey(key)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(MenuDnd);
+export default MenuDnd

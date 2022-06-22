@@ -1,40 +1,32 @@
 import { Result, Button } from "antd";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDefaultMenu, } from "@/utils";
 import { filterOpenKey } from "@/store/menu/action";
-import { State, Dispatch } from "@/types"
-import { useNavigate } from "react-router-dom";
-const mapStateToProps = (state: State) => ({
-  openMenus: state.menu.openedMenu,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  filterOpenKeyFn: (key: string[]) => dispatch(filterOpenKey(key)),
-});
+import { useLocation, useNavigate } from "react-router-dom";
+import { useCallback } from "react";
+import { getStateOpenMenu } from "@/store/getter";
 
 interface ErrProps {
-  openMenus: State["menu"]["openedMenu"]
-  filterOpenKeyFn: (key: string[]) => void
   status: 403 | 404 | 500 | '403' | '404' | '500'
   errTitle: string
   subTitle: string
   [name: string]: any
 }
 
-function useErrorPage(props: ErrProps) {
+
+function ErrorPage(props: ErrProps) {
   const {
-    openMenus,
-    filterOpenKeyFn,
     status = "404",
     errTitle = "404",
     subTitle = "Sorry, the page you visited does not exist.",
-    location
   } = props;
+  const dispatch = useDispatch()
+  const filterOpenKeyFn = useCallback((key: string[]) => dispatch(filterOpenKey(key)), [dispatch])
   const navigate = useNavigate()
-  const back = async () => {
-    const url =
-      location.pathname +
-      (location.hash || location.search);
+  const location = useLocation()
+  const openMenus = useSelector(getStateOpenMenu)
+  const back = useCallback(async () => {
+    const url = location.pathname + (location.hash || location.search);
     // 顶部一个或以下被打开
     if (openMenus.length <= 1) {
       filterOpenKeyFn([url]);
@@ -49,12 +41,7 @@ function useErrorPage(props: ErrProps) {
     filterOpenKeyFn([url]);
     const next = menuList[menuList.length - 1];
     navigate(next.path, { replace: true });
-  };
-  return { status, errTitle, subTitle, back };
-}
-
-function ErrorPage(props: ErrProps) {
-  const { status, errTitle, subTitle, back } = useErrorPage(props);
+  }, [location, navigate, filterOpenKeyFn, openMenus]);
   return (
     <Result
       status={status}
@@ -69,4 +56,4 @@ function ErrorPage(props: ErrProps) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ErrorPage);
+export default ErrorPage;

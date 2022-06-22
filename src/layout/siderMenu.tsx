@@ -1,37 +1,16 @@
-import React, { useMemo, useState } from "react";
-import { connect } from "react-redux";
+import React, { useCallback, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Button, Affix, Col } from "antd";
 import MyIcon from "@/components/icon";
 import { setOpenKey } from "@/store/action";
 import { stopPropagation } from "@/utils";
-import { State, MenuList, Dispatch, MenuItem } from "@/types"
+import { MenuItem } from "@/types"
 import * as layoutTypes from "@/store/layout/actionTypes";
-
-interface SiderMenuProps {
-  openKeys: State["menu"]["openMenuKey"]
-  selectedKeys: State["menu"]["selectMenuKey"]
-  setOpenKeys: (val: string[]) => void
-  layout: State["layout"],
-  menuList: MenuList
-}
-
-
+import { getStateLayout, getStateMenuList, getstateOpenMenuKey, getStateSelectMenuKey } from "@/store/getter";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setOpenKeys: (val: string[]) => dispatch(setOpenKey(val)),
-});
-
-const mapStateToProps = (state: State) => ({
-  openKeys: state.menu.openMenuKey,
-  selectedKeys: state.menu.selectMenuKey,
-  menuList: state.menu.menuList,
-  layout: state.layout
-});
-
 
 const renderMenu = (item: MenuItem, path: string) => {
   if (item[MENU_SHOW] === false) {
@@ -81,22 +60,20 @@ const SliderContent = ({ children }: { children: JSX.Element }) => {
     </Affix>
   );
 };
-const SiderMenu = ({
-  openKeys,
-  selectedKeys,
-  setOpenKeys,
-  layout,
-  menuList
-}: SiderMenuProps) => {
-  // 菜单组折叠
-  const onOpenChange = (keys: React.Key[]) => {
-    setOpenKeys((keys as string[]));
-  };
+const SiderMenu = () => {
+  const openKeys = useSelector(getstateOpenMenuKey)
+  const selectedKeys = useSelector(getStateSelectMenuKey)
+  const layout = useSelector(getStateLayout)
+  const menuList = useSelector(getStateMenuList)
+  const dispatch = useDispatch()
+  // 菜单组折叠  
+  const onOpenChange = useCallback((keys: React.Key[]) => dispatch(setOpenKey(keys as string[])), [])
 
   // 菜单选项
   const menuComponent = useMemo(() => menuList.map(m => renderMenu(m, '')), [menuList]);
-  const WrapContainer =
-    layout === layoutTypes.SINGLE_COLUMN ? FlexBox : SliderContent;
+
+  const WrapContainer = useMemo(() => layout === layoutTypes.SINGLE_COLUMN ? FlexBox : SliderContent, [layout])
+
   // classname
   const clsName = useMemo(() => {
     if (layout !== layoutTypes.SINGLE_COLUMN) {
@@ -120,10 +97,9 @@ const SiderMenu = ({
       onOpenChange={onOpenChange}
       openKeys={openKeys}
       selectedKeys={selectedKeys}
-    >
-      {menuComponent}
-    </Menu>
+      children={menuComponent}
+    />
   </WrapContainer>;
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SiderMenu);
+export default SiderMenu;

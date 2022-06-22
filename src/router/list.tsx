@@ -3,8 +3,9 @@ import { Navigate } from "react-router-dom";
 import Error from "@/pages/err"
 import loadable from "@loadable/component"
 import { Spin } from "antd";
+type LoadingComponent = () => Promise<React.ReactNode>
 export interface RouterInfo {
-  components: React.ReactNode
+  components: LoadingComponent | React.ReactNode
   [MENU_PATH]: string
   [MENU_KEY]?: any
   [MENU_TITLE]?: string | any

@@ -1,31 +1,22 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, HashRouter } from "react-router-dom";
 import { Spin } from "antd";
 import Layout from "@/layout";
 import Login from "@/pages/login";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserInfoAction } from "@/store/user/action";
 import { getLocalUser } from "@/utils";
-import { State, Dispatch } from "@/types"
+import { State } from "@/types"
+import { getStateUser } from "@/store/getter";
 
 const isHash = import.meta.env.REACT_APP_ROUTER_ISHASH === "1"
 const RouterBasename = import.meta.env.REACT_APP_ROUTERBASE || "/"
 
-interface AppRouterProps {
-  userInfo: State["user"]
-  setUser: (info: State["user"]) => void
-}
-
-const mapStateToProps = (state: State) => ({
-  userInfo: state.user,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setUser: (info: State["user"]) => dispatch(setUserInfoAction(info)),
-});
-
-function AppRouter({ userInfo, setUser }: AppRouterProps) {
+function AppRouter() {
   const [loading, setLoad] = useState(true);
+  const dispatch = useDispatch()
+  const setUser = useCallback((info: State["user"]) => dispatch(setUserInfoAction(info)), [dispatch])
+  const userInfo = useSelector(getStateUser)
   useEffect(() => {
     if (!userInfo) {
       let localInfo = getLocalUser();
@@ -33,10 +24,10 @@ function AppRouter({ userInfo, setUser }: AppRouterProps) {
         setUser(localInfo);
       }
       return setLoad(false);
+    } else {
+      setLoad(false);
     }
-    setLoad(false);
-    // eslint-disable-next-line
-  }, []);
+  }, [userInfo]);
   if (loading)
     return (
       <Spin size="large" wrapperClassName="loading-page" tip="Loading..." />
@@ -47,7 +38,7 @@ function AppRouter({ userInfo, setUser }: AppRouterProps) {
       <Layout />
     </HashRouter>
   }
-  
+
   return (
     <BrowserRouter basename={RouterBasename}>
       <Layout />
@@ -55,4 +46,4 @@ function AppRouter({ userInfo, setUser }: AppRouterProps) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);
+export default AppRouter;

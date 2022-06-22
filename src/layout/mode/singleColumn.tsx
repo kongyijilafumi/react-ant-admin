@@ -7,17 +7,17 @@ import Router from "@/router";
 import { LayoutModeProps } from "./index"
 const { Content } = Layout;
 
-const SingleColumn = ({ visibel }: LayoutModeProps) => {
+const SingleColumn = ({ visible }: LayoutModeProps) => {
   return (
     <Layout className="my-layout-body">
       <Header children={<Menu />} />
       <Layout>
         <Layout className="layout-content-wrap">
-          {visibel.topMenu && <TopMenu />}
+          {visible.topMenu && <TopMenu />}
           <Content className=" layout-content-body">
             <Router />
           </Content>
-          {visibel.footer && <Footer />}
+          {visible.footer && <Footer />}
         </Layout>
       </Layout>
     </Layout>

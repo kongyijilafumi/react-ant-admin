@@ -1,6 +1,6 @@
-import { getCompVisibel } from "@/utils";
+import { getCompVisible } from "@/utils";
 import { State } from "@/types"
-const visible = getCompVisibel() || { footer: true, topMenu: true };
+const visible = getCompVisible() || { footer: true, topMenu: true };
 
 export default function reducer(state = visible, action: {
   type: string

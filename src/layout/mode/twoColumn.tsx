@@ -7,18 +7,18 @@ import Router from "@/router";
 import { LayoutModeProps } from "./index"
 const { Content } = Layout;
 
-const TowColumn = ({ visibel }: LayoutModeProps) => {
+const TowColumn = ({ visible }: LayoutModeProps) => {
   return (
     <Layout className="my-layout-body">
       <Header children={null} />
       <Layout>
         <Menu />
         <Layout className="layout-content-wrap">
-          {visibel.topMenu && <TopMenu />}
+          {visible.topMenu && <TopMenu />}
           <Content className=" layout-content-body">
             <Router />
           </Content>
-          {visibel.footer && <Footer />}
+          {visible.footer && <Footer />}
         </Layout>
       </Layout>
     </Layout>
