@@ -93,6 +93,26 @@ npm run dev # 默认走代理请求线上接口 https://azhengpersonalblog.top
 
 浏览器打开 `http://localhost:3000` 即可
 
+## 切换 webpack 版本
+
+1. 切换分支
+
+```bash
+D:\react-ant-admin>git checkout webpack
+```
+
+2. 安装依赖
+
+```bash
+D:\react-ant-admin>cnpm i
+```
+
+3. 启动
+
+```bash
+D:\react-ant-admin>npm run start
+```
+
 ## 创建一个新的页面
 
 1. 在 src/pages 文件夹下创建一个 test.tsx 文件,代码如下
