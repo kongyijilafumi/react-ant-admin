@@ -2,7 +2,7 @@ name: update pages
 
 on:
   push:
-    branches: [master]
+    branches: [webpack]
     paths: ["src/**"]
 
 jobs:
