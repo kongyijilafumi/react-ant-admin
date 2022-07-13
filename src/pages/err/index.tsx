@@ -7,9 +7,9 @@ import { useCallback } from "react";
 import { getStateOpenMenu } from "@/store/getter";
 
 interface ErrProps {
-  status: 403 | 404 | 500 | '403' | '404' | '500'
-  errTitle: string
-  subTitle: string
+  status?: 403 | 404 | 500 | '403' | '404' | '500'
+  errTitle?: string
+  subTitle?: string
   [name: string]: any
 }
 
