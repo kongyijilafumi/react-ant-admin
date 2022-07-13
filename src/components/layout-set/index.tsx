@@ -12,12 +12,6 @@ import "./index.less";
 import { useSelector, useDispatch } from "react-redux";
 import { getStateLayout, getStateVisible } from "@/store/getter";
 
-interface LayoutSetProps {
-  setMode: (s: LayoutMode) => void
-  layoutMode: LayoutMode
-  componentsVisible: State["componentsVisible"]
-  setCompVisible: (k: keyof State["componentsVisible"], val: boolean) => void
-}
 
 const modes: LayoutModes = [
   {
@@ -47,7 +41,7 @@ const RadioArray = [
   },
 ];
 
-function LayoutSet(props: LayoutSetProps) {
+function LayoutSet() {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const layoutMode = useSelector(getStateLayout)
   const wakeup = useCallback(() => setDrawerVisible(true), []);
@@ -82,9 +76,9 @@ function LayoutSet(props: LayoutSetProps) {
             <div
               key={m.mode}
               onClick={() => setLayout(m.mode)}
-              className={m.mode === props.layoutMode ? "col active" : "col"}
+              className={m.mode === layoutMode ? "col active" : "col"}
             >
-              <img src={m.img} alt={m.alt + m.mode + props.layoutMode}></img>
+              <img src={m.img} alt={m.alt + m.mode + layoutMode}></img>
             </div>
           ))}
         </Row>
