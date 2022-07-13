@@ -3,6 +3,7 @@ const dev = {
   REACT_APP_API_BASEURL: "/api",
   REACT_APP_MODE: "development",
 }
+const REACT_APP_ROUTER_ISHASH = "1"
 const pro = {
   REACT_APP_ROUTERBASE: "/react-ant-admin",
   REACT_APP_API_BASEURL: "/api",
@@ -22,7 +23,7 @@ module.exports = Promise.resolve({
     REACT_APP_COLOR
   },
   build: pro,
-  build_color:{
+  build_color: {
     ...pro,
     REACT_APP_COLOR
   }

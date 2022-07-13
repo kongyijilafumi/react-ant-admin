@@ -30,6 +30,7 @@ interface ImportMetaEnv {
   readonly REACT_APP_API_BASEURL: string
   readonly REACT_APP_MOCK: string
   readonly REACT_APP_COLOR: string
+  readonly REACT_APP_ROUTER_ISHASH: "1" | any
 }
 
 interface ImportMeta {
