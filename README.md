@@ -21,6 +21,13 @@ JavaScript 版[码云(国内镜像)](https://gitee.com/kong_yiji_and_lavmi/react
 - [redux](https://redux.js.org/)
 - [axios](http://www.axios-js.com/)
 
+node版本推荐
+
+```bash
+D:>node
+# 14.*
+```
+
 ## 预览地址
 
 [react-ant-admin](http://azhengpersonalblog.top/react-ant-admin/)
