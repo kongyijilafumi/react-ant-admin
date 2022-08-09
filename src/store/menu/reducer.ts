@@ -3,8 +3,8 @@ import { MenuAction, MenuState } from "@/types"
 
 
 const initGlobalState: MenuState = {
-  openedMenu: [], // 保存已经打开的菜单栏 用于侧边栏
-  openMenuKey: [], // 打开的菜单栏的key  用于顶部导航
+  openedMenu: [], // 保存已经打开的菜单栏 用于顶部导航
+  openMenuKey: [], // 打开的菜单栏的key  用于侧边栏
   selectMenuKey: [], // 选中菜单栏的key  用户侧边栏
   menuList: [],
   currentPath: "", // 页面当前路径
