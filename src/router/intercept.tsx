@@ -1,12 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { addOpenedMenu, setOpenKey, setSelectKey, setCurrentPath } from "@/store/menu/action";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getMenuParentKey } from "@/utils";
 import Error from "@/pages/err";
 import { useLocation } from "react-router-dom";
 import { MenuItem, OpenedMenu } from "@/types";
-import { getStateOpenMenu } from "@/store/getter";
 
+const scrollPage = () => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "smooth",
+  });
+}
 
 interface Props {
   [MENU_PATH]?: string
@@ -19,46 +25,38 @@ interface Props {
 function Intercept({ menuList, components, [MENU_TITLE]: title, [MENU_PATH]: pagePath, pageKey }: Props) {
   const [pageInit, setPageInit] = useState(false)
   const location = useLocation()
-  const openMenu = useSelector(getStateOpenMenu)
   const dispatch = useDispatch()
   const setPath = useCallback((path: string) => dispatch(setCurrentPath(path)), [dispatch])
   const setOpenKeys = useCallback((val: string[]) => dispatch(setOpenKey(val)), [dispatch])
   const setSelectedKeys = useCallback((val: string[]) => dispatch(setSelectKey(val)), [dispatch])
   const addOpenedMenuFn = useCallback((val: OpenedMenu) => dispatch(addOpenedMenu(val)), [dispatch])
 
-  const pushMenu = useCallback((info: any, key: any, path: any, title: any) => {
-    if (!info) {
-      addOpenedMenuFn({ key, path, title })
-    }
-  }, [addOpenedMenuFn])
+  const currentPath = useMemo(() => {
+    const { pathname, search } = location
+    return pathname + search
+  }, [location])
 
-  const scrollPage = useCallback(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  }, [])
+  // 监听 location 改变
+  const onPathChange = useCallback(() => {
+    setPath(currentPath)
+    addOpenedMenuFn({ key: pageKey, path: currentPath, title: title || "未设置标题信息" });
+  }, [currentPath, pageKey, title, setPath, addOpenedMenuFn])
 
-  const setInfo = useCallback(() => {
+  const setCurrentPageInfo = useCallback(() => {
     if (!title) {
       return;
     }
-    const { pathname, hash, search } = location
     document.title = title;
-    const pagePath = pathname + (hash || search);
-    const findInfo = openMenu.find((i) => i.path === pagePath);
-    setPath(pagePath)
     setSelectedKeys([String(pageKey)]);
     let openkey = getMenuParentKey(menuList, pageKey);
     setOpenKeys(openkey);
-    pushMenu(findInfo, pageKey, pagePath, title);
-  }, [location, openMenu, menuList, title, pageKey, setOpenKeys, setPath, setSelectedKeys, pushMenu])
+    addOpenedMenuFn({ key: pageKey, path: currentPath, title });
+  }, [currentPath, menuList, title, pageKey, setOpenKeys, setSelectedKeys, addOpenedMenuFn])
 
   const init = useCallback(() => {
-    setInfo()
+    setCurrentPageInfo()
     scrollPage()
-  }, [setInfo, scrollPage])
+  }, [setCurrentPageInfo])
 
   useEffect(() => {
     if (init && !pageInit) {
@@ -66,6 +64,12 @@ function Intercept({ menuList, components, [MENU_TITLE]: title, [MENU_PATH]: pag
       setPageInit(true)
     }
   }, [init, pageInit])
+
+  useEffect(() => {
+    if (pageInit) {
+      onPathChange()
+    }
+  }, [onPathChange, pageInit])
 
 
   const hasPath = !menuList.find(
