@@ -1,24 +1,24 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Route } from "react-router-dom";
 import { CacheRoute, CacheSwitch } from "react-router-cache-route";
-import { useDispatch } from "react-redux";
-import { setUserMenu } from "@/store/action";
 import routerList from "./list";
 import Intercept from "./intercept.js";
 import { getMenus } from "@/common";
 import { formatMenu, reduceMenuList } from "@/utils";
+import { useDispatchMenu } from "@/store/hooks";
 
 /**
  *
  * @param {Array} menuList 用户全局用户路由列表
- * @param {Function} setStateMenuList 设置全局用户路由列表
+ * @param {Function} stateSetMenuList 设置全局用户路由列表
  * @returns {Array} 返回渲染的路由列表组件
  */
-function useRouter(setStateMenuList) {
+function useRouter() {
+  const { stateSetMenuList } = useDispatchMenu()
   const [ajaxUserMenuList, setAjaxUserMenuList] = useState([]); // 网络请求回来的 路由列表
   const [mergeRouterList, setMergeLRouterList] = useState([]);// 本地 和 接口返回的路由列表 合并的结果
   useEffect(() => {
-    if (setStateMenuList && typeof setStateMenuList === "function") {
+    if (stateSetMenuList && typeof stateSetMenuList === "function") {
       getMenus().then((list) => {
         const formatList = formatMenu(list)
         const userMenus = reduceMenuList(formatList);
@@ -33,13 +33,13 @@ function useRouter(setStateMenuList) {
           return router;
         });
         if (list && list.length) {
-          setStateMenuList(formatList);
+          stateSetMenuList(formatList);
           setAjaxUserMenuList(userMenus);
           setMergeLRouterList(routers);
         }
       });
     }
-  }, [setStateMenuList]);
+  }, [stateSetMenuList]);
 
   const routerBody = useMemo(() => {
     // 监听 本地路由列表   同时存在长度大于1时 渲染路由组件
@@ -70,9 +70,7 @@ function useRouter(setStateMenuList) {
 }
 
 const Router = () => {
-  const dispatch = useDispatch()
-  const setStateMenuList = useCallback((list) => dispatch(setUserMenu(list)), [dispatch])
-  const { routerBody } = useRouter(setStateMenuList);
+  const { routerBody } = useRouter();
   return <CacheSwitch>{routerBody}</CacheSwitch>;
 };
 

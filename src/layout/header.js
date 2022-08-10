@@ -2,11 +2,9 @@ import React, { useCallback } from "react";
 import { Layout, Menu, Dropdown } from "antd";
 import logo from "@/assets/images/logo.svg";
 import MyIcon from "@/components/icon/";
-import { useDispatch, useSelector } from "react-redux";
-import { getStateUser } from "@/store/getters";
-import { clearUser } from "@/store/user/action";
 import { clearLocalDatas } from "@/utils";
 import { USER_INFO, TOKEN, MENU, } from "@/common"
+import { useDispatchUser, useStateUserInfo } from "@/store/hooks";
 const { Header } = Layout;
 
 const RightMenu = ({ logout }) => (
@@ -24,9 +22,8 @@ const RightMenu = ({ logout }) => (
 const getPopupContainer = (HTMLElement) => HTMLElement;
 
 const LayoutHeader = ({ children }) => {
-  const userInfo = useSelector(getStateUser)
-  const dispatch = useDispatch()
-  const clearStateUser = useCallback(() => dispatch(clearUser()), [dispatch])
+  const userInfo = useStateUserInfo()
+  const { stateClearUser: clearStateUser } = useDispatchUser()
   const logout = useCallback(() => {
     clearLocalDatas([USER_INFO, TOKEN, MENU]);
     window.location.reload();

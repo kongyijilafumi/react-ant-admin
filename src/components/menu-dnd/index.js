@@ -4,9 +4,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { message } from "antd";
 import { Link, useHistory } from "react-router-dom";
 import ContextMenu from "../contextMenu";
-import { useDispatch, useSelector } from "react-redux";
-import { filterOpenKey } from "@/store/action";
-import { getCurrentPath, getOpenedMenu } from "@/store/getters";
+import { useDispatchMenu, useStateCurrentPath, useStateOpenedMenu } from "@/store/hooks";
 import "./index.less";
 
 // 重新记录数组顺序
@@ -26,10 +24,9 @@ export default function MenuDnd() {
   const [currentItem, setCurrentItem] = useState(null)
   const [point, setPoint] = useState({ x: 0, y: 0 })
   // state
-  const dispatch = useDispatch()
-  const openedMenu = useSelector(getOpenedMenu)
-  const currentPath = useSelector(getCurrentPath)
-  const filterOpenMenu = useCallback((key) => dispatch(filterOpenKey(key)), [dispatch])
+  const openedMenu = useStateOpenedMenu()
+  const currentPath = useStateCurrentPath()
+  const { stateFilterOpenMenuKey: filterOpenMenu } = useDispatchMenu()
 
   // 根据 选中的菜单 往里添加拖拽选项
   useEffect(() => {

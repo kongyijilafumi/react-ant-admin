@@ -1,10 +1,8 @@
 import React, { useCallback } from "react";
 import { Result, Button } from "antd";
-import { useDispatch, useSelector } from "react-redux";
 import { getDefaultMenu } from "@/utils";
-import { filterOpenKey } from "@/store/menu/action";
-import { getOpenedMenu } from "@/store/getters";
 import { useHistory } from "react-router-dom";
+import { useDispatchMenu, useStateOpenedMenu } from "@/store/hooks";
 
 function useErrorPage(props) {
   const {
@@ -12,10 +10,9 @@ function useErrorPage(props) {
     errTitle = "404",
     subTitle = "Sorry, the page you visited does not exist.",
   } = props;
-  const openedMenu = useSelector(getOpenedMenu)
-  const dispatch = useDispatch()
+  const openedMenu = useStateOpenedMenu()
   const history = useHistory()
-  const filterOpenKeyFn = useCallback((key) => dispatch(filterOpenKey(key)), [dispatch])
+  const { stateFilterOpenMenuKey: filterOpenKeyFn } = useDispatchMenu()
   const back = useCallback(async () => {
     const url =
       history.location.pathname +
