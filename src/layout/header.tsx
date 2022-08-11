@@ -1,8 +1,6 @@
 import { Layout, Menu, Dropdown } from "antd";
 import logo from "@/assets/images/logo.svg";
 import MyIcon from "@/components/icon/";
-import { useDispatch, useSelector } from "react-redux";
-import { clearUser } from "@/store/user/action";
 import {
   setKey,
   saveToken,
@@ -11,13 +9,10 @@ import {
   TOKEN,
   MENU,
 } from "@/utils";
-import { State } from "@/types"
-import { getStateUser } from "@/store/getter";
 import { useCallback } from "react";
+import { useDispatchUser, useStateUserInfo } from "@/store/hooks";
 
 interface LayoutHeaderProps {
-  userInfo: State["user"];
-  clearStateUser: () => void;
   children: JSX.Element | null
 }
 
@@ -40,9 +35,8 @@ const getPopupContainer = (HTMLElement: HTMLElement) => HTMLElement;
 
 const LayoutHeader = ({ children }: LayoutHeaderProps) => {
 
-  const userInfo = useSelector(getStateUser)
-  const dispatch = useDispatch()
-  const clearStateUser = useCallback(() => dispatch(clearUser()), [dispatch])
+  const userInfo = useStateUserInfo()
+  const { stateClearUser } = useDispatchUser()
   const logout = useCallback(() => {
     clearLocalDatas([USER_INFO, TOKEN, MENU]);
     if (userInfo) {
@@ -50,8 +44,8 @@ const LayoutHeader = ({ children }: LayoutHeaderProps) => {
     }
     saveToken(null);
     window.location.reload();
-    clearStateUser();
-  }, [userInfo, clearStateUser]);
+    stateClearUser();
+  }, [userInfo, stateClearUser]);
   return (
     <Header className="header">
       <div className="logo">

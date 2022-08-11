@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { addOpenedMenu, setOpenKey, setSelectKey, setCurrentPath } from "@/store/menu/action";
-import { useDispatch } from "react-redux";
 import { getMenuParentKey } from "@/utils";
 import Error from "@/pages/err";
 import { useLocation } from "react-router-dom";
-import { MenuItem, OpenedMenu } from "@/types";
+import { MenuItem } from "@/types";
+import { useDispatchMenu } from "@/store/hooks";
 
 const scrollPage = () => {
   window.scrollTo({
@@ -25,11 +24,7 @@ interface Props {
 function Intercept({ menuList, components, [MENU_TITLE]: title, [MENU_PATH]: pagePath, pageKey }: Props) {
   const [pageInit, setPageInit] = useState(false)
   const location = useLocation()
-  const dispatch = useDispatch()
-  const setPath = useCallback((path: string) => dispatch(setCurrentPath(path)), [dispatch])
-  const setOpenKeys = useCallback((val: string[]) => dispatch(setOpenKey(val)), [dispatch])
-  const setSelectedKeys = useCallback((val: string[]) => dispatch(setSelectKey(val)), [dispatch])
-  const addOpenedMenuFn = useCallback((val: OpenedMenu) => dispatch(addOpenedMenu(val)), [dispatch])
+  const { stateSetOpenMenuKey, stateSetSelectMenuKey, stateAddOpenedMenu, stateSetCurrentPath } = useDispatchMenu()
 
   const currentPath = useMemo(() => {
     const { pathname, search } = location
@@ -38,20 +33,20 @@ function Intercept({ menuList, components, [MENU_TITLE]: title, [MENU_PATH]: pag
 
   // 监听 location 改变
   const onPathChange = useCallback(() => {
-    setPath(currentPath)
-    addOpenedMenuFn({ key: pageKey, path: currentPath, title: title || "未设置标题信息" });
-  }, [currentPath, pageKey, title, setPath, addOpenedMenuFn])
+    stateSetCurrentPath(currentPath)
+    stateAddOpenedMenu({ key: pageKey, path: currentPath, title: title || "未设置标题信息" });
+  }, [currentPath, pageKey, title, stateSetCurrentPath, stateAddOpenedMenu])
 
   const setCurrentPageInfo = useCallback(() => {
     if (!title) {
       return;
     }
     document.title = title;
-    setSelectedKeys([String(pageKey)]);
+    stateSetSelectMenuKey([String(pageKey)]);
     let openkey = getMenuParentKey(menuList, pageKey);
-    setOpenKeys(openkey);
-    addOpenedMenuFn({ key: pageKey, path: currentPath, title });
-  }, [currentPath, menuList, title, pageKey, setOpenKeys, setSelectedKeys, addOpenedMenuFn])
+    stateSetOpenMenuKey(openkey);
+    stateAddOpenedMenu({ key: pageKey, path: currentPath, title });
+  }, [currentPath, menuList, title, pageKey, stateSetOpenMenuKey, stateSetSelectMenuKey, stateAddOpenedMenu])
 
   const init = useCallback(() => {
     setCurrentPageInfo()

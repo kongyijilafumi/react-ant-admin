@@ -1,10 +1,4 @@
-export { setVisible } from "./visible/action";
-export { setUserInfoAction, clearUser } from "./user/action";
-export { changeLayoutMode } from "./layout/action";
-export {
-  addOpenedMenu,
-  setOpenKey,
-  setSelectKey,
-  setUserMenu,
-  filterOpenKey,
-} from "./menu/action";
+export * from "./visible/action";
+export * from "./user/action";
+export * from "./layout/action";
+export * from "./menu/action";

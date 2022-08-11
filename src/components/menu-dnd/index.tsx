@@ -4,11 +4,9 @@ import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautif
 import { Link, useNavigate } from "react-router-dom";
 import "./index.less";
 import { OpenedMenu } from "@/types"
-import { useDispatch, useSelector } from "react-redux";
-import { filterOpenKey } from "@/store/action";
 import { message } from "antd";
 import ContextMenu, { CloseType } from "../contextMenu";
-import { getStateCurrentPath, getStateOpenMenu } from "@/store/getter";
+import { useDispatchMenu, useStateCurrentPath, useStateOpenedMenu } from "@/store/hooks";
 // 重新记录数组顺序
 const reorder = (list: OpenedMenu[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
@@ -25,10 +23,9 @@ function MenuDnd() {
   const [currentItem, setCurrentItem] = useState<OpenedMenu | null>(null)
   const [point, setPoint] = useState({ x: 0, y: 0 })
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const openedMenu = useSelector(getStateOpenMenu)
-  const currentPath = useSelector(getStateCurrentPath)
-  const filterOpenMenu = useCallback((key: string[]) => dispatch(filterOpenKey(key)), [dispatch])
+  const openedMenu = useStateOpenedMenu()
+  const currentPath = useStateCurrentPath()
+  const { stateFilterOpenMenuKey: filterOpenMenu } = useDispatchMenu()
   // 根据 选中的菜单 往里添加拖拽选项
   useEffect(() => {
     if (data.length !== openedMenu.length) {

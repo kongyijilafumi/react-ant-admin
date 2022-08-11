@@ -5,8 +5,7 @@ import { reduceMenuList } from "@/utils";
 import { Breadcrumb } from "antd";
 import { getMenus } from "@/common";
 import { MenuItem, MenuList } from "@/types"
-import { useSelector } from "react-redux";
-import { getStateSelectMenuKey } from "@/store/getter";
+import { useStateSelectMenuKey } from "@/store/hooks";
 
 
 function getParent(list: MenuList, parentKey: string): MenuItem | undefined {
@@ -32,7 +31,7 @@ const InitData: MenuItem[] = []
 
 function TopMenu() {
   const [breadArr, setBread] = useState(InitData);
-  const selectMenuKey = useSelector(getStateSelectMenuKey)
+  const selectMenuKey = useStateSelectMenuKey()
   useEffect(() => {
     async function get() {
       let data = await getBreadArray(selectMenuKey[0]);

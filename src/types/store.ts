@@ -3,7 +3,7 @@ import { MenuState } from "./menu"
 import { LayoutMode } from "./layout"
 
 
-interface componentsVisible {
+export interface componentsVisible {
   footer: boolean
   topMenu: boolean
 }

@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import MyIcon from "../icon";
 import { Button, Drawer, message, Row, Radio } from "antd";
-import { changeLayoutMode, setVisible } from "@/store/action";
 import * as Types from "@/store/layout/actionTypes";
 import { setLayoutMode, setCompVisible as util_setCompVisible } from "@/utils";
 import singImg from "@/assets/images/layout2.jpg";
@@ -9,8 +8,7 @@ import twoImg from "@/assets/images/layout1.jpg";
 import twoFlanksImg from "@/assets/images/layout3.jpg";
 import { LayoutMode, State, LayoutModes } from "@/types"
 import "./index.less";
-import { useSelector, useDispatch } from "react-redux";
-import { getStateLayout, getStateVisible } from "@/store/getter";
+import { useDispatchLayout, useDispatchVisibel, useStateLayout, useStateVisibel } from "@/store/hooks";
 
 
 const modes: LayoutModes = [
@@ -43,16 +41,16 @@ const RadioArray = [
 
 function LayoutSet() {
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const layoutMode = useSelector(getStateLayout)
   const wakeup = useCallback(() => setDrawerVisible(true), []);
   const onClose = useCallback(() => setDrawerVisible(false), []);
-  const componentsVisible = useSelector(getStateVisible)
-  const dispatch = useDispatch()
-  const setCompVisible = useCallback((key: keyof State["componentsVisible"], val: boolean) => dispatch(setVisible(key, val)), [dispatch])
+  const layoutMode = useStateLayout()
+  const componentsVisible = useStateVisibel()
+  const { stateSetVisible } = useDispatchVisibel()
+  const { stateChangeLayout } = useDispatchLayout()
   const setLayout = useCallback((mode: LayoutMode) => {
-    dispatch(changeLayoutMode(mode))
+    stateChangeLayout(mode)
     message.success("布局设置成功！");
-  }, [dispatch])
+  }, [stateChangeLayout])
   const saveLayout = useCallback(() => {
     setLayoutMode(layoutMode);
     util_setCompVisible(componentsVisible);
@@ -87,7 +85,7 @@ function LayoutSet() {
           <Row key={key} className="visible-list">
             {key === "footer" ? "底部：" : "顶部切换导航："}
             <Radio.Group
-              onChange={(e) => setCompVisible(key as keyof State["componentsVisible"], e.target.value)}
+              onChange={(e) => stateSetVisible(key as keyof State["componentsVisible"], e.target.value)}
               value={componentsVisible[key as keyof State["componentsVisible"]]}
             >
               {RadioArray.map((i) => (
