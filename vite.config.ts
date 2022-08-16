@@ -30,7 +30,8 @@ export default defineConfig({
     MENU_CHILDREN: `"children"`,
     MENU_PARENTKEY: `"parentKey"`,
     MENU_ALLPATH: `"allPath"`,
-    MENU_PARENTPATH: `"parentPath"`
+    MENU_PARENTPATH: `"parentPath"`,
+    __IS_THEME__: `${process.env.REACT_APP_COLOR === "1"}`
   },
   plugins: [
     ReactRouterGenerator({
@@ -51,7 +52,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": resolve(".", "./src"),
-      "~": resolve(".","./node_modules")
+      "~": resolve(".", "./node_modules")
     },
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', ".less"]
   },

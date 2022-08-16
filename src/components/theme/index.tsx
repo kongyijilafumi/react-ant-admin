@@ -6,10 +6,16 @@ import { getKey, setKey, rmKey } from "@/utils";
 
 import "./index.less";
 
-let varColors: Array<ThemeJSON> = []
+type ImportModule<T> = { default: T }
 
-if (import.meta.env.REACT_APP_COLOR === "1") {
-  varColors = import.meta.globEager("/theme/colorData.json")["/theme/colorData.json"]["default"]
+let varColors: Array<ThemeJSON> = [], darkTheme: ThemeJSON = {}, defaultTheme: ThemeJSON = {};
+if (__IS_THEME__) {
+  let colorDataModule = import.meta.globEager("/theme/colorData.json")["/theme/colorData.json"] as ImportModule<Array<ThemeJSON>>
+  let darkThemeModule = import.meta.globEager("/theme/dark.json")["/theme/dark.json"] as ImportModule<ThemeJSON>
+  let defaultThemeModule = import.meta.globEager("/theme/default.json")["/theme/default.json"] as ImportModule<ThemeJSON>
+  varColors = colorDataModule.default
+  darkTheme = darkThemeModule.default
+  defaultTheme = defaultThemeModule.default
 }
 
 
@@ -58,8 +64,6 @@ const getColor = (color: string): GetColor => ({
 });
 
 
-const darkTheme: ThemeJSON = import.meta.env.REACT_APP_COLOR === "1" ? import.meta.globEager("/theme/dark.json")["/theme/dark.json"]["default"] : {};
-const defaultTheme: ThemeJSON = import.meta.env.REACT_APP_COLOR === "1" ? import.meta.globEager("/theme/default.json")["/theme/default.json"]["default"] : {};
 
 const Themes: ThemeList = [
   { label: "默认", value: "default", colorList: defaultTheme },
