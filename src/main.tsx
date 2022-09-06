@@ -1,6 +1,7 @@
-import { createRoot } from 'react-dom/client'
+import ReactDOM from 'react-dom'
 import App from './App'
-import "./assets/css/global.less";
-createRoot(document.getElementById('root') as any).render(
-  <App />
-)
+import "./assets/css/global"
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+);
