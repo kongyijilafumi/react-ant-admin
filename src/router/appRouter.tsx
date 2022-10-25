@@ -30,7 +30,7 @@ function AppRouter() {
     );
   if (!userInfo) return <Login />;
   if (isHash) {
-    return <HashRouter basename={RouterBasename}>
+    return <HashRouter>
       <Layout />
     </HashRouter>
   }
