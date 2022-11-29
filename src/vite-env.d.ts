@@ -10,6 +10,7 @@ declare const MENU_CHILDREN = "children"
 declare const MENU_PARENTKEY = "parentKey"
 declare const MENU_ALLPATH = "allPath"
 declare const MENU_PARENTPATH = "parentPath"
+declare const MENU_LAYOUT = "layout"
 declare let __IS_THEME__: boolean;
 declare namespace NodeJS {
   interface ProcessEnv {

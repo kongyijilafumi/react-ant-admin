@@ -308,4 +308,5 @@ export default RegistrationForm;
 
 RegistrationForm.route = {
   [MENU_PATH]: "/form/index",
+  [MENU_LAYOUT]: 'FULLSCREEN'
 };

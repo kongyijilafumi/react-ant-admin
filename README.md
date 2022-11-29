@@ -131,7 +131,7 @@ export default function Test() {
 }
 
 /**
- * MENU_* 开头信息在package.json 文件中找到
+ * MENU_* 开头信息在 package.json(在webpack分支中) 文件中找到
  * 给 pages 组件追加路由信息
  * export default 组件的原型上添加route信息,或者向外暴露一个 route
  * 会被vite的vite-plugin-react-router-generator插件捕获信息
@@ -141,14 +141,16 @@ export default function Test() {
 Test.route={
   [MENU_TITLE] : "test页面",
   [MENU_KEY] : "test",
-  [MENU_PATH]: "/test"
+  [MENU_PATH]: "/test",
+  [MENU_LAYOUT]:"FULLSCREEN" // 该页面全屏显示 默认可以不填
 }
 
 // 2.被捕获 暴露的route信息  优先级比上面高
 export const route = {
   [MENU_TITLE] : "test页面",
   [MENU_KEY] : "test",
-  [MENU_PATH]: "/test"
+  [MENU_PATH]: "/test",
+  [MENU_LAYOUT]:"FULLSCREEN" // 该页面全屏显示 默认可以不填
 }
 ```
 

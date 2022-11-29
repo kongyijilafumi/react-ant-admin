@@ -31,6 +31,7 @@ export default defineConfig({
     MENU_PARENTKEY: `"parentKey"`,
     MENU_ALLPATH: `"allPath"`,
     MENU_PARENTPATH: `"parentPath"`,
+    MENU_LAYOUT: `'layout'`,
     __IS_THEME__: `${process.env.REACT_APP_COLOR === "1"}`
   },
   plugins: [

@@ -3,7 +3,7 @@ import { getMenuParentKey } from "@/utils";
 import Error from "@/pages/err";
 import { useLocation } from "react-router-dom";
 import { MenuItem } from "@/types";
-import { useDispatchMenu } from "@/store/hooks";
+import { useDispatchLayout, useDispatchMenu } from "@/store/hooks";
 
 const scrollPage = () => {
   window.scrollTo({
@@ -21,11 +21,11 @@ interface Props {
   [key: string]: any
 }
 
-function Intercept({ menuList, components, [MENU_TITLE]: title, [MENU_PATH]: pagePath, pageKey }: Props) {
+function Intercept({ menuList, components, [MENU_TITLE]: title, [MENU_PATH]: pagePath, pageKey, [MENU_LAYOUT]: layout }: Props) {
   const [pageInit, setPageInit] = useState(false)
   const location = useLocation()
   const { stateSetOpenMenuKey, stateSetSelectMenuKey, stateAddOpenedMenu, stateSetCurrentPath } = useDispatchMenu()
-
+  const { stateChangeLayout } = useDispatchLayout()
   const currentPath = useMemo(() => {
     const { pathname, search } = location
     return pathname + search
@@ -66,6 +66,10 @@ function Intercept({ menuList, components, [MENU_TITLE]: title, [MENU_PATH]: pag
     }
   }, [onPathChange, pageInit])
 
+  // 切换布局
+  useEffect(() => {
+    stateChangeLayout(layout || null)
+  }, [layout])
 
   const hasPath = !menuList.find(
     (m) => (m[MENU_PARENTPATH] || "") + m[MENU_PATH] === pagePath
