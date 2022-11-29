@@ -171,6 +171,7 @@ let menu = [
     [MENU_PARENTKEY]: "",
     [MENU_ICON]: "icon_list",
     [MENU_KEEPALIVE]: "false",
+    [MENU_LAYOUT]:"FULLSCREEN" // 页面内容主题全屏显示 布局
     order: 1,
   },
   {
@@ -180,6 +181,7 @@ let menu = [
     [MENU_KEY]: "listCard",
     [MENU_PARENTKEY]: "list",
     [MENU_ICON]: "",
+    [MENU_LAYOUT]:"TWO_COLUMN" // 拥有侧边栏的 布局 此属性默认可以不填 在 src/layout/index.js defualt 项导出一个默认布局
     [MENU_KEEPALIVE]: "false",
     order: 5485,
   },

@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { addOpenedMenu, setOpenKey, setSelectKey, setCurrentPath } from "@/store/menu/action";
-import { useDispatch } from "react-redux";
 import { getMenuParentKey } from "@/utils";
 import { useDidRecover } from "react-router-cache-route"
 import Error from "@pages/err";
 import { Spin } from "antd";
 import { useLocation } from "react-router-dom";
+import { useDispatchLayout, useDispatchMenu, } from "@/store/hooks";
 
 const scrollPage = () => {
   window.scrollTo({
@@ -23,13 +22,10 @@ const fallback = <Spin style={{
   fontSize: 24,
 }} tip="页面加载中...." />
 
-function Intercept({ menuList, components: Components, [MENU_TITLE]: title, [MENU_PATH]: pagePath, pageKey, ...itemProps }) {
+function Intercept({ menuList, components: Components, [MENU_TITLE]: title, [MENU_PATH]: pagePath, pageKey, [MENU_LAYOUT]: layout, ...itemProps }) {
   const location = useLocation()
-  const dispatch = useDispatch()
-  const setPath = useCallback((path) => dispatch(setCurrentPath(path)), [dispatch])
-  const setOpenKeys = useCallback((val) => dispatch(setOpenKey(val)), [dispatch])
-  const setSelectedKeys = useCallback((val) => dispatch(setSelectKey(val)), [dispatch])
-  const addOpenedMenuFn = useCallback((val) => dispatch(addOpenedMenu(val)), [dispatch])
+  const { stateAddOpenedMenu: addOpenedMenuFn, stateSetSelectMenuKey: setSelectedKeys, stateSetOpenMenuKey: setOpenKeys, stateSetCurrentPath: setPath } = useDispatchMenu()
+  const { stateChangeLayout } = useDispatchLayout()
   const [pageInit, setPageInit] = useState(false)
 
   const currentPath = useMemo(() => {
@@ -58,7 +54,9 @@ function Intercept({ menuList, components: Components, [MENU_TITLE]: title, [MEN
   const init = useCallback(() => {
     setCurrentPageInfo()
     scrollPage()
-  }, [setCurrentPageInfo])
+    console.log(layout);
+    stateChangeLayout(layout || null)
+  }, [setCurrentPageInfo, layout, stateChangeLayout])
 
   useEffect(() => {
     if (!pageInit) {
