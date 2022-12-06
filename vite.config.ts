@@ -72,7 +72,7 @@ export default defineConfig({
     host: true,
     proxy: {
       '^/api': {
-        target: "https://azhengpersonalblog.top",
+        target: "https://z3web.cn",
         changeOrigin: true,
         rewrite: (path) => {
           return path.replace("/api", "/api/react-ant-admin")

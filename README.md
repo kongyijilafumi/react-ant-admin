@@ -30,13 +30,13 @@ D:>node
 
 ## 预览地址
 
-[react-ant-admin](http://azhengpersonalblog.top/react-ant-admin/)
+[react-ant-admin](http://z3web.cn/react-ant-admin/)
 
 nodejs 后台 web 服务:[react-ant-admin-server](https://gitee.com/kong_yiji_and_lavmi/react-ant-admin-server)
 
 ## 文档地址
 
-[react-ant-admin 文档地址](https://azhengpersonalblog.top/doc-react-ant-admin/)
+[react-ant-admin 文档地址](https://z3web.cn/doc-react-ant-admin/)
 
 更多建议欢迎骚扰~
 
@@ -95,7 +95,7 @@ cnpm i
 4. 启动
 
 ```bash
-npm run dev # 默认走代理请求线上接口 https://azhengpersonalblog.top
+npm run dev # 默认走代理请求线上接口 https://z3web.cn
 ```
 
 浏览器打开 `http://localhost:3000` 即可
