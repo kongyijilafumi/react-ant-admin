@@ -22,7 +22,7 @@ JavaScript 版[码云(国内镜像)](https://gitee.com/kong_yiji_and_lavmi/react
 
 ## 预览地址
 
-[react-ant-admin](http://azhengpersonalblog.top/react-ant-admin/)
+[react-ant-admin](http://z3web.cn/react-ant-admin/)
 
 nodejs 后台 web 服务:[react-ant-admin-server](https://gitee.com/kong_yiji_and_lavmi/react-ant-admin-server)
 
@@ -34,7 +34,7 @@ nodejs 后台 web 服务:[react-ant-admin-server](https://gitee.com/kong_yiji_an
 
 ## 文档地址
 
-[react-ant-admin 文档地址](https://azhengpersonalblog.top/doc-react-ant-admin/)
+[react-ant-admin 文档地址](https://z3web.cn/doc-react-ant-admin/)
 
 更多建议欢迎骚扰~
 

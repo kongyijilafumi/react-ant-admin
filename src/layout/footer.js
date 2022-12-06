@@ -6,7 +6,7 @@ export default function BottomFooter() {
     <Footer className="footer">
       <p>
         <a
-          href="https://azhengpersonalblog.top/doc-react-ant-admin"
+          href="https://z3web.cn/doc-react-ant-admin"
           target="_blank"
           rel="noreferrer"
         >
