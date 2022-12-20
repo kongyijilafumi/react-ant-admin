@@ -35,6 +35,8 @@ function getChild(type: string): any {
       return Switch;
     case "inputNumber":
       return InputNumber;
+    case "inputText":
+      return Input.TextArea
     default:
       return null;
   }

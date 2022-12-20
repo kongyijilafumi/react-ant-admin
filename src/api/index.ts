@@ -22,6 +22,8 @@ const getUser = (data: any) => request.get("/getuserinfo", data) as Promise<Resp
 const editUser = (data: any) => request.post("/edituserinfo", data) as Promise<ResponseData>;
 const editType = (data: any) => request.post("/edittype", data) as Promise<ResponseData>;
 const addType = (data: any) => request.post("/addtype", data) as Promise<ResponseData>;
+export const getFeedBack = (data: any) => request.post("/getfeedback", data) as Promise<ResponseData>;
+export const reply = (data: any) => request.post("/reply", data) as Promise<ResponseData>;
 export {
   getMenu,
   login,
