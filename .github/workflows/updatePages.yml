@@ -3,7 +3,7 @@ name: update pages
 on:
   push:
     branches: [webpack]
-    paths: ["src/**"]
+    paths: ["src/**","public"]
 
 jobs:
   build:
