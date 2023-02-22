@@ -40,9 +40,7 @@ nodejs 后台 web 服务:[react-ant-admin-server](https://gitee.com/kong_yiji_an
 
 更多建议欢迎骚扰~
 
-[qq 交流群:532948540](https://qm.qq.com/cgi-bin/qm/qr?k=Wo_kXUOA-mTBviZ6gF4H912AKdE5vTML&jump_from=webapi)
-
-![qrcode](https://raw.githubusercontent.com/kongyijilafumi/my-image/master/qq.jpg)
+[qq 交流群:564048130](https://jq.qq.com/?_wv=1027&k=pzP2acC5)
 
 欢迎各位提出建议与问题!
 
