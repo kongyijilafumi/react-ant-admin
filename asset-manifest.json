@@ -11,7 +11,7 @@
     "static/js/5.f08cf6ef.chunk.js": "/react-ant-admin/static/js/5.f08cf6ef.chunk.js",
     "main.css": "/react-ant-admin/static/css/main.77b9f858.chunk.css",
     "main.js": "/react-ant-admin/static/js/main.ac09d46b.chunk.js",
-    "runtime-main.js": "/react-ant-admin/static/js/runtime-main.88683c87.js",
+    "runtime-main.js": "/react-ant-admin/static/js/runtime-main.b5a7998c.js",
     "static/css/8.b01218ac.chunk.css": "/react-ant-admin/static/css/8.b01218ac.chunk.css",
     "static/js/8.2048c259.chunk.js": "/react-ant-admin/static/js/8.2048c259.chunk.js",
     "static/css/9.1fcb48c5.chunk.css": "/react-ant-admin/static/css/9.1fcb48c5.chunk.css",
@@ -44,7 +44,7 @@
     "static/css/24.5e15169d.chunk.css": "/react-ant-admin/static/css/24.5e15169d.chunk.css",
     "static/js/24.f2b44f47.chunk.js": "/react-ant-admin/static/js/24.f2b44f47.chunk.js",
     "static/css/25.9e259d04.chunk.css": "/react-ant-admin/static/css/25.9e259d04.chunk.css",
-    "static/js/25.733453bf.chunk.js": "/react-ant-admin/static/js/25.733453bf.chunk.js",
+    "static/js/25.20b42c3c.chunk.js": "/react-ant-admin/static/js/25.20b42c3c.chunk.js",
     "static/css/26.dc8b4b45.chunk.css": "/react-ant-admin/static/css/26.dc8b4b45.chunk.css",
     "static/js/26.98f7c8d0.chunk.js": "/react-ant-admin/static/js/26.98f7c8d0.chunk.js",
     "static/css/27.cbf54d58.chunk.css": "/react-ant-admin/static/css/27.cbf54d58.chunk.css",
@@ -61,7 +61,7 @@
     "static/media/logo.9bc8753a.svg": "/react-ant-admin/static/media/logo.9bc8753a.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.88683c87.js",
+    "static/js/runtime-main.b5a7998c.js",
     "static/css/8.b01218ac.chunk.css",
     "static/js/8.2048c259.chunk.js",
     "static/css/main.77b9f858.chunk.css",
