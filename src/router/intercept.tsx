@@ -68,7 +68,7 @@ function Intercept({ menuList, components, [MENU_TITLE]: title, [MENU_PATH]: pag
 
   // 切换布局
   useEffect(() => {
-    stateChangeLayout(layout || null)
+    layout && stateChangeLayout('push', layout)
   }, [layout])
 
   const hasPath = !menuList.find(

@@ -230,7 +230,7 @@ export default function MenuModal({
     <Modal
       maskClosable={false}
       title={titleType[modalType]}
-      visible={isShow}
+      open={isShow}
       okText="确认"
       cancelText="取消"
       onCancel={onCancel}

@@ -109,7 +109,7 @@ export default function CardPage() {
       </Row>
       <Modal
         title="添加列表"
-        visible={showModal}
+        open={showModal}
         cancelText="取消"
         okText="添加"
         onOk={addList}

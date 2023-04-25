@@ -1,19 +1,17 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import styleImport from 'vite-plugin-style-import';
 import ReactRouterGenerator from "vite-plugin-react-router-generator"
 import { resolve } from "path"
-import { createHtmlPlugin } from 'vite-plugin-html'
+import { theme } from 'antd';
+import lessToJs from 'less-vars-to-js';
+import { readFileSync } from 'fs'
 
-function AntdLibImport() {
-  return {
-    libraryName: "antd",
-    esModule: true,
-    resolveStyle: (name) => {
-      return `antd/es/${name}/style/index`;
-    },
-  }
-}
+const { defaultAlgorithm, defaultSeed } = theme;
+const varLessPath = "./theme/var.less"
+const mapToken = defaultAlgorithm(defaultSeed);
+const varLessStr = readFileSync(varLessPath, 'utf-8')
+const customVarLessJson = lessToJs(varLessStr, { resolveVariables: true, stripPrefix: true });
+
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "/react-ant-admin",
@@ -32,7 +30,8 @@ export default defineConfig({
     MENU_ALLPATH: `"allPath"`,
     MENU_PARENTPATH: `"parentPath"`,
     MENU_LAYOUT: `'layout'`,
-    __IS_THEME__: `${process.env.REACT_APP_COLOR === "1"}`
+    __IS_THEME__: `${process.env.REACT_APP_COLOR === "1"}`,
+    CUSTOMVARLESSDATA: `${JSON.stringify(customVarLessJson)}`
   },
   plugins: [
     ReactRouterGenerator({
@@ -41,14 +40,6 @@ export default defineConfig({
       comKey: "components"
     }),
     react(),
-    styleImport({ libs: [AntdLibImport()] }),
-    createHtmlPlugin({
-      inject: {
-        data: {
-          isShowColor: process.env.REACT_APP_COLOR === "1"
-        }
-      }
-    })
   ],
   resolve: {
     alias: {
@@ -60,9 +51,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       less: {
-        javascriptEnabled: true,
-        charset: false,
-        additionalData: `@import "${resolve(".", "./theme/var.less")}";`,
+        modifyVars: { ...mapToken, ...customVarLessJson },
       },
     }
   },

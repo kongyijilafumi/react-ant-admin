@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import "./index.less";
 import {
   Form,
@@ -10,7 +10,10 @@ import {
   Checkbox,
   Button,
   AutoComplete,
+  message,
 } from "antd";
+import { useNavigate } from "react-router-dom";
+import { useDispatchLayout } from "@/store/hooks";
 const { Option } = Select;
 const residences = [
   {
@@ -79,10 +82,22 @@ const tailFormItemLayout = {
 
 function RegistrationForm() {
   const [form] = Form.useForm();
+  const [autoCompleteResult, setAutoCompleteResult] = useState<Array<any>>([]);
+  const navigate = useNavigate()
+  const { stateChangeLayout } = useDispatchLayout()
+  useEffect(() => {
+    message.info("此页面使用 MENU_LAYOUT 属性控制页面显示布局")
+    return () => {
+      stateChangeLayout("pop")
+    }
+  }, [])
 
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
+  const back = () => {
+    navigate(-1)
+  }
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -96,7 +111,6 @@ function RegistrationForm() {
       </Select>
     </Form.Item>
   );
-  const [autoCompleteResult, setAutoCompleteResult] = useState<Array<any>>([]);
 
   const onWebsiteChange = (value: any) => {
     if (!value) {
@@ -297,6 +311,9 @@ function RegistrationForm() {
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
             Register
+          </Button>
+          <Button danger onClick={back} type='link'>
+            返回上一页
           </Button>
         </Form.Item>
       </Form>

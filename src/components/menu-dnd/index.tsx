@@ -2,11 +2,12 @@ import React, { useEffect, useState, useCallback, useMemo } from "react";
 import MyIcon from "@/components/icon";
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { Link, useNavigate } from "react-router-dom";
-import "./index.less";
+import useStyle from "./style"
 import { OpenedMenu } from "@/types"
 import { message } from "antd";
 import ContextMenu, { CloseType } from "../contextMenu";
 import { useDispatchMenu, useStateCurrentPath, useStateOpenedMenu } from "@/store/hooks";
+import { useThemeToken } from "@/hooks";
 // 重新记录数组顺序
 const reorder = (list: OpenedMenu[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
@@ -26,6 +27,8 @@ function MenuDnd() {
   const openedMenu = useStateOpenedMenu()
   const currentPath = useStateCurrentPath()
   const { stateFilterOpenMenuKey: filterOpenMenu } = useDispatchMenu()
+  const token = useThemeToken()
+  const { styles } = useStyle(token)
   // 根据 选中的菜单 往里添加拖拽选项
   useEffect(() => {
     if (data.length !== openedMenu.length) {
@@ -75,7 +78,7 @@ function MenuDnd() {
     console.log(findIndex);
     // 如果在最后一个选择关闭右侧
     if (findIndex === data.length - 1) {
-      return message.warn("右侧无关闭项")
+      return message.warning("右侧无关闭项")
     }
     const keys = data.slice(findIndex + 1).map(i => i.path)
     console.log(keys);
@@ -93,7 +96,7 @@ function MenuDnd() {
     console.log(findIndex);
     // 如果在最后一个选择关闭左侧
     if (findIndex === 0) {
-      return message.warn("左侧无关闭项")
+      return message.warning("左侧无关闭项")
     }
     const keys = data.slice(0, findIndex).map(i => i.path)
     console.log(keys);
@@ -110,7 +113,7 @@ function MenuDnd() {
   }, [data, filterOpenMenu, navigate])
 
   // 右键打开弹窗菜单
-  const onContextMenu = useCallback((e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, item: OpenedMenu) => {
+  const onContextMenu = useCallback((e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>, item: OpenedMenu) => {
     const { clientX: x, clientY: y } = e
     e.stopPropagation()
     e.preventDefault()
@@ -144,7 +147,7 @@ function MenuDnd() {
   const DraggableList = useMemo(() => {
     if (data.length) {
       return data.map((item, index) => {
-        const clsname = currentPath === item.path ? "dnd-items active" : "dnd-items"
+        const clsname = currentPath === item.path ? "active " : ""
         const iconClick: React.MouseEventHandler<HTMLSpanElement> = (e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -153,28 +156,30 @@ function MenuDnd() {
         return <Draggable index={index} key={item.path} draggableId={item.path}>
           {(provided) => (
             //在这里写你的拖拽组件的样式 dom 等等...
-            <Link
-              className={clsname}
+            <div
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
               onContextMenu={(e) => onContextMenu(e, item)}
-              style={{ ...provided.draggableProps.style }}
-              to={item.path}
-            >
-              {item.title}
-              <MyIcon
-                className="anticon-close"
-                type="icon_close"
-                onClick={iconClick}
-              />
-            </Link>
+              style={{ ...provided.draggableProps.style, display: "inline-block" }}>
+              <Link
+                className={clsname + styles.dndItem}
+                to={item.path}
+              >
+                {item.title}
+                <MyIcon
+                  className="anticon-close"
+                  type="icon_close"
+                  onClick={iconClick}
+                />
+              </Link>
+            </div>
           )}
         </Draggable>
       })
     }
     return null
-  }, [data, currentPath, onContextMenu, closeCurrent])
+  }, [data, currentPath, styles, onContextMenu, closeCurrent])
 
   return (<>
     <DragDropContext onDragEnd={onDragEnd}>
@@ -185,7 +190,7 @@ function MenuDnd() {
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className="dnd-body hide-scrollbar"
+            className={"hide-scrollbar " + styles.dndDody}
           >
             {/* 这里放置所需要拖拽的组件,必须要被 Draggable 包裹 */}
             {DraggableList}

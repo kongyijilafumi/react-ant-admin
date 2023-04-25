@@ -1,6 +1,7 @@
 import { UserInfo } from "./user"
 import { MenuState } from "./menu"
 import { LayoutMode } from "./layout"
+import { StateTheme } from "./theme"
 
 
 export interface componentsVisible {
@@ -11,6 +12,7 @@ export interface componentsVisible {
 export default interface State {
   menu: MenuState
   user: UserInfo
-  layout: LayoutMode
+  layout: LayoutMode[]
   componentsVisible: componentsVisible
+  theme: StateTheme
 }

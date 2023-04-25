@@ -122,7 +122,7 @@ export default function TypeModal({ info, isShow, onCancel, onOk, menuList }: Mo
     <Modal
       maskClosable={false}
       title={info ? "修改权限" : "添加权限"}
-      visible={isShow}
+      open={isShow}
       okText="确认"
       cancelText="取消"
       onCancel={close}

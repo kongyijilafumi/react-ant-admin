@@ -136,7 +136,7 @@ export default function UserModal({ user_id, isShow, onCancel, onOk }: UserProps
     <Modal
       maskClosable={false}
       title={user_id ? "修改信息" : "添加账户"}
-      visible={isShow}
+      open={isShow}
       okText="确认"
       cancelText="取消"
       onCancel={close}

@@ -12,6 +12,12 @@ declare const MENU_ALLPATH = "allPath"
 declare const MENU_PARENTPATH = "parentPath"
 declare const MENU_LAYOUT = "layout"
 declare let __IS_THEME__: boolean;
+/**
+ * 自定义主题 less 变量
+ */
+declare const CUSTOMVARLESSDATA: {
+  [key: string]: string
+}
 declare namespace NodeJS {
   interface ProcessEnv {
     readonly NODE_ENV: 'development' | 'production' | 'test';

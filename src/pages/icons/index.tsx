@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Input, Row, Col } from "antd";
 import MyIcon from "@/components/icon";
 import "./index.less";
-import iconData from "@/assets/json/iconfont";
+import iconData from "@/assets/json/iconfont.json";
 
 interface IconItem {
   icon_id: string,

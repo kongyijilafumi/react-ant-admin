@@ -161,10 +161,10 @@ function stopPropagation(e: MouseEvent) {
   e.stopPropagation();
 }
 
-function getLayoutMode(): LayoutMode | null {
+function getLayoutMode(): LayoutMode[] | null {
   return getKey(true, LAYOUT_MODE);
 }
-function setLayoutMode(data: LayoutMode) {
+function setLayoutMode(data: LayoutMode[]) {
   setKey(true, LAYOUT_MODE, data);
 }
 function clearLocalDatas(keys: string[]) {

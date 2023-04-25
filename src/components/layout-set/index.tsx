@@ -7,8 +7,9 @@ import singImg from "@/assets/images/layout2.jpg";
 import twoImg from "@/assets/images/layout1.jpg";
 import twoFlanksImg from "@/assets/images/layout3.jpg";
 import { LayoutMode, State, LayoutModes } from "@/types"
-import "./index.less";
+import useStyle from "./style";
 import { useDispatchLayout, useDispatchVisibel, useStateLayout, useStateVisibel } from "@/store/hooks";
+import { useThemeToken } from "@/hooks";
 
 
 const modes: LayoutModes = [
@@ -47,26 +48,28 @@ function LayoutSet() {
   const componentsVisible = useStateVisibel()
   const { stateSetVisible } = useDispatchVisibel()
   const { stateChangeLayout } = useDispatchLayout()
+  const token = useThemeToken()
+  const { styles } = useStyle(token)
   const setLayout = useCallback((mode: LayoutMode) => {
-    stateChangeLayout(mode)
+    stateChangeLayout('push', mode)
     message.success("布局设置成功！");
   }, [stateChangeLayout])
   const saveLayout = useCallback(() => {
-    setLayoutMode(layoutMode);
+    setLayoutMode([layoutMode]);
     util_setCompVisible(componentsVisible);
     message.success("布局保存本地成功！");
   }, [layoutMode, componentsVisible])
   return (
-    <div className="layoutset-container">
+    <div className={styles.layoutsetContainer}>
       <MyIcon type="icon_setting" onClick={wakeup} />
       <Drawer
-        className="layoutset-drawer"
+        className={styles.layoutsetDrawer}
         title="设置布局"
         placement="right"
         closable={false}
         onClose={onClose}
         width={300}
-        visible={drawerVisible}
+        open={drawerVisible}
       >
         <h2 className="title">选择布局</h2>
         <Row justify="space-around">

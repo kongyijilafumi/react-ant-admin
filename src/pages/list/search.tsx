@@ -124,7 +124,7 @@ export default function SearchPage() {
       </Spin>
       <Modal
         title="添加一条记录"
-        visible={showModal}
+        open={showModal}
         cancelText="取消"
         okText="添加"
         onOk={() => addList()}

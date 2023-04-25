@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { SketchPicker } from "react-color";
+import { ColorResult, SketchPicker } from "react-color";
 import { Row, Col, Button } from "antd";
 import "./index.less";
 
@@ -13,7 +13,7 @@ interface ColorProps {
   color: string
   pageX: number
   pageY: number
-  onSureChange: (color: string, key: string) => void
+  onSureChange: (color: ColorResult, key: string) => void
   colorKey: string
   isShow: boolean
   onClose: () => void
@@ -31,17 +31,17 @@ function Color({
   isShow,
   onClose,
 }: ColorProps) {
-  const [changeColor, setColor] = useState(color);
+  const [changeColor, setColor] = useState<ColorResult>({ hex: color } as ColorResult);
 
   // 变化重置
   useEffect(() => {
     if (color) {
-      setColor(color);
+      setColor({ hex: color } as ColorResult);
     }
   }, [color]);
 
   // 同步改变
-  const onChange = useCallback((v: string) => setColor(v), []);
+  const onChange = useCallback((v: ColorResult) => setColor(v), []);
 
   // 确认
   const onChangeComplete = useCallback(() => {
@@ -55,13 +55,13 @@ function Color({
       onClick={(e) => e.stopPropagation()}
     >
       <Col>
-        <SketchPicker color={changeColor} onChange={onChange} />
+        <SketchPicker color={changeColor.hex} onChange={onChange} />
       </Col>
       <Col>
         <Button type="primary" size="small" onClick={onChangeComplete}>
           确认
         </Button>
-        <Button size="small" onClick={onClose}>
+        <Button size="small" danger onClick={onClose}>
           取消
         </Button>
       </Col>

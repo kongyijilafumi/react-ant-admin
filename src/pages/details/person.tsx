@@ -2,8 +2,8 @@ import { ReactNode, useState } from "react";
 import { Card, Tag, Input, Tabs, Row, Col, List, Space, Avatar } from "antd";
 import MyIcon from "@/components/icon";
 import "./index.less";
+import { useStyle } from "./style";
 
-const { TabPane } = Tabs;
 const { Meta } = Card;
 
 const tagInitVal = [
@@ -33,57 +33,59 @@ const IconText = ({ icon, text }: { icon: ReactNode, text: string }) => (
   </Space>
 );
 
-const tabpanes = Array.from({ length: 3 }, (v, k) => (
-  <TabPane tab={"Tab " + (k + 1)} key={k + 1 + ""}>
-    <List
-      itemLayout="vertical"
-      size="large"
-      header={<h2>Tab {k + 1}</h2>}
-      dataSource={listData}
-      renderItem={(item) => (
-        <List.Item
-          key={item.title}
-          actions={[
-            <IconText
-              icon={<MyIcon type="icon_collection" />}
-              text="156"
-              key="list-vertical-star-o"
-            />,
-            <IconText
-              icon={<MyIcon type="icon_zan" />}
-              text="156"
-              key="list-vertical-like-o"
-            />,
-            <IconText
-              icon={<MyIcon type="icon_voice" />}
-              text="2"
-              key="list-vertical-message"
-            />,
-          ]}
-          extra={
-            <img
-              width={272}
-              alt="logo"
-              src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-            />
-          }
-        >
-          <List.Item.Meta
-            avatar={<Avatar src={item.avatar} />}
-            title={<a href={item.href}>{item.title}</a>}
-            description={item.description}
+const tabpanes = Array.from({ length: 3 }, (v, k) => ({
+  key: k + '',
+  label: `tab${k + 1}`,
+  children: (<List
+    itemLayout="vertical"
+    size="large"
+    header={<h2>Tab {k + 1}</h2>}
+    dataSource={listData}
+    renderItem={(item) => (
+      <List.Item
+        key={item.title}
+        actions={[
+          <IconText
+            icon={<MyIcon type="icon_collection" />}
+            text="156"
+            key="list-vertical-star-o"
+          />,
+          <IconText
+            icon={<MyIcon type="icon_zan" />}
+            text="156"
+            key="list-vertical-like-o"
+          />,
+          <IconText
+            icon={<MyIcon type="icon_voice" />}
+            text="2"
+            key="list-vertical-message"
+          />,
+        ]}
+        extra={
+          <img
+            width={272}
+            alt="logo"
+            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
           />
-          {item.content}
-        </List.Item>
-      )}
-    />
-  </TabPane>
-));
+        }
+      >
+        <List.Item.Meta
+          avatar={<Avatar src={item.avatar} />}
+          title={<a href={item.href}>{item.title}</a>}
+          description={item.description}
+        />
+        {item.content}
+      </List.Item>
+    )}
+  />)
+})
+);
 
 export default function Person() {
   const [tags, setTag] = useState(tagInitVal);
   const [isInput, setInput] = useState(false);
   const [value, setVal] = useState("");
+  const { styles } = useStyle()
   const addTags = () => {
     if (!value) {
       return setInput(false);
@@ -106,10 +108,11 @@ export default function Person() {
             }
           >
             <Meta title="孔乙己拉夫米" description="生死看淡不服就干！" />
-            <div className="info">
+            <div className={styles.info}>
               <p>
                 <MyIcon type="icon_infopersonal" className="icon" />
                 Web前端
+                <span className={styles.font}>123</span>
               </p>
               <p>
                 <MyIcon type="icon_address1" className="icon" />
@@ -169,8 +172,8 @@ export default function Person() {
             </div>
           </Card>
         </Col>
-        <Col span={17} offset={1} className="tabs">
-          <Tabs defaultActiveKey="1">{tabpanes}</Tabs>
+        <Col span={17} offset={1} className={styles.tabs}>
+          <Tabs defaultActiveKey="1" items={tabpanes}> </Tabs>
         </Col>
       </Row>
     </div>

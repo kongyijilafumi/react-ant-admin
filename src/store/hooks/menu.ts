@@ -2,10 +2,10 @@ import { MenuItem, OpenedMenu } from "@/types";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setOpenKey, setSelectKey, addOpenedMenu, filterOpenKey, setCurrentPath, setUserMenu } from "../action";
-import { getStateCurrentPath, getstateOpenMenuKey, getStateMenuList, getStateOpenMenu, getStateSelectMenuKey } from "../getter";
+import { getStateCurrentPath, getStateOpenMenuKey, getStateMenuList, getStateOpenMenu, getStateSelectMenuKey } from "../getter";
 
 export const useStateSelectMenuKey = () => useSelector(getStateSelectMenuKey)
-export const useStateOpenMenuKey = () => useSelector(getstateOpenMenuKey)
+export const useStateOpenMenuKey = () => useSelector(getStateOpenMenuKey)
 export const useStateOpenedMenu = () => useSelector(getStateOpenMenu)
 export const useStateCurrentPath = () => useSelector(getStateCurrentPath)
 export const useStateMenuList = () => useSelector(getStateMenuList)

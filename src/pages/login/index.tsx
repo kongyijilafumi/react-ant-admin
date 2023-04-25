@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Form, Input, Button, Checkbox, message } from "antd";
+import { Form, Input, Button, Checkbox, message, Row } from "antd";
 import { useDispatch } from "react-redux";
 import MyIcon from "@/components/icon";
 import { saveUser, getLocalUser, saveToken } from "@/utils";
@@ -7,6 +7,7 @@ import { setUserInfoAction } from "@/store/user/action";
 import { login } from "@/api";
 import { UserInfo } from "@/types"
 import "./index.less";
+import { useThemeToken } from "@/hooks";
 
 
 
@@ -28,6 +29,7 @@ function Login() {
   const [btnLoad, setBtnLoad] = useState(false);
   const dispatch = useDispatch()
   const setUserInfo = useCallback((info: UserInfo) => dispatch(setUserInfoAction(info)), [dispatch])
+  const token = useThemeToken()
   const onFinish = useCallback((values: any) => {
     setBtnLoad(true);
     login(values)
@@ -48,7 +50,7 @@ function Login() {
       });
   }, [setUserInfo]);
   return (
-    <div className="login-container">
+    <div className="login-container" style={{ backgroundColor: token.colorBgContainer }}>
       <div className="wrapper">
         <div className="title">react-ant-admin</div>
         <div className="welcome">欢迎使用，请先登录</div>
@@ -79,7 +81,7 @@ function Login() {
               <Checkbox>记住我</Checkbox>
             </Form.Item>
           </Form.Item>
-          <Form.Item className="btns">
+          <Row justify="space-around">
             <Button
               type="primary"
               htmlType="submit"
@@ -89,7 +91,7 @@ function Login() {
               登录
             </Button>
             <Button htmlType="reset">重置</Button>
-          </Form.Item>
+          </Row>
         </Form>
       </div>
     </div>

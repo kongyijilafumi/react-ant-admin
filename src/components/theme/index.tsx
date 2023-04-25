@@ -1,32 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
-import { Drawer, Col, Row, message, Button, Radio, notification, RadioChangeEvent } from "antd";
+import { Drawer, Col, Row, message, Button, Radio, notification, RadioChangeEvent, theme } from "antd";
 import MyIcon from "@/components/icon";
 import Color from "@/components/color";
 import { getKey, setKey, rmKey } from "@/utils";
+import { useDispatchThemeToken } from "@/store/hooks";
+import { useThemeToken } from "@/hooks";
+import useStyle from "./style"
+import { ThemeToken } from "@/types";
+import { ColorResult } from "react-color";
 
-import "./index.less";
-
-type ImportModule<T> = { default: T }
-
-let varColors: Array<ThemeJSON> = [], darkTheme: ThemeJSON = {}, defaultTheme: ThemeJSON = {};
-if (__IS_THEME__) {
-  let colorDataModule = import.meta.globEager("/theme/colorData.json")["/theme/colorData.json"] as ImportModule<Array<ThemeJSON>>
-  let darkThemeModule = import.meta.globEager("/theme/dark.json")["/theme/dark.json"] as ImportModule<ThemeJSON>
-  let defaultThemeModule = import.meta.globEager("/theme/default.json")["/theme/default.json"] as ImportModule<ThemeJSON>
-  varColors = colorDataModule.default
-  darkTheme = darkThemeModule.default
-  defaultTheme = defaultThemeModule.default
-}
+let darkTheme = theme.darkAlgorithm(theme.defaultSeed), defaultTheme = theme.defaultAlgorithm(theme.defaultSeed);
 
 
 interface ThemeData {
   label: string
   value: string
-  colorList: ThemeJSON
+  colorList: ThemeToken
 }
-interface ThemeJSON {
-  [key: string]: string
-}
+
 interface GetColor {
   background: string
 }
@@ -38,27 +29,6 @@ type ColorInfo = {
   value: string
 }
 
-function findInfoColor(list: ThemeJSON[], obj: ThemeJSON) {
-  return list.map((item) => {
-    let key = item.key;
-    let value = obj[key];
-    if (value) {
-      item.value = value;
-    }
-    return item;
-  });
-}
-
-
-
-function setObjVal(list: ThemeJSON[], obj: ThemeJSON) {
-  list.forEach((i) => {
-    if (obj[i.key]) {
-      obj[i.key] = i.value;
-    }
-  });
-}
-
 const getColor = (color: string): GetColor => ({
   background: color,
 });
@@ -66,23 +36,27 @@ const getColor = (color: string): GetColor => ({
 
 
 const Themes: ThemeList = [
-  { label: "默认", value: "default", colorList: defaultTheme },
-  { label: "暗黑", value: "dark", colorList: darkTheme },
+  { label: "默认", value: "default", colorList: defaultTheme as ThemeToken },
+  { label: "暗黑", value: "dark", colorList: darkTheme as ThemeToken },
 ];
 
 
 const THEMENAMEKEY = "theme-name";
-const THEMDATAKEY = "theme-data";
+const CUSTOMVARLESS = 'CUSTOMVARLESS'
+const localVarToken: { [key: string]: string } = getKey(true, CUSTOMVARLESS);
 const THEME_NAME = getKey(true, THEMENAMEKEY);
-const THEME: ThemeJSON = getKey(true, THEMDATAKEY);
+const initVarToken = localVarToken || CUSTOMVARLESSDATA
 const initSelectInfo = { key: '', value: '', pageX: 0, pageY: 0 }
 
 export default function SetTheme() {
   const [visible, setVisible] = useState(false);
   const [selectInfo, setInfo] = useState<ColorInfo>(initSelectInfo);
   const [colorShow, setColorShow] = useState(false);
-  const [colorList, setColor] = useState<Array<ThemeJSON>>(varColors);
+  const [customColorMap, setCustomColorMap] = useState(initVarToken);
   const [themeStyle, setStyle] = useState(THEME_NAME || Themes[0].value);
+  const { stateSetThemeToken } = useDispatchThemeToken()
+  const token = useThemeToken()
+  const { styles } = useStyle(token)
   // 关闭色板
   const onCloseColor = useCallback(() => {
     setInfo(initSelectInfo);
@@ -90,32 +64,19 @@ export default function SetTheme() {
   }, []);
 
   // 设置主题
-  const setTheme = useCallback((obj: ThemeJSON, list: Array<ThemeJSON>, tip = true) => {
-    window.less
-      .modifyVars(obj)
-      .then(() => {
-        tip && message.success("修改主题色成功");
-        setColor(list);
-        onCloseColor();
-      })
-      .catch((err: any) => {
-        console.log(err);
 
-        tip && message.error("修改失败");
-      });
-  }, [onCloseColor]);
   // 初始化主题
   useEffect(() => {
-    if (THEME && THEME_NAME) {
-      let newColorList = [...colorList.map((i) => ({ ...i }))];
-      newColorList = findInfoColor(newColorList, THEME);
-      let newColorObj = {
+    if (THEME_NAME) {
+      let themeToken = {
         ...Themes.find((i) => i.value === THEME_NAME)?.colorList,
       };
-      setTheme(newColorObj, newColorList, false);
+      if (themeToken) {
+        themeToken = Object.assign(themeToken, initVarToken)
+        stateSetThemeToken(themeToken as ThemeToken)
+      }
       setStyle(THEME_NAME);
     }
-    // eslint-disable-next-line
   }, []);
 
   // 关闭抽屉
@@ -127,22 +88,16 @@ export default function SetTheme() {
   }, []);
 
   // 自定义颜色选中
-  const onChangeComplete = useCallback((v: any, k: string) => {
-    let newColorList = [...colorList.map((i) => ({ ...i }))];
-    newColorList.forEach((i) => {
-      if (i.key === k) {
-        i.value = v.hex;
-      }
-    });
-    let colorObj = {
-      ...Themes.find((i) => i.value === themeStyle)?.colorList,
-    };
-    setObjVal(newColorList, colorObj);
-    setTheme(colorObj, newColorList);
-  }, [colorList, setTheme, themeStyle]);
+  const onChangeComplete = useCallback((v: ColorResult, k: string) => {
+    const newData = { ...customColorMap, [k]: v.hex }
+    setCustomColorMap(newData)
+    const themeToken = Object.assign(token, newData)
+    stateSetThemeToken(themeToken)
+    onCloseColor()
+  }, [stateSetThemeToken, token, customColorMap, onCloseColor]);
 
   // 选中
-  const onSelect = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>, info: any) => {
+  const onSelect = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>, key: string, value: string) => {
     const height = window.innerHeight;
     const width = window.innerWidth;
     let { clientX: pageX, clientY: pageY } = e;
@@ -152,34 +107,30 @@ export default function SetTheme() {
     if (pageX + 250 > width) {
       pageX -= 220;
     }
-    setInfo({ ...info, pageX, pageY });
+    setInfo({ value, key, pageX, pageY });
     setColorShow(true);
   }, []);
 
   // 保存本地
   const saveLocalTheme = useCallback(() => {
-    let themeObj = { ...Themes.find((i) => i.value === themeStyle)?.colorList };
-    themeObj = colorList.reduce((a, c) => {
-      a[c.key] = c.value;
-      return a;
-    }, themeObj);
+    let themeToken = { ...Themes.find((i) => i.value === themeStyle)?.colorList };
+    themeToken = Object.assign(themeToken, customColorMap)
     setKey(true, THEMENAMEKEY, themeStyle);
-    setKey(true, THEMDATAKEY, themeObj);
+    setKey(true, CUSTOMVARLESS, customColorMap)
     message.success("主题成功保存到本地！");
-  }, [themeStyle, colorList]);
+  }, [themeStyle, customColorMap]);
 
   // 选择主题
   const themeChange = useCallback((e: RadioChangeEvent) => {
     const { value } = e.target;
-    const colorObj = {
-      ...Themes.find((i) => i.value === value)?.colorList,
-    };
-    setObjVal(colorList, colorObj);
-    setTheme(colorObj, colorList);
+    const colorObj = Themes.find((i) => i.value === value)?.colorList
+    if (colorObj) {
+      stateSetThemeToken(Object.assign(colorObj, customColorMap))
+    }
     setStyle(value);
-  }, [colorList, setTheme]);
+  }, [customColorMap, stateSetThemeToken]);
   // 删除本地缓存主题
-  const delTheme = () => {
+  const delTheme = useCallback(() => {
     if (!getKey(true, THEMENAMEKEY)) {
       return notification.error({
         type: "error",
@@ -187,38 +138,27 @@ export default function SetTheme() {
         message: "删除失败",
       });
     }
-    let initColorObj = { ...Themes[0].colorList };
-    varColors.forEach((item) => {
-      initColorObj[item.key] = item.value;
-    });
-    window.less
-      .modifyVars(initColorObj)
-      .then(() => {
-        message.success("修改主题色成功");
-        rmKey(true, THEMDATAKEY);
-        rmKey(true, THEMENAMEKEY);
-        setColor(varColors);
-        setStyle(Themes[0].value);
-      })
-      .catch((err: any) => {
-        message.error("修改失败");
-        console.log(err);
-
-      });
-  };
+    rmKey(true, CUSTOMVARLESS)
+    rmKey(true, THEMENAMEKEY)
+    setCustomColorMap(CUSTOMVARLESSDATA)
+    let themeToken = Object.assign(Themes[0].colorList, CUSTOMVARLESSDATA)
+    stateSetThemeToken(themeToken)
+    setStyle(Themes[0].value)
+    message.success("已删除本地主题色！")
+  }, [setCustomColorMap]);
   return (
-    <div className="set-theme">
+    <div className={styles.setTheme}>
       <div className="icon" onClick={showDrawer}>
         <MyIcon type="icon_pen" />
       </div>
       <Drawer
-        className="drawer"
+        className={styles.drawer}
         title="设置主题颜色"
         placement="right"
         closable={false}
         onClose={onClose}
         width={400}
-        visible={visible}
+        open={visible}
       >
         <Radio.Group
           options={Themes}
@@ -227,26 +167,26 @@ export default function SetTheme() {
           optionType="button"
           buttonStyle="solid"
         />
-        <Row className="color-row primary">自定义Less变量:</Row>
-        {colorList.map((i) => (
-          <Row className="color-row" justify="space-between" key={i.key}>
-            <Col style={{ color: i.value }}>{i.title}:</Col>
+        <Row className={styles.colorRow + ' primary'}>自定义Less变量:</Row>
+        {Object.keys(customColorMap).map((i) => (
+          <Row className={styles.colorRow} justify="space-between" key={i}>
+            <Col>{i}:</Col>
             <Col
               className="color-btn"
               onClick={(e) => {
                 e.stopPropagation();
-                onSelect(e, i);
+                onSelect(e, i, customColorMap[i] || '');
               }}
-              style={getColor(i.value)}
-            ></Col>
+              style={getColor(customColorMap[i] || '')}
+            />
           </Row>
         ))}
 
-        <Row justify="center">
+        <Row justify="center" className="bottom">
           <Button type="primary" onClick={saveLocalTheme}>
             保存本地
           </Button>
-          <Button type="ghost" className="del" danger onClick={delTheme}>
+          <Button className="del" danger onClick={delTheme}>
             删除本地颜色主题配置
           </Button>
         </Row>

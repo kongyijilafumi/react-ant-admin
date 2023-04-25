@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Table,
   Row,
@@ -19,7 +19,9 @@ import MyIcon from "../icon";
 import arrayMove from "array-move";
 import { getKey, setKey, rmKey } from "@/utils";
 import "./index.less";
+import useStyle from "./style"
 import { MyTableProps, Columns, renderArugs, Column } from "./types"
+import { useThemeToken } from "@/hooks";
 
 const DragHandle = SortableHandle(() => (
   <MyIcon type="icon_mirrorlightctrl" className="drag-sort" />
@@ -103,19 +105,25 @@ function UseTable(columns: Columns, saveKey: MyTableProps["saveKey"]) {
   const [showDrawer, setShowDrawer] = useState(false);
   const [col, setCol] = useState<Columns>([]);
   const [tbTitle, setTitle] = useState<Columns>([]);
-  const DraggableContainer = (props: any) => (
-    <SortableBody
-      useDragHandle
-      disableAutoscroll
-      helperClass="row-dragging"
-      onSortEnd={onSortEnd}
-      {...props}
-    />
-  );
-  const DraggableBodyRow = ({ className, style, ...restProps }: any) => {
-    const index = col.findIndex((x) => x.index === restProps["data-row-key"]);
-    return <SortableItem index={index} {...restProps} />;
-  };
+  const token = useThemeToken()
+  const { styles } = useStyle(token)
+  const DraggableContainer = useMemo(() => {
+    return function H(props: any) {
+      return <SortableBody
+        useDragHandle
+        disableAutoscroll
+        helperClass={styles.rowDragging}
+        onSortEnd={onSortEnd}
+        {...props}
+      />
+    }
+  }, [styles, onSortEnd]);
+  const DraggableBodyRow = useMemo(() => {
+    return function H({ className, style, ...restProps }: any) {
+      const index = col.findIndex((x) => x.index === restProps["data-row-key"]);
+      return <SortableItem index={index} {...restProps} />;
+    }
+  }, [col]);
   useEffect(() => {
     const data: Columns = getKey(true, saveKey || '');
     if (saveKey && data && columns && columns.length === data.length) {
@@ -171,7 +179,7 @@ function UseTable(columns: Columns, saveKey: MyTableProps["saveKey"]) {
         {column.range &&
           column.range.map((r) => (
             <Row className="mt10" key={r.t} justify="center">
-              <Tooltip title={r.t} arrowPointAtCenter>
+              <Tooltip title={r.t} arrow>
                 <Radio value={r.v}>{r.t}</Radio>
               </Tooltip>
             </Row>
@@ -192,7 +200,7 @@ function UseTable(columns: Columns, saveKey: MyTableProps["saveKey"]) {
 
   function inuputRender(dataIndex: string, text: number, col: Column) {
     return (
-      <Tooltip title="失去焦点触发" arrowPointAtCenter>
+      <Tooltip title="失去焦点触发" arrow>
         <InputNumber
           min={0}
           max={800}
@@ -286,10 +294,11 @@ function MyTable({
     saveTbSet,
     delTbSet
   } = UseTable(columns, saveKey);
-
+  const token = useThemeToken()
+  const { styles } = useStyle(token)
   return (
     <div className="react-ant-table">
-      <Row className="set" justify="end">
+      <Row className={styles.set} justify="end">
         <MyIcon type="icon_edit" onClick={show} />
       </Row>
       <Table
@@ -309,7 +318,7 @@ function MyTable({
         width={1000}
         onClose={hiddin}
         maskClosable={true}
-        visible={showDrawer}
+        open={showDrawer}
         title="表格显示设置"
       >
         <Table

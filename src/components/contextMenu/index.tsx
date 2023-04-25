@@ -1,6 +1,6 @@
+import { useThemeToken } from "@/hooks"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import "./index.less"
-
+import useStyle from "./style"
 export type CloseType = "all" | "right" | "left" | "current"
 
 interface ContextMenuProps {
@@ -21,14 +21,8 @@ const onContextMenu: React.MouseEventHandler<HTMLDivElement> = (e) => {
 export default function ContextMenu({ isCurrent, visible, x, y, setVisible, onClose }: ContextMenuProps) {
   const ref = useRef<HTMLUListElement>(null)
   const [style, setStyle] = useState({})
-
-  const display = useMemo(() => {
-    if (visible) {
-      return "block"
-    }
-    return "none"
-  }, [visible])
-
+  const token = useThemeToken()
+  const { styles } = useStyle({ visible, token })
   const visibility = useMemo(() => {
     if (visible) {
       document.body.style.overflow = "hidden"
@@ -92,8 +86,7 @@ export default function ContextMenu({ isCurrent, visible, x, y, setVisible, onCl
   return <div
     onContextMenu={onContextMenu}
     onMouseUp={closeMenu}
-    style={{ display }}
-    className="centext-menu"
+    className={styles.centextMenu}
   >
     <ul style={style} ref={ref}>
       <li onMouseUp={closeAll}>关闭所有</li>

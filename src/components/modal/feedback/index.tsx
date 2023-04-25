@@ -49,7 +49,7 @@ export default function FeedbackModal({ id, isShow, onSubmit, onCancel }: Props)
     <Modal
       maskClosable={false}
       title="回复"
-      visible={isShow}
+      open={isShow}
       okText="确认"
       cancelText="取消"
       onCancel={close}

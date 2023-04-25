@@ -3,12 +3,14 @@ import store from "./store";
 import LayoutSet from "./components/layout-set";
 import AppRouter from "./router/appRouter";
 import loadable from "@loadable/component";
-
+import { ConfigProvider } from 'antd';
+import { useStateThemeToken } from "./store/hooks";
+import { useMemo } from "react";
+const LoadTheme = loadable(() => import("@/components/theme"))
 
 function Theme() {
   if (__IS_THEME__) {
-    const Com = loadable(() => import("@/components/theme"))
-    return <Com />
+    return <LoadTheme />
   }
   return null
 }
@@ -16,10 +18,18 @@ function Theme() {
 function App() {
   return (
     <Provider store={store}>
-      <AppRouter />
-      <Theme />
-      <LayoutSet />
+      <Cfg />
     </Provider >
   );
+}
+
+function Cfg() {
+  const token = useStateThemeToken()
+  const themm = useMemo(() => ({ token }), [token])
+  return <ConfigProvider theme={themm}>
+    <AppRouter />
+    <LayoutSet />
+    <Theme />
+  </ConfigProvider >
 }
 export default App;

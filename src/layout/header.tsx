@@ -11,7 +11,7 @@ import {
 } from "@/utils";
 import { useCallback } from "react";
 import { useDispatchUser, useStateUserInfo } from "@/store/hooks";
-
+import { useStyle } from "./style"
 interface LayoutHeaderProps {
   children: JSX.Element | null
 }
@@ -34,7 +34,7 @@ const RightMenu = ({ logout }: { logout: () => void; }) => (
 const getPopupContainer = (HTMLElement: HTMLElement) => HTMLElement;
 
 const LayoutHeader = ({ children }: LayoutHeaderProps) => {
-
+  const { styles } = useStyle()
   const userInfo = useStateUserInfo()
   const { stateClearUser } = useDispatchUser()
   const logout = useCallback(() => {
@@ -46,8 +46,9 @@ const LayoutHeader = ({ children }: LayoutHeaderProps) => {
     window.location.reload();
     stateClearUser();
   }, [userInfo, stateClearUser]);
+  const dropdownRender = useCallback(() => <RightMenu logout={logout} />, [logout])
   return (
-    <Header className="header">
+    <Header className={styles.header}>
       <div className="logo">
         <img src={logo} alt="logo"></img>
         <span>react-ant-admin</span>
@@ -55,9 +56,9 @@ const LayoutHeader = ({ children }: LayoutHeaderProps) => {
       {children}
       <div className="right">
         <Dropdown
-          placement="bottomCenter"
+          placement="bottom"
           getPopupContainer={getPopupContainer}
-          overlay={<RightMenu logout={logout} />}
+          dropdownRender={dropdownRender}
         >
           <div>管理员：{userInfo && userInfo.username}</div>
         </Dropdown>

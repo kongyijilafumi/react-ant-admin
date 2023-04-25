@@ -1,10 +1,6 @@
-import * as ActionTypes from "./actionTypes";
-import { LayoutMode } from "@/types"
+import { LayoutMode, LayoutModeType } from "@/types"
 
-export const changeLayoutMode = (mode: LayoutMode): {
-  type: LayoutMode;
-  mode: LayoutMode;
-} => ({
-  type: ActionTypes.SINGLE_COLUMN,
+export const changeLayoutMode = (type: LayoutModeType, mode?: LayoutMode) => ({
+  type,
   mode,
 });
