@@ -1,4 +1,4 @@
-import { SingleColumn, TowColumn, TwoFlanks } from "./mode";
+import { FullScreen, SingleColumn, TowColumn, TwoFlanks } from "./mode";
 import * as ActionTypes from "../store/layout/actionTypes";
 import "./index.less";
 import { useStateLayout, useStateVisibel } from "@/store/hooks";
@@ -13,7 +13,9 @@ export default function LayoutContainer() {
       return <TowColumn visibel={visibel} />;
     case ActionTypes.TWO_FLANKS:
       return <TwoFlanks visibel={visibel} />;
+    case ActionTypes.FULL_SCREEN:
+      return <FullScreen />
     default:
-      return null;
+      return <TowColumn visibel={visibel} />;
   }
 }

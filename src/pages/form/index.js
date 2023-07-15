@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./index.less";
 import {
   Form,
@@ -10,7 +10,10 @@ import {
   Checkbox,
   Button,
   AutoComplete,
+  message,
+  Space,
 } from "antd";
+import { useHistory } from "react-router-dom";
 const { Option } = Select;
 const residences = [
   {
@@ -79,11 +82,16 @@ const tailFormItemLayout = {
 
 function RegistrationForm() {
   const [form] = Form.useForm();
-
+  const history = useHistory()
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
   };
-
+  useEffect(() => {
+    message.warn("此页面使用了 [NEMU_LAYOUT] 属性 控制布局！")
+  }, [])
+  const back = useCallback(() => {
+    history.go(-1)
+  }, [history])
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       <Select
@@ -295,9 +303,12 @@ function RegistrationForm() {
           </Checkbox>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            Register
-          </Button>
+          <Space>
+            <Button type="primary" htmlType="submit">
+              Register
+            </Button>
+            <Button onClick={back}>返回上一页</Button>
+          </Space>
         </Form.Item>
       </Form>
     </div>
@@ -308,4 +319,5 @@ export default RegistrationForm;
 
 RegistrationForm.route = {
   path: "/form/index",
+  [MENU_LAYOUT]: "FULLSCREEN"
 };

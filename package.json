@@ -96,7 +96,8 @@
       "MENU_CHILDREN": true,
       "MENU_PARENTKEY": true,
       "MENU_ALLPATH": true,
-      "MENU_PARENTPATH": true
+      "MENU_PARENTPATH": true,
+      "MENU_LAYOUT": true
     }
   },
   "browserslist": {
@@ -216,6 +217,7 @@
     "MENU_CHILDREN": "children",
     "MENU_PARENTKEY": "parentKey",
     "MENU_ALLPATH": "allPath",
-    "MENU_PARENTPATH": "parentPath"
+    "MENU_PARENTPATH": "parentPath",
+    "MENU_LAYOUT": "layout"
   }
 }

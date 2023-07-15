@@ -66,7 +66,7 @@ const mode = {
   production_github: {
     ...proConfig,
     COLOR: "true",
-    REACT_APP_API_BASEURL: "https://azhengpersonalblog.top/api/react-ant-admin",
+    REACT_APP_API_BASEURL: "https://z3web.cn/api/react-ant-admin",
     REACT_APP_ROUTER_ISHASH: "1", // 启用哈希模式 
     REACT_APP_ROUTERBASE: "/"
   }

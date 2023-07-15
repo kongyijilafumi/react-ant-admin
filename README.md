@@ -22,20 +22,17 @@ JavaScript 版[码云(国内镜像)](https://gitee.com/kong_yiji_and_lavmi/react
 
 ## 预览地址
 
-[react-ant-admin](http://azhengpersonalblog.top/react-ant-admin/)
+[react-ant-admin](http://z3web.cn/react-ant-admin/)
 
 nodejs 后台 web 服务:[react-ant-admin-server](https://gitee.com/kong_yiji_and_lavmi/react-ant-admin-server)
 
 
 ## 文档地址
 
-[react-ant-admin 文档地址](https://azhengpersonalblog.top/doc-react-ant-admin/)
+[react-ant-admin 文档地址](https://z3web.cn/doc-react-ant-admin/)
 
 更多建议欢迎骚扰~
-
-[qq 交流群:532948540](https://qm.qq.com/cgi-bin/qm/qr?k=Wo_kXUOA-mTBviZ6gF4H912AKdE5vTML&jump_from=webapi)
-
-![qrcode](https://raw.githubusercontent.com/kongyijilafumi/my-image/master/qq.jpg)
+[qq 交流群:564048130](https://jq.qq.com/?_wv=1027&k=pzP2acC5)
 
 欢迎各位提出建议与问题!
 
@@ -166,6 +163,7 @@ let menu = [
     [MENU_PARENTKEY]: "",
     [MENU_ICON]: "icon_list",
     [MENU_KEEPALIVE]: "false",
+    [MENU_LAYOUT]:"FULLSCREEN" // 页面内容主题全屏显示 布局
     order: 1,
   },
   {
@@ -175,6 +173,7 @@ let menu = [
     [MENU_KEY]: "listCard",
     [MENU_PARENTKEY]: "list",
     [MENU_ICON]: "",
+    [MENU_LAYOUT]:"TWO_COLUMN" // 拥有侧边栏的 布局 此属性默认可以不填 在 src/layout/index.js defualt 项导出一个默认布局
     [MENU_KEEPALIVE]: "false",
     order: 5485,
   },
