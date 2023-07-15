@@ -26,11 +26,6 @@ JavaScript 版[码云(国内镜像)](https://gitee.com/kong_yiji_and_lavmi/react
 
 nodejs 后台 web 服务:[react-ant-admin-server](https://gitee.com/kong_yiji_and_lavmi/react-ant-admin-server)
 
-## 关于此框架二次开发
-
-[视频讲解地址下载(百度云)](https://pan.baidu.com/s/1El4ndtW28nffGgAqHA1Wag),提取码`e7n1`
-
-[视频讲解地址下载(阿里云)](https://www.aliyundrive.com/s/v499WGyEU5s)
 
 ## 文档地址
 
