@@ -54,8 +54,7 @@ function Intercept({ menuList, components: Components, [MENU_TITLE]: title, [MEN
   const init = useCallback(() => {
     setCurrentPageInfo()
     scrollPage()
-    console.log(layout);
-    stateChangeLayout(layout || null)
+    layout && stateChangeLayout(layout)
   }, [setCurrentPageInfo, layout, stateChangeLayout])
 
   useEffect(() => {
