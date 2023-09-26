@@ -22,12 +22,11 @@ const fallback = <Spin style={{
   fontSize: 24,
 }} tip="页面加载中...." />
 
-function Intercept({ menuList, components: Components, [MENU_TITLE]: title, [MENU_PATH]: pagePath, pageKey, [MENU_LAYOUT]: layout, ...itemProps }) {
+function Intercept({ menuList, components: Components, [MENU_TITLE]: title, [MENU_PATH]: pagePath, [MENU_KEEPALIVE]: isKeep, pageKey, [MENU_LAYOUT]: layout, ...itemProps }) {
   const location = useLocation()
   const { stateAddOpenedMenu: addOpenedMenuFn, stateSetSelectMenuKey: setSelectedKeys, stateSetOpenMenuKey: setOpenKeys, stateSetCurrentPath: setPath } = useDispatchMenu()
   const { stateChangeLayout } = useDispatchLayout()
   const [pageInit, setPageInit] = useState(false)
-
   const currentPath = useMemo(() => {
     const { pathname, search } = location
     return pathname + search
@@ -36,8 +35,10 @@ function Intercept({ menuList, components: Components, [MENU_TITLE]: title, [MEN
   // 监听 location 改变
   const onPathChange = useCallback(() => {
     setPath(currentPath)
-    addOpenedMenuFn({ key: pageKey, path: currentPath, title: title || "未设置标题信息" });
-  }, [currentPath, pageKey, title, setPath, addOpenedMenuFn])
+    if (isKeep !== "true") {
+      addOpenedMenuFn({ key: currentPath, path: currentPath, title: title || "未设置标题信息" });
+    }
+  }, [currentPath, title, isKeep, setPath, addOpenedMenuFn])
 
 
   const setCurrentPageInfo = useCallback(() => {
@@ -48,7 +49,7 @@ function Intercept({ menuList, components: Components, [MENU_TITLE]: title, [MEN
     setSelectedKeys([String(pageKey)]);
     let openkey = getMenuParentKey(menuList, pageKey);
     setOpenKeys(openkey);
-    addOpenedMenuFn({ key: pageKey, path: currentPath, title });
+    addOpenedMenuFn({ key: currentPath, path: currentPath, title });
   }, [currentPath, menuList, title, pageKey, setOpenKeys, setSelectedKeys, addOpenedMenuFn])
 
   const init = useCallback(() => {
