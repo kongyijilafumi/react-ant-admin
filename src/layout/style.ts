@@ -44,6 +44,7 @@ const createStyle = createStyles((({ css }, token: ThemeToken) => ({
     margin    : 10px 0 0;
     overflow-x: auto;
     background: ${token.colorBgContainer};
+    white-space: nowrap;
   `,
   topBreadcrumb: css` 
     background-color: ${token.colorBgContainer};
@@ -61,8 +62,8 @@ const createStyle = createStyles((({ css }, token: ThemeToken) => ({
     }
   `,
   header: css`
-    color           : ${token.colorText} ;
-    background-color: ${token.colorBgContainer};
+    color           : ${token.colorText} !important;
+    background-color: ${token.colorBgContainer} !important;
     border-bottom   : 1px solid ${token.colorSplit};
     .logo {
       float: left;
@@ -74,6 +75,7 @@ const createStyle = createStyles((({ css }, token: ThemeToken) => ({
       img {
         width : 40px;
         height: 40px;
+        vertical-align: middle;
       }
     }
     .right {

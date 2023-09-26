@@ -45,27 +45,20 @@ function TopMenu() {
   const breadcrumbItems = useMemo(() => {
     if (breadArr.length) {
       return breadArr.map(
-        (i) => ({
-          title: <>
-            <MyIcon type={i[MENU_ICON]} />
-            <span className="title">{i[MENU_TITLE]}</span>
-          </>,
-        })
+        (i) => (<Breadcrumb.Item key={i.menu_id}>
+          <MyIcon type={i[MENU_ICON]} />
+          <span className="title">{i[MENU_TITLE]}</span>
+        </Breadcrumb.Item>)
       )
     }
     return []
   }, [breadArr])
-
   return (
     <div className="top-menu-wrapper">
       {breadArr.length > 0 && (
-        <Breadcrumb
-          className={styles.topBreadcrumb}
-          items={breadcrumbItems}>
-        </Breadcrumb>
+        <Breadcrumb className={styles.topBreadcrumb} children={breadcrumbItems} />
       )}
-
-      <div className={styles.topMenu}>
+      <div className={styles.topMenu + ' hide-scrollbar'}>
         <MenuDnd />
       </div>
     </div>

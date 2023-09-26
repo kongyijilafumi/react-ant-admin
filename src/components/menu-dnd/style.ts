@@ -9,6 +9,7 @@ export default createStyles(({ css }, token: ThemeToken) => ({
     overflow-y : hidden;
     font-size  : 0;
     background-color: ${token.colorBgContainer};
+    
    `,
   dndItem: css`
     position        : relative;
@@ -26,7 +27,9 @@ export default createStyles(({ css }, token: ThemeToken) => ({
       background-color: ${token.colorBgLayout};
       color           : ${token.colorTextSecondary};
     }
-
+    &.dragOverlay{
+      z-index: 999;
+    }
     &.active {
       background-color: ${token.colorBorder};
       color           : ${token.colorText};

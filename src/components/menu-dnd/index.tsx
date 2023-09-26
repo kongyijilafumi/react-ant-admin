@@ -1,21 +1,44 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import MyIcon from "@/components/icon";
-import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useStyle from "./style"
 import { OpenedMenu } from "@/types"
 import { message } from "antd";
 import ContextMenu, { CloseType } from "../contextMenu";
 import { useDispatchMenu, useStateCurrentPath, useStateOpenedMenu } from "@/store/hooks";
 import { useThemeToken } from "@/hooks";
-// 重新记录数组顺序
-const reorder = (list: OpenedMenu[], startIndex: number, endIndex: number) => {
-  const result = Array.from(list);
-  //删除并记录 删除元素1
-  const [removed] = result.splice(startIndex, 1);
-  //将原来的元素添加进数组
-  result.splice(endIndex, 0, removed);
-  return result;
+import { CSS, Transform } from '@dnd-kit/utilities';
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+  MouseSensor,
+  DragOverlay,
+  defaultDropAnimationSideEffects,
+  UniqueIdentifier,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  horizontalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import {
+  restrictToHorizontalAxis,
+} from '@dnd-kit/modifiers';
+import { createPortal } from "react-dom";
+
+const dropAnimationConfig = {
+  sideEffects: defaultDropAnimationSideEffects({
+    styles: {
+      active: {
+        opacity: '0.5',
+      },
+    },
+  }),
 };
 
 function MenuDnd() {
@@ -29,6 +52,15 @@ function MenuDnd() {
   const { stateFilterOpenMenuKey: filterOpenMenu } = useDispatchMenu()
   const token = useThemeToken()
   const { styles } = useStyle(token)
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 3
+      }
+    }),
+    useSensor(MouseSensor),
+  );
   // 根据 选中的菜单 往里添加拖拽选项
   useEffect(() => {
     if (data.length !== openedMenu.length) {
@@ -44,17 +76,20 @@ function MenuDnd() {
   }, [openedMenu, data]);
 
   //拖拽结束
-  const onDragEnd = useCallback((result: DropResult) => {
-    if (!result.destination) {
-      return;
+  const onDragEnd = (result: DragEndEvent) => {
+    const { active, over } = result;
+    setActiveId(null);
+    if (active && over && active.id !== over?.id) {
+      setData((items) => {
+        const oldIndex = items.findIndex((i) => i.key === active.id);
+        const newIndex = items.findIndex((i) => i.key === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
     }
-    //获取拖拽后的数据 重新赋值
-    const newData = reorder(data, result.source.index, result.destination.index);
-    setData(newData);
-  }, [data]);
+  }
 
   // 关闭当前顶部菜单
-  const closeCurrent = useCallback((item: OpenedMenu) => {
+  const closeCurrent = (item: OpenedMenu) => {
     const newData = data.filter((i) => i.path !== item.path);
     const next = newData[newData.length - 1];
     if (next) {
@@ -67,10 +102,10 @@ function MenuDnd() {
     } else if (isCurrent && !next) {
       navigate("/", { replace: true })
     }
-  }, [data, currentPath, filterOpenMenu, navigate]);
+  }
 
   // 关闭右侧
-  const closeRight = useCallback(() => {
+  const closeRight = () => {
     if (!currentItem) {
       return
     }
@@ -85,10 +120,10 @@ function MenuDnd() {
     filterOpenMenu(keys)
     navigate(currentItem.path, { replace: true })
 
-  }, [currentItem, data, filterOpenMenu, navigate])
+  }
 
   // 关闭左侧
-  const closeLeft = useCallback(() => {
+  const closeLeft = () => {
     if (!currentItem) {
       return
     }
@@ -102,18 +137,17 @@ function MenuDnd() {
     console.log(keys);
     filterOpenMenu(keys)
     navigate(currentItem.path, { replace: true })
-  }, [currentItem, data, filterOpenMenu, navigate])
-
+  }
   // 关闭左侧
-  const closeAll = useCallback(() => {
+  const closeAll = () => {
     const keys = data.map(i => i.path)
     console.log(keys);
     filterOpenMenu(keys)
     navigate("/", { replace: true })
-  }, [data, filterOpenMenu, navigate])
+  }
 
   // 右键打开弹窗菜单
-  const onContextMenu = useCallback((e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>, item: OpenedMenu) => {
+  const onContextMenu = (e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>, item: OpenedMenu) => {
     const { clientX: x, clientY: y } = e
     e.stopPropagation()
     e.preventDefault()
@@ -121,10 +155,10 @@ function MenuDnd() {
     setCurrentItem(item)
     setPoint({ x, y })
     return false
-  }, [])
+  }
 
   // 右键选择关闭
-  const onContextMenuClose = useCallback((type: CloseType) => {
+  const onContextMenuClose = (type: CloseType) => {
     switch (type) {
       case "current":
         closeCurrent(currentItem as OpenedMenu)
@@ -141,65 +175,59 @@ function MenuDnd() {
       default:
         break;
     }
-  }, [closeCurrent, currentItem, closeRight, closeLeft, closeAll])
+  }
 
-  // 拖拽列表
-  const DraggableList = useMemo(() => {
-    if (data.length) {
-      return data.map((item, index) => {
-        const clsname = currentPath === item.path ? "active " : ""
-        const iconClick: React.MouseEventHandler<HTMLSpanElement> = (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          closeCurrent(item);
-        }
-        return <Draggable index={index} key={item.path} draggableId={item.path}>
-          {(provided) => (
-            //在这里写你的拖拽组件的样式 dom 等等...
-            <div
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              onContextMenu={(e) => onContextMenu(e, item)}
-              style={{ ...provided.draggableProps.style, display: "inline-block" }}>
-              <Link
-                className={clsname + styles.dndItem}
-                to={item.path}
-              >
-                {item.title}
-                <MyIcon
-                  className="anticon-close"
-                  type="icon_close"
-                  onClick={iconClick}
-                />
-              </Link>
-            </div>
-          )}
-        </Draggable>
-      })
-    }
-    return null
-  }, [data, currentPath, styles, onContextMenu, closeCurrent])
+  const sortItmes = useMemo(() => {
+    return data.map(item => ({ id: item.key, ...item }))
+  }, [data])
 
+  const overlay = useMemo(() => {
+    const item = openedMenu.find(item => item.key === activeId) as OpenedMenu
+    return createPortal(
+      <DragOverlay
+        adjustScale={false}
+        dropAnimation={dropAnimationConfig}
+      >
+        {activeId ? (
+          <SortableItem
+            key={activeId}
+            id={activeId}
+            toLink={navigate}
+            onContextMenu={onContextMenu}
+            clsName={currentPath === item.path ? "active " + styles.dndItem : styles.dndItem}
+            onClick={closeCurrent} item={item}
+          />
+        ) : null}
+      </DragOverlay>,
+      document.body
+    )
+  }, [activeId])
   return (<>
-    <DragDropContext onDragEnd={onDragEnd}>
-      {/* direction代表拖拽方向  默认垂直方向  水平方向:horizontal */}
-      <Droppable droppableId="droppable" direction="horizontal">
-        {(provided) => (
-          //这里是拖拽容器 在这里设置容器的宽高等等...
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            className={"hide-scrollbar " + styles.dndDody}
-          >
-            {/* 这里放置所需要拖拽的组件,必须要被 Draggable 包裹 */}
-            {DraggableList}
-            {/* 这个不能少 */}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <DndContext
+      onDragStart={({ active }) => {
+        if (!active) {
+          return;
+        }
+        setActiveId(active.id);
+      }}
+      onDragEnd={onDragEnd}
+      onDragCancel={() => setActiveId(null)}
+      collisionDetection={closestCenter}
+      sensors={sensors}
+      modifiers={[restrictToHorizontalAxis]}
+    >
+      <SortableContext items={sortItmes} strategy={horizontalListSortingStrategy} >
+        {sortItmes.map(item => (<SortableItem
+          key={item.id}
+          id={item.id}
+          toLink={navigate}
+          onContextMenu={onContextMenu}
+          clsName={currentPath === item.path ? "active " + styles.dndItem : styles.dndItem}
+          onClick={closeCurrent} item={item}
+        />))}
+      </SortableContext>
+      {overlay}
+    </DndContext >
     <ContextMenu
       {...point}
       isCurrent={Boolean(currentItem && currentItem.path === currentPath)}
@@ -211,3 +239,52 @@ function MenuDnd() {
 }
 
 export default MenuDnd
+
+interface SortableItemProps {
+  id: any
+  onClick: (d: OpenedMenu) => void
+  clsName: string
+  item: OpenedMenu
+  toLink: (path: string) => void
+  onContextMenu: (e: any, d: OpenedMenu) => void
+}
+function SortableItem(props: SortableItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id: props.id });
+
+  let tm = transform ? { ...transform, scaleX: 1, scaleY: 1 } as Transform : transform
+  const style = {
+    transform: CSS.Transform.toString(tm),
+    transition,
+    display: "inline-block",
+  };
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} >
+      <div
+        className={props.clsName}
+        {...listeners}
+        onClick={() => {
+          console.log(props.item.path);
+          props.toLink(props.item.path)
+        }}
+        onContextMenu={(e) => props.onContextMenu(e, props.item)}
+      >
+        {props.item.title}
+        <MyIcon
+          className="anticon-close"
+          type="icon_close"
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            props.onClick(props.item)
+          }}
+        />
+      </div>
+    </div>
+  );
+}

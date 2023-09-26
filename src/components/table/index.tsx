@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   Row,
@@ -10,11 +10,6 @@ import {
   message,
   notification,
 } from "antd";
-import {
-  SortableContainer,
-  SortableElement,
-  SortableHandle,
-} from "react-sortable-hoc";
 import MyIcon from "../icon";
 import arrayMove from "array-move";
 import { getKey, setKey, rmKey } from "@/utils";
@@ -22,24 +17,21 @@ import "./index.less";
 import useStyle from "./style"
 import { MyTableProps, Columns, renderArugs, Column } from "./types"
 import { useThemeToken } from "@/hooks";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { CSS } from '@dnd-kit/utilities';
 
-const DragHandle = SortableHandle(() => (
-  <MyIcon type="icon_mirrorlightctrl" className="drag-sort" />
-));
-const SortableItem = SortableElement((props: any) => <tr {...props} />);
-const SortableBody = SortableContainer((props: any) => <tbody  {...props} />);
 
 const setColTitle: Columns = [
   {
     title: "列排序",
     dataIndex: "sort",
-    className: "drag-visible",
-    render: () => <DragHandle />,
+    key: "sort",
   },
   {
     title: "列名",
     dataIndex: "title",
-    className: "drag-visible",
     align: "center",
   },
   {
@@ -100,30 +92,56 @@ const defaultCol: Omit<Column, "dataIndex"> = {
   hidden: "auto",
 };
 
+interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
+  'data-row-key': string;
+}
+
+const TbRow = ({ children, ...props }: RowProps) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: props['data-row-key'],
+  });
+
+  const style: React.CSSProperties = {
+    ...props.style,
+    transform: CSS.Transform.toString(transform && { ...transform, scaleY: 1 }),
+    transition,
+    ...(isDragging ? { position: 'relative', zIndex: 9999 } : {}),
+  };
+
+  return (
+    <tr {...props} ref={setNodeRef} style={style} {...attributes}>
+      {React.Children.map(children, (child) => {
+        if ((child as React.ReactElement).key === 'sort') {
+          return React.cloneElement(child as React.ReactElement, {
+            children: (
+              <div ref={setActivatorNodeRef}
+                style={{ touchAction: 'none', cursor: 'move' }} className="drag-sort"    {...listeners}>
+                <MyIcon
+                  type="icon_mirrorlightctrl"
+                />
+              </div>
+
+            ),
+          });
+        }
+        return child;
+      })}
+    </tr>
+  );
+};
 
 function UseTable(columns: Columns, saveKey: MyTableProps["saveKey"]) {
   const [showDrawer, setShowDrawer] = useState(false);
   const [col, setCol] = useState<Columns>([]);
   const [tbTitle, setTitle] = useState<Columns>([]);
-  const token = useThemeToken()
-  const { styles } = useStyle(token)
-  const DraggableContainer = useMemo(() => {
-    return function H(props: any) {
-      return <SortableBody
-        useDragHandle
-        disableAutoscroll
-        helperClass={styles.rowDragging}
-        onSortEnd={onSortEnd}
-        {...props}
-      />
-    }
-  }, [styles, onSortEnd]);
-  const DraggableBodyRow = useMemo(() => {
-    return function H({ className, style, ...restProps }: any) {
-      const index = col.findIndex((x) => x.index === restProps["data-row-key"]);
-      return <SortableItem index={index} {...restProps} />;
-    }
-  }, [col]);
   useEffect(() => {
     const data: Columns = getKey(true, saveKey || '');
     if (saveKey && data && columns && columns.length === data.length) {
@@ -217,18 +235,6 @@ function UseTable(columns: Columns, saveKey: MyTableProps["saveKey"]) {
   function show() {
     setShowDrawer(true);
   }
-  function onSortEnd({ oldIndex, newIndex }: {
-    oldIndex: number
-    newIndex: number
-  }) {
-    if (oldIndex !== newIndex) {
-      const arr: Array<Columns> = []
-      const newData = arrayMove(arr.concat(col), oldIndex, newIndex).filter(
-        (el) => !!el
-      );
-      setCol(newData as unknown as Columns);
-    }
-  }
   function saveTbSet() {
     if (!saveKey) {
       return notification.error({
@@ -262,16 +268,24 @@ function UseTable(columns: Columns, saveKey: MyTableProps["saveKey"]) {
     }));
     setCol(newCol);
   }
+  const onDragEnd = ({ active, over }: DragEndEvent) => {
+    if (active.id !== over?.id) {
+      setCol((previous) => {
+        const activeIndex = previous.findIndex((i) => i.index === active.id);
+        const overIndex = previous.findIndex((i) => i.index === over?.id);
+        return arrayMove(previous, activeIndex, overIndex);
+      });
+    }
+  };
   return {
     col,
     showDrawer,
     show,
     hiddin,
     tbTitle,
-    DraggableContainer,
-    DraggableBodyRow,
     saveTbSet,
-    delTbSet
+    delTbSet,
+    onDragEnd
   };
 }
 
@@ -289,8 +303,7 @@ function MyTable({
     hiddin,
     col,
     tbTitle,
-    DraggableContainer,
-    DraggableBodyRow,
+    onDragEnd,
     saveTbSet,
     delTbSet
   } = UseTable(columns, saveKey);
@@ -321,23 +334,31 @@ function MyTable({
         open={showDrawer}
         title="表格显示设置"
       >
-        <Table
-          columns={tbTitle}
-          dataSource={col}
-          rowKey="index"
-          components={{
-            body: {
-              wrapper: DraggableContainer,
-              row: DraggableBodyRow,
-            },
-          }}
-          pagination={false}
-        />
+
+        <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+          <SortableContext
+            // rowKey array
+            items={col.map(item => item.index)}
+            strategy={verticalListSortingStrategy}
+          >
+            <Table
+              components={{
+                body: {
+                  row: TbRow,
+                },
+              }}
+              columns={tbTitle}
+              dataSource={col}
+              rowKey="index"
+              pagination={false}
+            />
+          </SortableContext>
+        </DndContext>
         <Row justify="center" className="mt20">
           <Button type="primary" onClick={saveTbSet}>
             保存此表格设置，下次打开默认启用
           </Button>
-          <Button danger type="ghost" className="del" onClick={delTbSet}>
+          <Button danger type="dashed" className="del" onClick={delTbSet}>
             删除已保存的设置
           </Button>
         </Row>
