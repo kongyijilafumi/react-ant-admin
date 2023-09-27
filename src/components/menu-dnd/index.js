@@ -256,7 +256,6 @@ function SortableItem(props) {
         className={props.clsName}
         {...listeners}
         onClick={() => {
-          console.log(props.item.path);
           props.toLink(props.item.path)
         }}
         onContextMenu={(e) => props.onContextMenu(e, props.item)}

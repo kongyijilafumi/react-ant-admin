@@ -34,11 +34,10 @@ function Intercept({ menuList, components: Components, [MENU_TITLE]: title, [MEN
 
   // 监听 location 改变
   const onPathChange = useCallback(() => {
-    setPath(currentPath)
     if (isKeep !== "true") {
       addOpenedMenuFn({ key: currentPath, path: currentPath, title: title || "未设置标题信息" });
     }
-  }, [currentPath, title, isKeep, setPath, addOpenedMenuFn])
+  }, [currentPath, title, isKeep, addOpenedMenuFn])
 
 
   const setCurrentPageInfo = useCallback(() => {
@@ -75,7 +74,15 @@ function Intercept({ menuList, components: Components, [MENU_TITLE]: title, [MEN
     layout && stateChangeLayout("push", layout)
   }, [layout, stateChangeLayout])
 
-  useDidRecover(init, [init])
+  // 路由改变
+  useEffect(() => {
+    setPath(currentPath)
+  }, [currentPath, setPath])
+
+  useDidRecover(() => {
+    setPath(currentPath)
+    init()
+  }, [init, currentPath, setPath])
 
   const hasPath = !menuList.find(
     (m) => (m[MENU_PARENTPATH] || "") + m[MENU_PATH] === pagePath
