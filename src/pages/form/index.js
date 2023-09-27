@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.less";
 import {
   Form,
@@ -14,6 +14,7 @@ import {
   Space,
 } from "antd";
 import { useHistory } from "react-router-dom";
+import { useDispatchLayout } from "@/store/hooks";
 const { Option } = Select;
 const residences = [
   {
@@ -83,15 +84,19 @@ const tailFormItemLayout = {
 function RegistrationForm() {
   const [form] = Form.useForm();
   const history = useHistory()
+  const { stateChangeLayout } = useDispatchLayout()
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
   };
   useEffect(() => {
     message.warn("此页面使用了 [NEMU_LAYOUT] 属性 控制布局！")
-  }, [])
-  const back = useCallback(() => {
+    return () => {
+      stateChangeLayout("pop")
+    }
+  }, [stateChangeLayout])
+  const back = () => {
     history.go(-1)
-  }, [history])
+  }
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       <Select

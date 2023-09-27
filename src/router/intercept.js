@@ -55,8 +55,7 @@ function Intercept({ menuList, components: Components, [MENU_TITLE]: title, [MEN
   const init = useCallback(() => {
     setCurrentPageInfo()
     scrollPage()
-    layout && stateChangeLayout(layout)
-  }, [setCurrentPageInfo, layout, stateChangeLayout])
+  }, [setCurrentPageInfo])
 
   useEffect(() => {
     if (!pageInit) {
@@ -70,6 +69,11 @@ function Intercept({ menuList, components: Components, [MENU_TITLE]: title, [MEN
       onPathChange()
     }
   }, [onPathChange, pageInit])
+
+  // 切换布局
+  useEffect(() => {
+    layout && stateChangeLayout("push", layout)
+  }, [layout, stateChangeLayout])
 
   useDidRecover(init, [init])
 

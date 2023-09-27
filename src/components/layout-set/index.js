@@ -60,7 +60,7 @@ export default function LayoutSet() {
     message.success("布局保存本地成功！");
   }, [layoutMode, componentsVisible]);
   const setLayout = useCallback((mode) => {
-    setMode(mode);
+    setMode("push", mode);
     message.success("布局设置成功！");
   }, [setMode]);
 

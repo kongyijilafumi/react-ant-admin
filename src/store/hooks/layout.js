@@ -7,7 +7,7 @@ export const useStateLayout = () => useSelector(getLayoutMode)
 
 export function useDispatchLayout() {
   const dispatch = useDispatch()
-  const stateChangeLayout = useCallback((mode) => dispatch(changeLayoutMode(mode)), [dispatch])
+  const stateChangeLayout = useCallback((type, mode) => dispatch(changeLayoutMode(type, mode)), [dispatch])
   return {
     stateChangeLayout
   }

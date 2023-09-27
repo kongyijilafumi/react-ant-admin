@@ -1,1 +1,1 @@
-export const getLayoutMode = (state) => state.layout
+export const getLayoutMode = (state) => state.layout[state.layout.length - 1]

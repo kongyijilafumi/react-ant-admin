@@ -1,5 +1,5 @@
 
-export const changeLayoutMode = (mode) => ({
-  type: "change",
+export const changeLayoutMode = (type, mode) => ({
+  type,
   mode,
 });
