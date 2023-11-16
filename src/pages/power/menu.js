@@ -50,8 +50,10 @@ function useMenu() {
           if (item.dataIndex === "icon") {
             item.render = (text) =>
               text ? <MyIcon className="preview" type={text} /> : "暂未设置";
-          } else if (item.dataIndex === "keepAlive") {
+          } else if (item.dataIndex === MENU_KEEPALIVE) {
             item.render = (text) => (text === "true" ? "保持" : "关闭销毁");
+          } else if (item.dataIndex === MENU_SHOW) {
+            item.render = (t) => t === "true" ? '显示' : '隐藏'
           }
         });
         setCol(res.mapKey);
@@ -65,8 +67,8 @@ function useMenu() {
     // eslint-disable-next-line
   }, []);
 
-  const openModal = (type, { key, parentKey }) => {
-    setSelectInfo({ key, isParent: !Boolean(parentKey) });
+  const openModal = (type, { [MENU_KEY]: key, [MENU_PARENTKEY]: parentKey }) => {
+    setSelectInfo({ [MENU_KEY]: key, isParent: !Boolean(parentKey) });
     setModalType(type);
     setShowModal(true);
   };
@@ -111,7 +113,7 @@ export default function Menu() {
       <Button type="primary" onClick={addMenu}>
         新增菜单
       </Button>
-      <MyTable dataSource={menus} columns={tabCol} saveKey="MENUTABLE" />
+      <MyTable dataSource={menus} rowKey={`${MENU_KEY}`} columns={tabCol} saveKey="MENUTABLE" />
       <MenuModal
         menus={menus}
         isShow={showModal}

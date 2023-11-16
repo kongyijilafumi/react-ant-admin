@@ -97,7 +97,8 @@
       "MENU_PARENTKEY": true,
       "MENU_ALLPATH": true,
       "MENU_PARENTPATH": true,
-      "MENU_LAYOUT": true
+      "MENU_LAYOUT": true,
+      "MENU_ORDER": true
     }
   },
   "browserslist": {
@@ -214,15 +215,16 @@
   "sideEffects": false,
   "MENUDATA": {
     "MENU_PATH": "path",
-    "MENU_SHOW": "isShowOnMenu",
-    "MENU_KEEPALIVE": "keepAlive",
-    "MENU_KEY": "key",
+    "MENU_SHOW": "show",
+    "MENU_KEEPALIVE": "keep_alive",
+    "MENU_KEY": "m_id",
     "MENU_ICON": "icon",
     "MENU_TITLE": "title",
     "MENU_CHILDREN": "children",
-    "MENU_PARENTKEY": "parentKey",
+    "MENU_PARENTKEY": "parent_m_id",
     "MENU_ALLPATH": "allPath",
     "MENU_PARENTPATH": "parentPath",
-    "MENU_LAYOUT": "layout"
+    "MENU_LAYOUT": "layout",
+    "MENU_ORDER": "order"
   }
 }

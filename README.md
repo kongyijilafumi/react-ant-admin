@@ -138,14 +138,14 @@ export default class Test extends React.Component {
 // 1.被捕获 export default 原型上的route
 Test.route={
   [MENU_TITLE] : "test页面",
-  [MENU_KEY] : "test",
+  [MENU_KEY] : 11,
   [MENU_PATH]: "/test"
 }
 
 // 2.被捕获 暴露的route信息  优先级比上面高
 export const route = {
   [MENU_TITLE] : "test页面",
-  [MENU_KEY] : "test",
+  [MENU_KEY] : 11,
   [MENU_PATH]: "/test"
 }
 ```
@@ -161,36 +161,33 @@ export const route = {
 ```js
 let menu = [
   {
-    menu_id: 9,
     [MENU_TITLE]: "列表页",
     [MENU_PATH]: "/list",
-    [MENU_KEY]: "list",
-    [MENU_PARENTKEY]: "",
+    [MENU_KEY]: 9, // 菜单的唯一标识 
+    [MENU_PARENTKEY]: null,
     [MENU_ICON]: "icon_list",
     [MENU_KEEPALIVE]: "false",
     [MENU_LAYOUT]:"FULLSCREEN" // 页面内容主题全屏显示 布局
-    order: 1,
+    [MENU_ORDER]: 1,
   },
   {
-    menu_id: 10,
     [MENU_TITLE]: "卡片列表",
     [MENU_PATH]: "/card",
-    [MENU_KEY]: "listCard",
-    [MENU_PARENTKEY]: "list",
-    [MENU_ICON]: "",
+    [MENU_KEY]: 10,
+    [MENU_PARENTKEY]: 9, // 父菜单的唯一标识 
+    [MENU_ICON]: null,
     [MENU_LAYOUT]:"TWO_COLUMN" // 拥有侧边栏的 布局 此属性默认可以不填 在 src/layout/index.js defualt 项导出一个默认布局
     [MENU_KEEPALIVE]: "false",
-    order: 5485,
+    [MENU_ORDER]: 5485,
   },
   // .... 开始添加菜单信息 ....
   {
-    menu_id: 11, // 菜单id 用于关联权限
     [MENU_TITLE]: "test", // 标题
     [MENU_PATH]: "/test", // 访问路径
-    [MENU_KEY]: "test", // 唯一key
-    [MENU_PARENTKEY]: "", // 空表示 为主菜单而非子菜单
+    [MENU_KEY]: 11, // 菜单的唯一标识 
+    [MENU_PARENTKEY]: null, // 空表示 为主菜单而非子菜单
     [MENU_ICON]: "icon_infopersonal", // 菜单图标
-    order: 1, // 菜单排序 越小越靠前
+    [MENU_ORDER]: 1, // 菜单排序 越小越靠前 number
     [MENU_KEEPALIVE]: "true", //  页面保持状态
   },
   // .....

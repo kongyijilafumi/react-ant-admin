@@ -120,6 +120,11 @@ export default function UserModal({ info, isShow, onCancel, onOk, menuList }) {
       <MyForm handleInstance={setForm} items={initFormItems} />
       <Tree
         treeData={menuList}
+        fieldNames={{
+          title: MENU_TITLE,
+          key: MENU_KEY,
+          children: MENU_CHILDREN
+        }}
         checkable
         defaultExpandAll={true}
         checkedKeys={menuId}
