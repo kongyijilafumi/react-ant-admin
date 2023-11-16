@@ -177,10 +177,10 @@ export default function MenuModal({
           let childrenList = modalType === "addChild" ? getMenuList(menus, info[MENU_KEY] as string) : menus
           if (i.childProps) {
             i.childProps.children = childrenList.map((menu) => (
-              <Option value={menu.key} key={menu.key}>
+              <Option value={menu[MENU_KEY]} key={menu[MENU_KEY]}>
                 <div className="icons">
-                  <MyIcon type={menu.icon as string} />
-                  <span className="title"> {menu.title}</span>
+                  <MyIcon type={menu[MENU_ICON] as string} />
+                  <span className="title"> {menu[MENU_TITLE]}</span>
                 </div>
               </Option>
             ));
