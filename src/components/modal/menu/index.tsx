@@ -49,7 +49,7 @@ const initFormItems: FormItemData[] = [
     itemProps: {
       rules: [{ required: true, message: "请填写菜单标题" }],
       label: "菜单标题",
-      name: "title",
+      name: MENU_TITLE,
     },
     childProps: {
       placeholder: "菜单标题",
@@ -60,28 +60,17 @@ const initFormItems: FormItemData[] = [
     itemProps: {
       rules: [{ required: true, message: "请填写菜单路径" }],
       label: "菜单路径",
-      name: "path",
+      name: MENU_PATH,
     },
     childProps: {
       placeholder: "菜单路径",
     },
   },
   {
-    itemType: "input",
-    itemProps: {
-      rules: [{ required: true, message: "请填写菜单key值" }],
-      label: "菜单key",
-      name: "key",
-    },
-    childProps: {
-      placeholder: "菜单key值必须唯一，否则创建失败",
-    },
-  },
-  {
     itemType: "select",
     itemProps: {
       label: "父级菜单",
-      name: "parentKey",
+      name: MENU_PARENTKEY,
     },
     childProps: {
       placeholder: "父级菜单",
@@ -91,7 +80,7 @@ const initFormItems: FormItemData[] = [
     itemType: "select",
     itemProps: {
       label: "菜单图标",
-      name: "icon",
+      name: MENU_ICON,
     },
     childProps: {
       placeholder: "图标",
@@ -112,7 +101,7 @@ const initFormItems: FormItemData[] = [
     itemType: "radio",
     itemProps: {
       rules: [{ required: true, message: "请选择菜单缓存模式" }],
-      name: "keepAlive",
+      name: MENU_KEEPALIVE,
       label: "页面是否缓存",
     },
     childProps: {
@@ -135,7 +124,7 @@ const initFormItems: FormItemData[] = [
         },
         { required: true, message: "请填写菜单排序大小" },
       ],
-      name: "order",
+      name: MENU_ORDER,
       label: "菜单排序",
     },
     childProps: {
@@ -143,6 +132,29 @@ const initFormItems: FormItemData[] = [
     },
   },
 ];
+
+function getMenuList(list: MenuList, id: number | string) {
+  let menu: MenuList = []
+  const findList = (ls: MenuList): boolean => {
+    return ls.some(item => {
+      let l = item[MENU_CHILDREN]
+      if (item[MENU_KEY] === id) {
+        menu = ls
+        return true
+      } else if (Array.isArray(l) && l.length) {
+        let d = findList(l)
+        if (d) {
+          menu = l
+        }
+        return d
+      }
+      return false
+    })
+  }
+  findList(list)
+  return menu
+}
+
 export default function MenuModal({
   info,
   modalType = "add",
@@ -159,38 +171,41 @@ export default function MenuModal({
     if (modalType !== "add" && menus && info) {
       let items = [...initFormItems.map((i) => ({ ...i }))];
       items.forEach((i) => {
-        if (i.itemProps.name === "parentKey") {
-          i.childProps = { ...i.childProps }
-          i.childProps.disabled =
-            modalType === "addChild" || (modalType === "edit" && info.isParent);
-          i.childProps.children = menus.map((menu) => (
-            <Option value={menu.key} key={menu.key}>
-              <div className="icons">
-                <MyIcon type={menu.icon} />
-                <span className="title"> {menu.title}</span>
-              </div>
-            </Option>
-          ));
+        if (i.itemProps.name === MENU_PARENTKEY) {
+          let disabled = modalType === "addChild" || (modalType === "edit" && info.isParent);
+          i.childProps && (i.childProps.disabled = disabled)
+          let childrenList = modalType === "addChild" ? getMenuList(menus, info[MENU_KEY] as string) : menus
+          if (i.childProps) {
+            i.childProps.children = childrenList.map((menu) => (
+              <Option value={menu.key} key={menu.key}>
+                <div className="icons">
+                  <MyIcon type={menu.icon as string} />
+                  <span className="title"> {menu.title}</span>
+                </div>
+              </Option>
+            ));
+          }
+
         }
       });
       setItems(items);
     } else if (info && modalType === "add" && menus) {
       let items = [...initFormItems.map((i) => ({ ...i }))];
-      items = items.filter((i) => i.itemProps.name !== "parentKey");
+      items = items.filter((i) => i.itemProps.name !== MENU_PARENTKEY);
       setItems(items);
     }
   }, [modalType, info, menus]);
 
   useEffect(() => {
     if (modalType === "edit" && isShow && form) {
-      getMenuInfo({ key: info && info.key }).then((res) => {
+      getMenuInfo({ key: info && info[MENU_KEY] }).then((res) => {
         if (res.status === 0 && res.data) {
           form.setFieldsValue(res.data);
         }
       });
     } else if (modalType === "addChild" && isShow && form) {
       form.setFieldsValue({
-        parentKey: info && info.key,
+        [MENU_PARENTKEY]: info && info[MENU_KEY],
       });
     }
   }, [modalType, isShow, info, form]);

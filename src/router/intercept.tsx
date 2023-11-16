@@ -35,6 +35,7 @@ function Intercept({ menuList, components, [MENU_TITLE]: title, [MENU_PATH]: pag
   const onPathChange = useCallback(() => {
     stateSetCurrentPath(currentPath)
     stateAddOpenedMenu({ key: pageKey, path: currentPath, title: title || "未设置标题信息" });
+    stateSetSelectMenuKey([String(pageKey)]);
   }, [currentPath, pageKey, title, stateSetCurrentPath, stateAddOpenedMenu])
 
   const setCurrentPageInfo = useCallback(() => {
@@ -44,7 +45,7 @@ function Intercept({ menuList, components, [MENU_TITLE]: title, [MENU_PATH]: pag
     document.title = title;
     stateSetSelectMenuKey([String(pageKey)]);
     let openkey = getMenuParentKey(menuList, pageKey);
-    stateSetOpenMenuKey(openkey);
+    stateSetOpenMenuKey(openkey as string[]);
     stateAddOpenedMenu({ key: pageKey, path: currentPath, title });
   }, [currentPath, menuList, title, pageKey, stateSetOpenMenuKey, stateSetSelectMenuKey, stateAddOpenedMenu])
 

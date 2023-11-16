@@ -133,6 +133,11 @@ export default function TypeModal({ info, isShow, onCancel, onOk, menuList }: Mo
       <Tree
         treeData={menuList}
         checkable
+        fieldNames={{
+          title: MENU_TITLE,
+          key: MENU_KEY,
+          children: MENU_CHILDREN
+        }}
         defaultExpandAll={true}
         checkedKeys={menuId}
         selectable={false}

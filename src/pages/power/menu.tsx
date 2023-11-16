@@ -10,7 +10,7 @@ import "./index.less";
 
 export type ModalType = "add" | "addChild" | "edit"
 export type SelectInfo = {
-  key?: string
+  [MENU_KEY]?: string
   isParent?: Boolean
 }
 
@@ -58,8 +58,10 @@ function useMenu() {
           if (item.dataIndex === "icon") {
             item.render = (text: string | null) =>
               text ? <MyIcon className="preview" type={text} /> : "暂未设置";
-          } else if (item.dataIndex === "keepAlive") {
+          } else if (item.dataIndex === MENU_KEEPALIVE) {
             item.render = (text: string) => (text === "true" ? "保持" : "关闭销毁");
+          } else if (item.dataIndex === MENU_SHOW) {
+            item.render = (t: string) => t === "true" ? '显示' : '隐藏'
           }
         });
         setCol(res.mapKey);
@@ -73,8 +75,8 @@ function useMenu() {
     // eslint-disable-next-line
   }, []);
 
-  const openModal = (type: ModalType, { key, isParent }: SelectInfo) => {
-    setSelectInfo({ key, isParent: !Boolean(isParent) });
+  const openModal = (type: ModalType, { [MENU_KEY]: key, isParent }: SelectInfo) => {
+    setSelectInfo({ [MENU_KEY]: key, isParent: !Boolean(isParent) });
     setModalType(type);
     setShowModal(true);
   };
@@ -119,7 +121,7 @@ export default function Menu() {
       <Button type="primary" onClick={addMenu}>
         新增菜单
       </Button>
-      <MyTable dataSource={menus} columns={tabCol} saveKey="MENUTABLE" />
+      <MyTable dataSource={menus} rowKey={`${MENU_KEY}`} columns={tabCol} saveKey="MENUTABLE" />
       <MenuModal
         menus={menus}
         isShow={showModal}

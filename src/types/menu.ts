@@ -26,12 +26,11 @@ export interface MenuState {
 
 // 未处理的菜单列表信息
 export interface MenuItem {
-  menu_id: number
-  [MENU_ICON]: string
+  [MENU_ICON]: string | null
   [MENU_KEEPALIVE]: string
   [MENU_KEY]: string | number
-  order?: number
-  [MENU_PARENTKEY]: string
+  [MENU_ORDER]?: number
+  [MENU_PARENTKEY]: number | null
   [MENU_PATH]: string
   [MENU_TITLE]: string
   [MENU_CHILDREN]?: MenuList

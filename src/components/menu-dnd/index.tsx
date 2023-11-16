@@ -238,7 +238,6 @@ function MenuDnd() {
   </>);
 }
 
-export default MenuDnd
 
 interface SortableItemProps {
   id: any
@@ -288,3 +287,5 @@ function SortableItem(props: SortableItemProps) {
     </div>
   );
 }
+
+export default MenuDnd

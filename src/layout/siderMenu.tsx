@@ -22,14 +22,14 @@ const getItem = (label: React.ReactNode, key?: React.Key | null, icon?: React.Re
 
 
 const renderMenu = (item: MenuItem, path: string): AntdMenuItem => {
-  if (item[MENU_SHOW] === false) {
+  if (item[MENU_SHOW] === "false") {
     return null;
   }
   if (!item.children) {
-    return getItem(<Link to={path + item[MENU_PATH]}>{item[MENU_TITLE]}</Link>, item[MENU_KEY], <MyIcon type={item[MENU_ICON]} />)
+    return getItem(<Link to={path + item[MENU_PATH]}>{item[MENU_TITLE]}</Link>, item[MENU_KEY], <MyIcon type={item[MENU_ICON] as string} />)
   }
   return (
-    getItem(item[MENU_TITLE], item[MENU_KEY], <MyIcon type={item[MENU_ICON]} />, item.children.map(i => renderMenu(i, path + item[MENU_PATH])))
+    getItem(item[MENU_TITLE], item[MENU_KEY], <MyIcon type={item[MENU_ICON] as string} />, item.children.map(i => renderMenu(i, path + item[MENU_PATH])))
   );
 };
 

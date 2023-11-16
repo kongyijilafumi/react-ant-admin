@@ -1,16 +1,17 @@
 /// <reference types="vite/client" />
 
 declare const MENU_PATH = "path"
-declare const MENU_SHOW = "isShowOnMenu"
-declare const MENU_KEEPALIVE = "keepAlive"
-declare const MENU_KEY = "key"
+declare const MENU_SHOW = "show"
+declare const MENU_KEEPALIVE = "keep_alive"
+declare const MENU_KEY = "m_id"
 declare const MENU_ICON = "icon"
 declare const MENU_TITLE = "title"
 declare const MENU_CHILDREN = "children"
-declare const MENU_PARENTKEY = "parentKey"
+declare const MENU_PARENTKEY = "parent_m_id"
 declare const MENU_ALLPATH = "allPath"
 declare const MENU_PARENTPATH = "parentPath"
 declare const MENU_LAYOUT = "layout"
+declare const MENU_ORDER = "order"
 declare let __IS_THEME__: boolean;
 /**
  * 自定义主题 less 变量

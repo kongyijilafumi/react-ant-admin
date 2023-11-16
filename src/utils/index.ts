@@ -57,14 +57,14 @@ function getLocalUser() {
 }
 
 
-function getMenuParentKey(list: MenuList, key: string): string[] {
-  const keys = [];
+function getMenuParentKey(list: MenuList, key: string | number): (string | number)[] {
+  const keys: (string | number)[] = [];
   const info = list.find((item) => item[MENU_KEY] === key);
   let parentKey = info?.[MENU_PARENTKEY];
   if (parentKey) {
     const data = getMenuParentKey(list, parentKey)
     keys.push(...data);
-    keys.push(parentKey);
+    keys.push(String(parentKey));
   }
   return keys;
 }
@@ -116,10 +116,10 @@ export function formatMenu(list: MenuList) {
 function reduceMenuList(list: MenuList, path: string = ''): MenuList {
   const data: MenuList = [];
   list.forEach((i) => {
-    const { children, ...item } = i;
-    item.parentPath = path;
+    const { [MENU_CHILDREN]: children, ...item } = i;
+    item[MENU_PARENTPATH] = path;
     if (children) {
-      const childList = reduceMenuList(children, path + i.path);
+      const childList = reduceMenuList(children, path + i[MENU_PATH]);
       data.push(...childList);
     }
     data.push(item);

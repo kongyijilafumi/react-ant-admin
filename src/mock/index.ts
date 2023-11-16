@@ -58,184 +58,166 @@ let currentUser = userInfoList[0];
 
 let menu: MenuList = [
   {
-    menu_id: 9,
     [MENU_TITLE]: "列表页",
     [MENU_PATH]: "/list",
-    [MENU_KEY]: "list",
-    [MENU_PARENTKEY]: "",
+    [MENU_KEY]: 9,
+    [MENU_PARENTKEY]: null,
     [MENU_ICON]: "icon_list",
     [MENU_KEEPALIVE]: "false",
-    order: 1,
+    [MENU_ORDER]: 1,
   },
   {
-    menu_id: 10,
     [MENU_TITLE]: "卡片列表",
     [MENU_PATH]: "/card",
-    [MENU_KEY]: "listCard",
-    [MENU_PARENTKEY]: "list",
-    [MENU_ICON]: "",
+    [MENU_KEY]: 10,
+    [MENU_PARENTKEY]: 9,
+    [MENU_ICON]: null,
     [MENU_KEEPALIVE]: "false",
-    order: 5485,
+    [MENU_ORDER]: 5485,
   },
   {
-    menu_id: 11,
     [MENU_TITLE]: "查询列表",
     [MENU_PATH]: "/search",
-    [MENU_KEY]: "listSearch",
-    [MENU_PARENTKEY]: "list",
-    [MENU_ICON]: "",
+    [MENU_KEY]: 11,
+    [MENU_PARENTKEY]: 9,
+    [MENU_ICON]: null,
     [MENU_KEEPALIVE]: "false",
-    order: 9588,
+    [MENU_ORDER]: 9588,
   },
   {
-    menu_id: 7,
     [MENU_TITLE]: "表单页",
     [MENU_PATH]: "/form",
-    [MENU_KEY]: "from",
-    [MENU_PARENTKEY]: "",
+    [MENU_KEY]: 7,
+    [MENU_PARENTKEY]: null,
     [MENU_ICON]: "icon_form",
     [MENU_KEEPALIVE]: "false",
-    order: 3,
+    [MENU_ORDER]: 3,
   },
   {
-    menu_id: 6,
     [MENU_TITLE]: "基础表单",
     [MENU_PATH]: "/index",
-    [MENU_KEY]: "formIndex",
-    [MENU_PARENTKEY]: "from",
-    [MENU_ICON]: "",
+    [MENU_KEY]: 6,
+    [MENU_PARENTKEY]: 7,
+    [MENU_ICON]: null,
     [MENU_KEEPALIVE]: "false",
-    order: 9654,
+    [MENU_ORDER]: 9654,
   },
   {
-    menu_id: 1,
     [MENU_TITLE]: "详情页",
     [MENU_PATH]: "/details",
-    [MENU_KEY]: "details",
-    [MENU_PARENTKEY]: "",
+    [MENU_KEY]: 1,
+    [MENU_PARENTKEY]: null,
     [MENU_ICON]: "icon_edit",
     [MENU_KEEPALIVE]: "false",
-    order: 3,
+    [MENU_ORDER]: 3,
   },
   {
-    menu_id: 2,
     [MENU_TITLE]: "个人中心",
     [MENU_PATH]: "/person",
-    [MENU_KEY]: "detailsPerson",
-    [MENU_PARENTKEY]: "details",
+    [MENU_KEY]: 2,
+    [MENU_PARENTKEY]: 1,
     [MENU_ICON]: "icon_infopersonal",
     [MENU_KEEPALIVE]: "false",
-    order: 9998,
+    [MENU_ORDER]: 9998,
   },
   {
-    menu_id: 16,
     [MENU_TITLE]: "结果页",
     [MENU_PATH]: "/result",
-    [MENU_KEY]: "result",
-    [MENU_PARENTKEY]: "",
+    [MENU_KEY]: 16,
+    [MENU_PARENTKEY]: null,
     [MENU_ICON]: "icon_voiceprint",
     [MENU_KEEPALIVE]: "false",
-    order: 4,
+    [MENU_ORDER]: 4,
   },
   {
-    menu_id: 3,
     [MENU_TITLE]: "403",
     [MENU_PATH]: "/403",
-    [MENU_KEY]: "error403",
-    [MENU_PARENTKEY]: "result",
+    [MENU_KEY]: 3,
+    [MENU_PARENTKEY]: 16,
     [MENU_ICON]: "icon_locking",
     [MENU_KEEPALIVE]: "false",
-    order: 0,
+    [MENU_ORDER]: 0,
   },
   {
-    menu_id: 4,
     [MENU_TITLE]: "404",
     [MENU_PATH]: "/404",
-    [MENU_KEY]: "error404",
-    [MENU_PARENTKEY]: "result",
+    [MENU_KEY]: 4,
+    [MENU_PARENTKEY]: 16,
     [MENU_ICON]: "icon_close",
     [MENU_KEEPALIVE]: "false",
-    order: 1,
+    [MENU_ORDER]: 1,
   },
   {
-    menu_id: 5,
     [MENU_TITLE]: "500",
     [MENU_PATH]: "/500",
-    [MENU_KEY]: "error500",
-    [MENU_PARENTKEY]: "result",
+    [MENU_KEY]: 5,
+    [MENU_PARENTKEY]: 16,
     [MENU_ICON]: "icon_privacy_closed",
     [MENU_KEEPALIVE]: "false",
-    order: 4568,
+    [MENU_ORDER]: 4568,
   },
   {
-    menu_id: 17,
     [MENU_TITLE]: "统计",
     [MENU_PATH]: "/statistics",
-    [MENU_KEY]: "statistics",
-    [MENU_PARENTKEY]: "",
+    [MENU_KEY]: 17,
+    [MENU_PARENTKEY]: null,
     [MENU_ICON]: "icon_MTR",
     [MENU_KEEPALIVE]: "true",
-    order: 5,
+    [MENU_ORDER]: 5,
   },
   {
-    menu_id: 18,
     [MENU_TITLE]: "访客统计",
     [MENU_PATH]: "/visitor",
-    [MENU_KEY]: "visitor",
-    [MENU_PARENTKEY]: "statistics",
+    [MENU_KEY]: 18,
+    [MENU_PARENTKEY]: 17,
     [MENU_ICON]: "icon_addresslist",
     [MENU_KEEPALIVE]: "true",
-    order: 1,
+    [MENU_ORDER]: 1,
   },
   {
-    menu_id: 12,
-    [MENU_TITLE]: "权限管理",
+    [MENU_TITLE]: "系统管理",
     [MENU_PATH]: "/power",
-    [MENU_KEY]: "power",
-    [MENU_PARENTKEY]: "",
+    [MENU_KEY]: 12,
+    [MENU_PARENTKEY]: null,
     [MENU_ICON]: "icon_set",
     [MENU_KEEPALIVE]: "false",
-    order: 9,
+    [MENU_ORDER]: 9,
   },
   {
-    menu_id: 14,
     [MENU_TITLE]: "权限类别",
     [MENU_PATH]: "/type",
-    [MENU_KEY]: "powerType",
-    [MENU_PARENTKEY]: "power",
+    [MENU_KEY]: 14,
+    [MENU_PARENTKEY]: 12,
     [MENU_ICON]: "icon_safety",
     [MENU_KEEPALIVE]: "true",
-    order: 12,
+    [MENU_ORDER]: 12,
   },
   {
-    menu_id: 13,
     [MENU_TITLE]: "菜单管理",
     [MENU_PATH]: "/menu",
-    [MENU_KEY]: "powerMenu",
-    [MENU_PARENTKEY]: "power",
+    [MENU_KEY]: 13,
+    [MENU_PARENTKEY]: 12,
     [MENU_ICON]: "icon_menu",
     [MENU_KEEPALIVE]: "true",
-    order: 1475,
+    [MENU_ORDER]: 1475,
   },
   {
-    menu_id: 15,
     [MENU_TITLE]: "用户管理",
     [MENU_PATH]: "/user",
-    [MENU_KEY]: "powerUser",
-    [MENU_PARENTKEY]: "power",
+    [MENU_KEY]: 15,
+    [MENU_PARENTKEY]: 12,
     [MENU_ICON]: "icon_infopersonal",
     [MENU_KEEPALIVE]: "true",
-    order: 1593,
+    [MENU_ORDER]: 1593,
   },
   {
-    menu_id: 8,
     [MENU_TITLE]: "图标库",
     [MENU_PATH]: "/icons",
-    [MENU_KEY]: "icons",
-    [MENU_PARENTKEY]: "",
+    [MENU_KEY]: 8,
+    [MENU_PARENTKEY]: null,
     [MENU_ICON]: "icon_pen",
     [MENU_KEEPALIVE]: "true",
-    order: 10,
+    [MENU_ORDER]: 10,
   },
 ];
 const typeList = [
@@ -353,7 +335,7 @@ function get(url: UrlType) {
         if (typeId) {
           let action: string | undefined | number[] = typeList.find((i) => i.type_id === typeId)?.menu_id;
           action = action ? action.split(",").map(Number) : [];
-          let menuList = menu.filter((i) => (action as number[]).includes(i.menu_id));
+          let menuList = menu.filter((i) => (action as number[]).includes(i[MENU_KEY] as number));
           MockData[url] = formatMenu(menuList);
         }
         res(MockData[url]);
@@ -400,11 +382,11 @@ function post(url: UrlType, data: any) {
           }
           return res(MockData[url]);
         case "/delmenu":
-          let newMenu = menu.filter((i) => i.key !== data.key);
-          menu = newMenu.filter((i) => i.parentKey !== data.key);
+          let newMenu = menu.filter((i) => i[MENU_KEY] !== data[MENU_KEY]);
+          menu = newMenu.filter((i) => i[MENU_PARENTKEY] !== data[MENU_KEY]);
           return res(MockData[url]);
         case "/getmenuinfo": {
-          const findInfo = menu.find((i) => i.key === data.key);
+          const findInfo = menu.find((i) => i[MENU_KEY] === data[MENU_KEY]);
           if (findInfo) {
             MockData[url].data = findInfo;
           }
@@ -412,7 +394,7 @@ function post(url: UrlType, data: any) {
         }
         case "/editmenuinfo":
           menu = menu.map((item) => {
-            if (item.key === data.key) {
+            if (item[MENU_KEY] === data[MENU_KEY]) {
               return data;
             }
             return item;
